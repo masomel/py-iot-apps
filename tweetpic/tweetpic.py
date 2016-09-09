@@ -49,7 +49,4 @@ def send_tweet():
     SetupTweepy()
     TweetPic("hello")
 
-tracer.start_trace(send_tweet)
-
-
-    
+tracer.start_tracer(send_tweet)
