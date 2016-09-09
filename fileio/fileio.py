@@ -1,7 +1,7 @@
 import tracer
 
 def fileio():
-    f = open("num.txt", "rw")
+    f = open("apps/fileio/num.txt", "r+")
     # the first byte of the file contains a number
     num = int(f.read(1))
     f.write(str(num+1))

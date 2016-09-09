@@ -10,7 +10,7 @@ def error(lines):
     print(lines)
 
 def read_temp_raw():
-    f = open("dummy.txt", 'r')
+    f = open("apps/pi_therm/dummy-temp.txt", 'r')
     lines = f.readlines()
     f.close()
     return lines
