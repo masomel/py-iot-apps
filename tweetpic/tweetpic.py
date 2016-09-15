@@ -31,7 +31,8 @@ def TweetText(texttotweet, medialoc):
         return False
     else:
         #this actually tweets the text
-        api.update_with_media(medialoc, status=texttotweet)
+        #api.update_with_media(medialoc, status=texttotweet)
+        api.send_direct_message("mas0mel", texttotweet)
         return True
 
 def TweetPic(addlmessage):
