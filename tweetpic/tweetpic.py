@@ -11,10 +11,13 @@ def SetupTweepy():
     #this imports the tweepy module (twitter for python)
     import tweepy
     #this sets up all the variables tweepy needs to use
-    consumer_key = '123'
-    consumer_secret = '123'
-    access_token = '123'
-    access_token_secret = '123'
+    f = open('apps/tweetpic/oauth.txt', 'r')
+    c = f.readlines()
+    f.close()
+    consumer_key = c[0] 
+    consumer_secret = c[1]
+    access_token = c[2]
+    access_token_secret = c[3]
     #this runs the authentication process
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
@@ -31,7 +34,8 @@ def TweetText(texttotweet, medialoc):
         return False
     else:
         #this actually tweets the text
-        api.update_with_media(medialoc, status=texttotweet)
+        #api.update_with_media(medialoc, status=texttotweet)
+        api.send_direct_message(user="mas0mel", text=texttotweet)
         return True
 
 def TweetPic(addlmessage):
@@ -41,7 +45,7 @@ def TweetPic(addlmessage):
     tweet += addlmessage
 
     #sets the media variable to the location of the media
-    media = "apps/tweetpic/image.jpg"    
+    media = "apps/tweetpic/image.jpg"
     #sends this to the function that sends and checks the tweet
     TweetText(tweet, media)
 
