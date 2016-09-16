@@ -31,18 +31,16 @@ def sub():
     mqttc.on_message = on_message
     #mqttc.on_log = on_log
 
-    awshost = "data.iot.eu-west-1.amazonaws.com"
-    awsport = 8883
-    clientId = "myThingName"
-    thingName = "myThingName"
-    caPath = "aws-iot-rootCA.crt"
-    certPath = "cert.pem"
-    keyPath = "privkey.pem"
+    awshost = "a1vs5y6cjuptwy.iot.us-east-1.amazonaws.com"
+    awsport = 8443
+    clientId = "thingy"
+    thingName = "thingy"
+    caPath = "apps/aws-iot-rootCA.crt"
+    certPath = "apps/cert.pem"
+    keyPath = "apps/privkey.pem"
     
     mqttc.tls_set(caPath, certfile=certPath, keyfile=keyPath, cert_reqs=ssl.CERT_REQUIRED, tls_version=ssl.PROTOCOL_TLSv1_2, ciphers=None)
     
     mqttc.connect(awshost, awsport, keepalive=60)
-    
-    mqttc.loop_forever()
 
 tracer.start_tracer(sub)

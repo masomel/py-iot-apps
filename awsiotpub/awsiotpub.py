@@ -32,25 +32,25 @@ def pub():
     mqttc.on_connect = on_connect
     mqttc.on_message = on_message
     #mqttc.on_log = on_log
-    
-    awshost = "data.iot.eu-west-1.amazonaws.com"
-    awsport = 8883
-    clientId = "myThingName"
-    thingName = "myThingName"
-    caPath = "aws-iot-rootCA.crt"
-    certPath = "cert.pem"
-    keyPath = "privkey.pem"
+
+    awshost = "a1vs5y6cjuptwy.iot.us-east-1.amazonaws.com"
+    awsport = 8443
+    clientId = "thingy"
+    thingName = "thingy"
+    caPath = "apps/aws-iot-rootCA.crt"
+    certPath = "apps/cert.pem"
+    keyPath = "apps/privkey.pem"
 
     mqttc.tls_set(caPath, certfile=certPath, keyfile=keyPath, cert_reqs=ssl.CERT_REQUIRED, tls_version=ssl.PROTOCOL_TLSv1_2, ciphers=None)
-    
+
     mqttc.connect(awshost, awsport, keepalive=60)
-    
+
     mqttc.loop_start()
-    
+
     if connflag == True:
         tempreading = uniform(20.0,25.0)
         mqttc.publish("temperature", tempreading, qos=1)
-        print("msg sent: temperature " + "%.2f" % tempreading )
+        print("msg sent: temperature "+ "%.2f" % tempreading )
     else:
         print("no connection...")
 
