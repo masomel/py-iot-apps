@@ -12,7 +12,7 @@ def SetupTweepy():
     import tweepy
     #this sets up all the variables tweepy needs to use
     f = open('apps/tweetpic/oauth.txt', 'r')
-    c = f.readlines()
+    c = f.read().splitlines()
     f.close()
     consumer_key = c[0] 
     consumer_secret = c[1]
