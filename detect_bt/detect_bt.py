@@ -2,10 +2,10 @@ import tracer
 
 import bluetooth
 
-search_time = 10
-addr = None
-
 def detect_bluetooth():
+    search_time = 30
+    addr = None
+    
     print("Welcome to the Bluetooth Detection Demo! \nMake sure your desired Bluetooth-capable device is turned on and discoverable.")
 
     if addr == None:
@@ -33,7 +33,7 @@ def detect_bluetooth():
         device_num = input("Please specify the number of the device you want to track: ")
 
         # extract out the useful info on the desired device for use later
-        addr, name = nearby_devices[device_num][0], nearby_devices[device_num][1]
+        addr, name = nearby_devices[int(device_num)][0], nearby_devices[int(device_num)][1]
 
         print("The script will now scan for the device %s." % (addr))
 
