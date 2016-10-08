@@ -8,9 +8,7 @@ import cv2
 
 import config
 
-
 haar_faces = cv2.CascadeClassifier(config.HAAR_FACES)
-
 
 def detect_single(image):
 	"""Return bounds (x, y, width, height) of detected face in grayscale image.
