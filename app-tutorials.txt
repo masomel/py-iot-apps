@@ -1,4 +1,0 @@
-AWS IoT MQTT: https://www.hackster.io/mariocannistra/python-and-paho-for-mqtt-with-aws-iot-921e41
-Tweetpic: ttps://www.hackster.io/archieroques/iot-tweeting-plants-w-raspberry-pi-f99da2
-Detect BT: https://www.hackster.io/cw-earley/simple-bluetooth-device-detection-0d2469
-Pi Therm: https://learn.adafruit.com/adafruits-raspberry-pi-lesson-11-ds18b20-temperature-sensing/overview
