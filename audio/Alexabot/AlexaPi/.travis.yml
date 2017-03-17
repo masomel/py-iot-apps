@@ -1,0 +1,18 @@
+language: python
+python:
+  - "2.7"
+#  - "3.4"
+#  - "3.5"
+
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y wget git swig libasound2-dev python-alsaaudio vlc-nox libpulse-dev
+
+install:
+  - pip install -r src/requirements.txt
+  - pip install -r src/dev-requirements.txt
+  - yes | pip install git+https://github.com/duxingkei33/orangepi_PC_gpio_pyH3.git -v
+  - cp src/config.template.yaml src/config.yaml
+
+script:
+  - pylint --rcfile=pylintrc --ignore=tunein.py src/auth_web.py src/main.py src/alexapi
