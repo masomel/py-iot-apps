@@ -26,18 +26,18 @@ def buildMap(Ws,Hs,Wd,Hd,R1,R2,Cx,Cy):
 #    sinMap = Cx+rMap*np.sin(thetaMap)
 #    cosMap = Cy+rMap*np.cos(thetaMap)
 #    for y in range(0,int(Hd-1)):
-#	for x in range(0,int(Wd-1)):
-#		map_x.itemset((y,x),int(sinMap))
-#		map_y.itemset((y,x),int(cosMap))
+#       for x in range(0,int(Wd-1)):
+#               map_x.itemset((y,x),int(sinMap))
+#               map_y.itemset((y,x),int(cosMap))
     for y in xrange(0, int(Hd-1)):
-	map_x[y] = Cx + rMap[y] * sinMap
-	map_y[y] = Cy + rMap[y] * cosMap
-	#(map1, map2) = cv2.convertMaps(map_x, map_y, cv2.CV_16SC2)
+        map_x[y] = Cx + rMap[y] * sinMap
+        map_y[y] = Cy + rMap[y] * cosMap
+        #(map1, map2) = cv2.convertMaps(map_x, map_y, cv2.CV_16SC2)
 
     return map_x, map_y
-	#return map1, map2
+        #return map1, map2
 
-# do the unwarping 
+# do the unwarping
 def unwarp(img,xmap,ymap):
     output = cv2.remap(img.getNumpyCv2(),xmap,ymap,cv2.INTER_LINEAR)
     result = Image(output, cv2image=True)
@@ -67,7 +67,7 @@ while not disp.isDone():
 # 0 = xc yc
 # 1 = r1
 # 2 = r2
-# center of the "donut"    
+# center of the "donut"
 Cx = vals[0][0]
 Cy = vals[0][1]
 #print str(Cx) + " " + str(Cy)
@@ -130,4 +130,3 @@ while img is not None:
     # get the next frame
     img = vc.getImage()
     i = i + 1
-

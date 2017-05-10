@@ -1,7 +1,7 @@
 from thread import start_new_thread
 import time
 import os
-os.chdir("/var/www/fishtank/server/")
+#os.chdir("/var/www/fishtank/server/")
 
 import FishTank
 import Log
@@ -11,4 +11,4 @@ print "Ready"
 
 while True:
         time.sleep(1)
-	FishTank.tick()
+        FishTank.tick()

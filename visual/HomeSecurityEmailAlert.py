@@ -32,40 +32,40 @@ while True:
     if current_state != previous_state:
         new_state = "HIGH" if current_state else "LOW"
         print("GPIO pin %s is %s" % (sensor, new_state))
-	if current_state:
-		cap = cv2.VideoCapture(0)
-	        ret, frame = cap.read()
-		cap = cv2.VideoCapture(0)
-		print "Saving Photo"
-		picname = datetime.now().strftime("%y-%m-%d-%H-%M")
-		picname = picname+'.jpg'
+        if current_state:
+                cap = cv2.VideoCapture(0)
+                ret, frame = cap.read()
+                cap = cv2.VideoCapture(0)
+                print "Saving Photo"
+                picname = datetime.now().strftime("%y-%m-%d-%H-%M")
+                picname = picname+'.jpg'
                 cv2.imwrite(picname, frame)
-		print "Sending email"
-		
-		attach = picname
-		
-		msg = MIMEMultipart()
+                print "Sending email"
 
-		msg['From'] = gmail_user
-		msg['To'] = to
-		msg['Subject'] = subject
+                attach = picname
 
-		msg.attach(MIMEText(text))
+                msg = MIMEMultipart()
 
-		part = MIMEBase('application', 'octet-stream')
-		part.set_payload(open(attach, 'rb').read())
-		Encoders.encode_base64(part)
-		part.add_header('Content-Disposition',
-   		'attachment; filename="%s"' % os.path.basename(attach))
-		msg.attach(part)
+                msg['From'] = gmail_user
+                msg['To'] = to
+                msg['Subject'] = subject
 
-		mailServer = smtplib.SMTP("smtp.gmail.com", 587)
-		mailServer.ehlo()
-		mailServer.starttls()
-		mailServer.ehlo()
-		mailServer.login(gmail_user, gmail_pwd)
-		mailServer.sendmail(gmail_user, to, msg.as_string())
-		# Should be mailServer.quit(), but that crashes...
-		mailServer.close()
-		print "Email Sent"
-		os.remove(picname)
+                msg.attach(MIMEText(text))
+
+                part = MIMEBase('application', 'octet-stream')
+                part.set_payload(open(attach, 'rb').read())
+                Encoders.encode_base64(part)
+                part.add_header('Content-Disposition',
+                'attachment; filename="%s"' % os.path.basename(attach))
+                msg.attach(part)
+
+                mailServer = smtplib.SMTP("smtp.gmail.com", 587)
+                mailServer.ehlo()
+                mailServer.starttls()
+                mailServer.ehlo()
+                mailServer.login(gmail_user, gmail_pwd)
+                mailServer.sendmail(gmail_user, to, msg.as_string())
+                # Should be mailServer.quit(), but that crashes...
+                mailServer.close()
+                print "Email Sent"
+                os.remove(picname)
