@@ -23,10 +23,10 @@ while True:
         call ([cmd], shell=True)         
 
         # Replace each with the keys and tokens from your twitter app
-        consumer_key = 'nzY1xjjTtglUvfEP14XZrpn9A'
-        consumer_secret = 'fn9VTJwZF1kSJKUFKdrxMpiwwWFohvaWlkiPQRyj2oRZ7c9ojV'
-        access_token = '2775601040-LlC1dTEwMCwPgASSXwQdXC2R1KjHYsKjrk3ASnE'
-        access_token_secret = '5irgLOLbIqeYjswY0cDjsunL1feMKW50k9NxFC04kFExD'
+        consumer_key = ''
+        consumer_secret = ''
+        access_token = ''
+        access_token_secret = ''
 
         # OAuth process, using the keys and tokens
         auth = tweepy.OAuthHandler(consumer_key, consumer_secret)

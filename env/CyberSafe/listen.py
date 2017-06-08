@@ -3,7 +3,7 @@ import MySQLdb
 db = MySQLdb.connect('localhost','root','', '')
 cursor = db.cursor()
 
-TCP_IP = *RASPBERRY PI IP ADDRESS HERE*
+TCP_IP = 'ceres.cs.princeton.edu'
 TCP_PORT = 5005
 BUFFER_SIZE = 25
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)

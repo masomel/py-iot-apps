@@ -112,7 +112,7 @@ button = Button(ligplot, text = 'Plot L', command = Pressed, height=1, width = 1
 button.pack(padx = 2)
 
 def task():
-        db = MySQLdb.connect('localhost','root',*MYSQL_PASSWORD_HERE*,*DATABASE_NAME_HERE*)
+        db = MySQLdb.connect('localhost','root', '', '')
         cursor = db.cursor()
 
         com = 'SELECT VALUE FROM SENSORDATA WHERE SOURCE = "Edison" AND TYPE ="Temperature"'
