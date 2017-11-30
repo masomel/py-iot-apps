@@ -4,7 +4,7 @@
 import paho.mqtt.client  as mqtt
 import paho.mqtt.publish as publish
 import time,json,ssl
-import wiringpi2 as wpi
+import wiringpi as wpi
 from tentacle_pi.TSL2561 import TSL2561
 import nfc, sys, threading
 
