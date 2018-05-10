@@ -1,5 +1,5 @@
 """Helpers to install PyPi packages."""
-import logging
+from . import logging
 import os
 import subprocess
 import sys

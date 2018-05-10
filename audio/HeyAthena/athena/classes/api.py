@@ -33,5 +33,5 @@ class Api(object):
                         raise Exception
             return True
         except:
-            print(traceback.format_exc())
+            print((traceback.format_exc()))
             return False

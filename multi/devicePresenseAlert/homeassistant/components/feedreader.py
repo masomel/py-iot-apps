@@ -101,7 +101,7 @@ class FeedManager(object):
         """Update last_entry_timestamp and fire entry."""
         # We are lucky, `published_parsed` data available, let's make use of
         # it to publish only new available entries since the last run
-        if 'published_parsed' in entry.keys():
+        if 'published_parsed' in list(entry.keys()):
             self._has_published_parsed = True
             self._last_entry_timestamp = max(entry.published_parsed,
                                              self._last_entry_timestamp)
@@ -124,7 +124,7 @@ class FeedManager(object):
                 datetime.utcfromtimestamp(0).timetuple()
         for entry in self._feed.entries:
             if self._firstrun or (
-                    'published_parsed' in entry.keys() and
+                    'published_parsed' in list(entry.keys()) and
                     entry.published_parsed > self._last_entry_timestamp):
                 self._update_and_fire_entry(entry)
                 new_entries = True

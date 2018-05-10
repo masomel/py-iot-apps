@@ -5,7 +5,7 @@ For more details about this platform, please refer to the documentation at
 https://home-assistant.io/components/device_tracker.unifi/
 """
 import logging
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import voluptuous as vol
 
 import homeassistant.helpers.config_validation as cv
@@ -81,7 +81,7 @@ class UnifiScanner(DeviceScanner):
     def scan_devices(self):
         """Scan for devices."""
         self._update()
-        return self._clients.keys()
+        return list(self._clients.keys())
 
     def get_device_name(self, mac):
         """Return the name (if known) of the device.

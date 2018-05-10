@@ -18,7 +18,7 @@ DEPENDENCIES = ['bloomsky']
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Setup access to BloomSky cameras."""
     bloomsky = get_component('bloomsky')
-    for device in bloomsky.BLOOMSKY.devices.values():
+    for device in list(bloomsky.BLOOMSKY.devices.values()):
         add_devices([BloomSkyCamera(bloomsky.BLOOMSKY, device)])
 
 

@@ -27,14 +27,14 @@ def find_apis():
                             api = obj()
                             api_lib[api.key] = api
         except Exception as e:
-            print(traceback.format_exc())
+            print((traceback.format_exc()))
             log.error('Error loading \''+name+'\' '+str(e))
 
 
 def verify_apis(user):
     """ Verify APIs """
     global api_lib
-    api_lib = dict(api for api in api_lib.items() if api[1].verify_data(user))
+    api_lib = dict(api for api in list(api_lib.items()) if api[1].verify_data(user))
 
 
 def list_apis():

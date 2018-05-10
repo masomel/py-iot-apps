@@ -17,7 +17,7 @@ import os
 import time
 from time import sleep
 import Adafruit_DHT
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import serial
 
 ser = serial.Serial('/dev/ttyAMA0', 9600)
@@ -84,10 +84,10 @@ def arduino_read():
 # main() function
 def main():
     
-    print 'starting...'
+    print('starting...')
 
     baseURL = 'https://api.thingspeak.com/update?api_key=%s' % myAPI
-    print baseURL
+    print(baseURL)
     
     while True:
         try:
@@ -96,20 +96,20 @@ def main():
             POT = analog_read()
             ARDU = arduino_read()
             
-            f = urllib2.urlopen(baseURL + 
+            f = urllib.request.urlopen(baseURL + 
                                 "&field1=%s&field2=%s&field3=%s" % (TW, TWF, RHW)+
                                 "&field4=%s" % (LT)+
                                 "&field5=%s" % (POT)+
                                 "&field6=%s" % (ARDU))
-            print f.read()
+            print(f.read())
             
-            print TW + " " + TWF+ " " + RHW + " " + LT+ " " + POT+ " " + ARDU
+            print(TW + " " + TWF+ " " + RHW + " " + LT+ " " + POT+ " " + ARDU)
             f.close()
             
 
             sleep(int(myDelay))
         except:
-            print 'exiting.'
+            print('exiting.')
             break
 
 # call main"""

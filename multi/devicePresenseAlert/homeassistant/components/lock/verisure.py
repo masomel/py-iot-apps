@@ -22,7 +22,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
         hub.update_locks()
         locks.extend([
             VerisureDoorlock(device_id)
-            for device_id in hub.lock_status.keys()
+            for device_id in list(hub.lock_status.keys())
         ])
     add_devices(locks)
 

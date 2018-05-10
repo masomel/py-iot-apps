@@ -10,7 +10,7 @@ with sr.WavFile("test.wav") as source: # use "test.wav" as the audio source
 
 try:
 
-    print("You said " + r.recognize(audio)) # recognize speech using Google Speech Recognition except IndexError: # the API key didn't work
+    print(("You said " + r.recognize(audio))) # recognize speech using Google Speech Recognition except IndexError: # the API key didn't work
 
     print("No internet connection")
 

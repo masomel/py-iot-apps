@@ -39,7 +39,7 @@ def detectjsonURL(url):
         data = json.loads(data)
         return data
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print(("[Errno {0}] {1}".format(e.errno, e.strerror)))
 
 
 def detect(image):
@@ -70,7 +70,7 @@ def detect(image):
         data = json.loads(data)
         return data
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print(("[Errno {0}] {1}".format(e.errno, e.strerror)))
     
 
 
@@ -101,7 +101,7 @@ def identify(faceIDs, personGroupID):
         data = json.loads(data)
         return data
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print(("[Errno {0}] {1}".format(e.errno, e.strerror)))
     return
 
 

@@ -2,7 +2,7 @@
 
 import RPi.GPIO as GPIO
 import time
-import httplib, json
+import http.client, json
 
 def bin2dec(string_num):
     return str(int(string_num, 2))
@@ -57,7 +57,7 @@ try:
 				TemperatureBit = TemperatureBit + "0"
 
 except:
-	print "ERR_RANGE"
+	print("ERR_RANGE")
 	exit(0)
 
 try:
@@ -79,13 +79,13 @@ try:
 except:
 	#print "ERR_RANGE"
 	headers = { "charset" : "utf-8", "Content-Type": "application/json" }
-	conn = httplib.HTTPConnection("104.236.91.122")
+	conn = http.client.HTTPConnection("104.236.91.122")
         sample_1 = { "nodata" : no_data }
 	sampleJson_1 = json.dumps(sample_1, ensure_ascii = 'False')
 	   
 	conn.request("POST", "/rpi/rpi.php", sampleJson_1, headers)
 	response = conn.getresponse()
-	print(response.read())
+	print((response.read()))
         conn.close() 
 	exit(0)   
 
@@ -96,14 +96,14 @@ if int(Humidity) + int(Temperature) - int(bin2dec(crc)) == 0:
 
 	#Sending the data to the server
     headers = { "charset" : "utf-8", "Content-Type": "application/json" }
-    conn = httplib.HTTPConnection("104.236.91.122")
+    conn = http.client.HTTPConnection("104.236.91.122")
     sample = { "humidity" : Humidity, "temperature" : Temperature }
     sampleJson = json.dumps(sample, ensure_ascii = 'False')
    
     conn.request("POST", "/rpi/rpi.php", sampleJson, headers)
     response = conn.getresponse()
-    print(response.read())
+    print((response.read()))
     conn.close() 
 
 else:
-	print "ERR_CRC"
+	print("ERR_CRC")

@@ -37,7 +37,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     devices = config.get(CONF_SWITCHES, {})
     switches = []
 
-    for object_id, device_config in devices.items():
+    for object_id, device_config in list(devices.items()):
         value_template = device_config.get(CONF_VALUE_TEMPLATE)
 
         if value_template is not None:

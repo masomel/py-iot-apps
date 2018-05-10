@@ -6,7 +6,7 @@ from cherrypy.process import servers
 import requests
 import json
 from creds import *
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import socket
 
 class Start(object):
@@ -27,7 +27,7 @@ class Start(object):
 		p = req.prepare()
 		raise cherrypy.HTTPRedirect(p.url)
 	def code(self, var=None, **params):
-		code = urllib.quote(cherrypy.request.params['code'])
+		code = urllib.parse.quote(cherrypy.request.params['code'])
 		callback = cherrypy.url()
 		payload = {"client_id" : Client_ID, "client_secret" : Client_Secret, "code" : code, "grant_type" : "authorization_code", "redirect_uri" : callback }
 		url = "https://api.amazon.com/auth/o2/token"
@@ -46,6 +46,6 @@ cherrypy.config.update({ "environment": "embedded" })
 
 
 ip =[(s.connect(('8.8.8.8', 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1]
-print "Ready goto http://{}:5050 or http://localhost:5050  to begin the auth process".format(ip) 
+print("Ready goto http://{}:5050 or http://localhost:5050  to begin the auth process".format(ip)) 
 cherrypy.quickstart(Start())
 

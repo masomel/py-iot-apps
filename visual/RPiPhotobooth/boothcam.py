@@ -1,5 +1,5 @@
 from subprocess import call
-import tkFileDialog
+import tkinter.filedialog
 import glob
 import os
 import os.path
@@ -52,8 +52,8 @@ def setup_google():
 
     except KeyboardInterrupt:
         raise
-    except Exception, e:
-        print 'could not login to Google, check .credential file\n   %s' % e
+    except Exception as e:
+        print('could not login to Google, check .credential file\n   %s' % e)
         out = False
         # raise ### uncomment to debug google oauth shiz
     return out
@@ -159,8 +159,8 @@ def snap(can, countdown1, effect='None'):
             snapshot.paste(custom.logo,(xoff, yoff),
                            custom.logo)
         snapshot.save(custom.PROC_FILENAME)
-    except Exception, e:
-        print e
+    except Exception as e:
+        print(e)
         snapshot = None
     return snapshot
 snap.active = False
@@ -169,7 +169,7 @@ snap.active = False
 if custom.ARCHIVE: ### commented out... use custom.customizer instead
     # custom.archive_dir = tkFileDialog.askdirectory(title="Choose archive directory.", initialdir='/media/')
     if not os.path.exists(custom.archive_dir):
-        print 'Directory not found.  Not archiving'
+        print('Directory not found.  Not archiving')
         custom.ARCHIVE = False
     elif not os.path.exists(custom.archive_dir): ## not used
         os.mkdir(custom.archive_dir)
@@ -180,7 +180,7 @@ def findser():
     global SERIAL
     if SERIAL is None: ## singleton
         SERIAL = serial.Serial('/dev/ttyS0',19200, timeout=.1)
-        print 'using AlaMode'
+        print('using AlaMode')
     return SERIAL
 
 

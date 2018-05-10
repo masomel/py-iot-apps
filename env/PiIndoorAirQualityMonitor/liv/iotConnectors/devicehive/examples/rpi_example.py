@@ -10,7 +10,7 @@
 import sys
 import os
 import threading
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 from time import sleep
 
 
@@ -29,7 +29,7 @@ import devicehive.auto
 
 import httplib2 as http
 import json
-from urlparse import urlparse
+from urllib.parse import urlparse
 
 
 class RPiDescr( devicehive.DeviceInfo ):

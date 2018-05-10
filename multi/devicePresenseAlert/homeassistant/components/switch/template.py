@@ -46,7 +46,7 @@ def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
     """Setup the Template switch."""
     switches = []
 
-    for device, device_config in config[CONF_SWITCHES].items():
+    for device, device_config in list(config[CONF_SWITCHES].items()):
         friendly_name = device_config.get(ATTR_FRIENDLY_NAME, device)
         state_template = device_config[CONF_VALUE_TEMPLATE]
         on_action = device_config[ON_ACTION]

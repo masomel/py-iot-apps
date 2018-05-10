@@ -44,7 +44,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     pins = config.get(CONF_PINS)
 
     sensors = []
-    for pinnum, pin in pins.items():
+    for pinnum, pin in list(pins.items()):
         sensors.append(ArduinoSensor(pin.get(CONF_NAME), pinnum, CONF_TYPE))
     add_devices(sensors)
 

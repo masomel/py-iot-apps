@@ -2,6 +2,7 @@
 # vim:set et tabstop=4 shiftwidth=4 nu nowrap fileencoding=utf-8:
 
 import struct
+from functools import reduce
 
 FRAME_DELIMETER = 0x7e
 ESCAPE_PREFIX   = 0x7d
@@ -141,7 +142,7 @@ class TransmitPacketFrame(ApiFrame):
     message = property(fget = lambda self : self._message)
     def __str__(self) :
         opt = "0x{0:02x}".format(self._option)
-        if PACKET_OPTION_DESCR.has_key(self._option) :
+        if self._option in PACKET_OPTION_DESCR :
             opt = PACKET_OPTION_DESCR[self._option]
         return "Tx Packet Dest Addr: {0:s}; Net Addr: {1:s}; Radius: {2:d}; Options: {3};".format( array_to_hexstr(self.dest_addr()), array_to_hexstr(self.net_addr()), self._radius, opt)
 
@@ -173,7 +174,7 @@ class PacketResponseFrame(ApiResponseFrame) :
         self._data = frame_data[12:]
     def __str__(self):
         options = "{0:02x}".format(self._options)
-        if PACKET_OPTION_DESCR.has_key(self._options) :
+        if self._options in PACKET_OPTION_DESCR :
             options = PACKET_OPTION_DESCR[self._options]
         return "Packet Src Addr: {0:s}; Net Addr: {1:s}; Options: {2:s}; Data: {3:s}".format(array_to_hexstr(self._src_addr), array_to_hexstr(self._net_addr), options, array_to_hexstr(self._data))
 
@@ -216,7 +217,7 @@ class RemoteAtCommandResponseFrame(ApiResponseFrame):
         self._command_data = frame_data[15:]
     def __str__(self):
         sts = "0x{0:02x}".format(self._command_status)
-        if REMOTE_AT_CMD_STATUS_DESCR.has_key(self._command_status) :
+        if self._command_status in REMOTE_AT_CMD_STATUS_DESCR :
             sts = REMOTE_AT_CMD_STATUS_DESCR[self._command_status]
         return "Remote AT Response: {0:s}; Status: {1:s}; Src Addr: {2:s}; Net Addr: {3:s}; Data: {4:s}".format(self._at_command, sts, array_to_hexstr(self._src_addr), array_to_hexstr(self._net_addr), array_to_hexstr(self._command_data))
 
@@ -237,10 +238,10 @@ class TransmitStatusResponseFrame(ApiResponseFrame):
     delivery_status = property(fget = lambda self : self._delivery_status)
     def __str__(self):
         delivery = "0x{0:02x}".format(self._delivery_status)
-        if TransmitStatusResponseFrame.DELIVERY_STATUS.has_key(self._delivery_status) :
+        if self._delivery_status in TransmitStatusResponseFrame.DELIVERY_STATUS :
             delivery = TransmitStatusResponseFrame.DELIVERY_STATUS[self._delivery_status]
         discovery = "0x{0:02x}".format(self._discovery_status)
-        if TransmitStatusResponseFrame.DISCOVERY_STATUS.has_key(self._discovery_status) :
+        if self._discovery_status in TransmitStatusResponseFrame.DISCOVERY_STATUS :
             discovery = TransmitStatusResponseFrame.DISCOVERY_STATUS[self._discovery_status]
         return "Tx Status; Frame ID: {0:02x}; Address: {1:04x}; Retries: {2:d}; {3:s}; {4:s};".format(self._frame_id, self._net_addr, self._transmit_retry, delivery, discovery)
 

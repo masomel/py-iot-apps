@@ -9,8 +9,9 @@ import telepot
 
 import paho.mqtt.client as mqtt
 from pprint import pprint
-from urllib import urlencode
-from urllib2 import Request, urlopen, URLError, HTTPError
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
+from urllib.error import URLError, HTTPError
 from bing_voice import *
 from player import Player
 from settings import BING_KEY
@@ -50,7 +51,7 @@ sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser))
 bot = telepot.Bot(TELEGRAM_KEY)
 
 if ser.isOpen():
-	print(ser.name + ' is open...')
+	print((ser.name + ' is open...'))
 
 def handle_int(sig, chunk):
 	global leave, got_a_sentence, got_message
@@ -62,14 +63,14 @@ def handle_int(sig, chunk):
 signal.signal(signal.SIGINT, handle_int)
 
 def on_connect(client, userdata, flags, rc):
-	print("Connected with result code "+str(rc))
+	print(("Connected with result code "+str(rc)))
 
 	client.subscribe("respeaker/slack/text")
 	
 def on_message(client, userdata, msg):
 	global got_message
 	
-	print(msg.topic+" "+str(msg.payload))
+	print((msg.topic+" "+str(msg.payload)))
 	
 	got_message = True
 	
@@ -116,8 +117,8 @@ while not leave:
 		
 		tokens = serialdata.split('=')
 		
-		print(tokens[0])
-		print(tokens[1])
+		print((tokens[0]))
+		print((tokens[1]))
 		
 		if tokens[0] == 'start-recording':
 			print('Touch start')
@@ -227,7 +228,7 @@ while not leave:
 	except UnknownValueError:
 		print("Microsoft Bing Voice Recognition could not understand audio")
 	except RequestError as e:
-		print("Could not request results from Microsoft Bing Voice Recognition service; {0}".format(e))
+		print(("Could not request results from Microsoft Bing Voice Recognition service; {0}".format(e)))
         
 	got_a_sentence = False
         

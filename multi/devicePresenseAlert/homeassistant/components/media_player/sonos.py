@@ -8,7 +8,7 @@ import datetime
 import logging
 from os import path
 import socket
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import voluptuous as vol
 
 from homeassistant.components.media_player import (
@@ -895,7 +895,7 @@ class SonosDevice(MediaPlayerDevice):
         if self._coordinator:
             self._coordinator.media_next_track()
         else:
-            self._player.next()
+            next(self._player)
 
     def media_previous_track(self):
         """Send next track command."""

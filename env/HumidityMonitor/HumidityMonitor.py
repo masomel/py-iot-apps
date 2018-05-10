@@ -30,8 +30,8 @@ import Image
 import ImageDraw
 import ImageFont
 
-execfile('settings_screen.py')
-execfile('settings_sensor.py')
+exec(compile(open('settings_screen.py').read(), 'settings_screen.py', 'exec'))
+exec(compile(open('settings_sensor.py').read(), 'settings_sensor.py', 'exec'))
 
 api = 0
 tempVar = 0
@@ -66,7 +66,7 @@ def loadApi():
 		humidVar = api.get_variable("xxxxxxxxxxxxxxxxxxxxxxx")
 	except:
 		e = sys.exc_info()[0]
-		print "Loading ubidots api failed with exception",e,"... will retry later"
+		print("Loading ubidots api failed with exception",e,"... will retry later")
 		api=0
 
 
@@ -80,7 +80,7 @@ while True:
 	draw.text((x, top),  strftime("%Y-%m-%d %H:%M"),  font=timeFont, fill=255)
 	
 	if humidity is not None and temperature is not None:
-		print strftime("%Y-%m-%d %H:%M:%S"),'Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity)
+		print(strftime("%Y-%m-%d %H:%M:%S"),'Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
 		draw.text((x, top+20),    '{0:0.1f}C  {1:0.1f}%'.format(temperature, humidity),  font=humidityFont, fill=255)
 		
 		#initialize chart
@@ -97,18 +97,18 @@ while True:
 				loadApi()
 			if (api != 0):
 				try:
-					print "uploading to Ubidots..."
+					print("uploading to Ubidots...")
 					tempVar.save_value({'value':temperature})
 					humidVar.save_value({'value':humidity})
-					print "...done"
+					print("...done")
 				except:
 					e = sys.exc_info()[0]
-					print "Exception while connecting to Ubidots:", e
+					print("Exception while connecting to Ubidots:", e)
 		else:
 			iterationCounter += 1
 		
 	else:
-		print 'Sensor reading failed. Will try again in the next cycle'
+		print('Sensor reading failed. Will try again in the next cycle')
 		draw.text((x, top+20),    'Error',  font=humidityFont, fill=255)
 	
 	# Display image.

@@ -30,7 +30,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     logger = logging.getLogger(__name__)
 
     if devices:
-        for _, entity_info in devices.items():
+        for _, entity_info in list(devices.items()):
             if entity_info[scsgate.CONF_SCS_ID] in scsgate.SCSGATE.devices:
                 continue
 
@@ -78,7 +78,7 @@ class SCSGateLight(Light):
 
     def turn_on(self, **kwargs):
         """Turn the device on."""
-        from scsgate.tasks import ToggleStatusTask
+        from .scsgate.tasks import ToggleStatusTask
 
         scsgate.SCSGATE.append_task(
             ToggleStatusTask(target=self._scs_id, toggled=True))
@@ -88,7 +88,7 @@ class SCSGateLight(Light):
 
     def turn_off(self, **kwargs):
         """Turn the device off."""
-        from scsgate.tasks import ToggleStatusTask
+        from .scsgate.tasks import ToggleStatusTask
 
         scsgate.SCSGATE.append_task(
             ToggleStatusTask(target=self._scs_id, toggled=False))

@@ -51,7 +51,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     devs = []
     names = sensor_ids
 
-    for key in config.keys():
+    for key in list(config.keys()):
         if key == "names":
             # only one name given
             if isinstance(config['names'], str):

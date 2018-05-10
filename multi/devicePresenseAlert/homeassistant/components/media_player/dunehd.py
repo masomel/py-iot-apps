@@ -147,8 +147,8 @@ class DuneHDPlayerEntity(MediaPlayerDevice):
             self._media_title = 'Blu-Ray'
         elif 'playback_url' in self._state:
             sources = self._sources
-            sval = sources.values()
-            skey = sources.keys()
+            sval = list(sources.values())
+            skey = list(sources.keys())
             pburl = self._state['playback_url']
             if pburl in sval:
                 self._media_title = list(skey)[list(sval).index(pburl)]

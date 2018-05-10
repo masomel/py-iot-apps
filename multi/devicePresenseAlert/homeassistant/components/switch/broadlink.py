@@ -57,7 +57,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Setup Broadlink switches."""
-    import broadlink
+    from . import broadlink
     devices = config.get(CONF_SWITCHES, {})
     ip_addr = config.get(CONF_HOST)
     friendly_name = config.get(CONF_FRIENDLY_NAME)
@@ -106,7 +106,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
         hass.services.register(DOMAIN, SERVICE_LEARN + '_' + ip_addr,
                                _learn_command)
         switches = []
-        for object_id, device_config in devices.items():
+        for object_id, device_config in list(devices.items()):
             switches.append(
                 BroadlinkRMSwitch(
                     device_config.get(CONF_FRIENDLY_NAME, object_id),

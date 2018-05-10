@@ -64,10 +64,10 @@ try:
 	while True:
 		distance1 = sonar(TRIG1, ECHO1)
 		distance2 = sonar(TRIG2, ECHO2)
-		print "Distance1:",distance1,"cm " + "Distance2:",distance2,"cm"
+		print("Distance1:",distance1,"cm " + "Distance2:",distance2,"cm")
 		if (distance1 > threshold) and (distance2 > threshold):
 			#Print the datetime of leaving the table
-			print "You just took a break at " + current.strftime("%Y-%m-%d %H:%M") + " good for health"
+			print("You just took a break at " + current.strftime("%Y-%m-%d %H:%M") + " good for health")
 			GPIO.output(Rasptrigger, True)
 			time.sleep(5)
 		else:		
@@ -75,7 +75,7 @@ try:
 			time.sleep(0.1)
 except:	
 	#Print on getting ctrl+c command for safe termination of program
-	print "Live Strong"
+	print("Live Strong")
 
 finally:
 	#Safe termination and clear the state of GPIO 

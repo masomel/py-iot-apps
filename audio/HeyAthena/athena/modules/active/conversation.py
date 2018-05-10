@@ -77,7 +77,7 @@ RESPONSES = {
 class ConversationTask(ActiveTask):
 
     def match(self, text):
-        for p, responses in RESPONSES.items():
+        for p, responses in list(RESPONSES.items()):
             if re.search(p, text, re.IGNORECASE):
                 self.response = re.sub(p, random.choice(responses), text)
                 return True

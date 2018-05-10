@@ -60,7 +60,7 @@ def lightOff():
 pubnub = Pubnub(publish_key=keys.PUBLISH, subscribe_key=keys.SUBSCRIBE)
 
 def callback(message, channel):
-    print(message['move'])
+    print((message['move']))
     if message['move'] == 'forwards':
         forwards()
     elif message['move'] == 'backwards':
@@ -87,12 +87,12 @@ def callback(message, channel):
         stop()
 
 def error(message):
-    print("ERROR : " + str(message))
+    print(("ERROR : " + str(message)))
 
 
 def connect(message):
     print("CONNECTED")
-    print pubnub.publish(channel='my_channel', message='Hello from the PubNub Python SDK')
+    print(pubnub.publish(channel='my_channel', message='Hello from the PubNub Python SDK'))
 
 
 

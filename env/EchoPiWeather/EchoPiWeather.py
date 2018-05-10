@@ -33,7 +33,7 @@ if __name__ == "__main__":
 	while 1==1:
 		s.trigger()
 		tempreading = "{ \"state\" : { \"reported\": { \"temp\": \"%s\", \"humid\": \"%s\" } } }" % (str(s.temperature()), str(s.humidity()))
-		print("payload: %s" % tempreading)
+		print(("payload: %s" % tempreading))
 		if s.temperature() != -999:
 			myDeviceShadow.shadowUpdate(tempreading, None, 5)
 		time.sleep(60)

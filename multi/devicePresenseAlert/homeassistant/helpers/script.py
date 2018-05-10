@@ -2,7 +2,7 @@
 import asyncio
 import logging
 from itertools import islice
-from typing import Optional, Sequence
+from .typing import Optional, Sequence
 
 import voluptuous as vol
 
@@ -155,7 +155,7 @@ class Script():
 
     def _async_check_condition(self, action, variables):
         """Test if condition is matching."""
-        config_cache_key = frozenset((k, str(v)) for k, v in action.items())
+        config_cache_key = frozenset((k, str(v)) for k, v in list(action.items()))
         config = self._config_cache.get(config_cache_key)
         if not config:
             config = condition.async_from_config(action, False)

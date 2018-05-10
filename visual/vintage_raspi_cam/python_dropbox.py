@@ -4,7 +4,7 @@
 #Make sure the python libraries are installed (pip install dropbox)
 import os
 import sys
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 from dropbox.client import DropboxClient
 
 #Create a function called 'dropbox_upload'
@@ -16,8 +16,8 @@ def dropbox_upload(access_token, local_directory, remote_directory):
 	#See if Dropbox.com is available.
 	#If so, continue. If not, return false.
 	try:
-		urllib2.urlopen("http://www.dropbox.com")
-	except urllib2.URLError, e:
+		urllib.request.urlopen("http://www.dropbox.com")
+	except urllib.error.URLError as e:
 		return False
 	else:
 		#Create a directory loop that:

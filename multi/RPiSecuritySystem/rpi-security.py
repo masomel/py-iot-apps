@@ -4,7 +4,7 @@ import os
 import argparse
 import logging
 import logging.handlers
-from ConfigParser import SafeConfigParser
+from configparser import SafeConfigParser
 import RPi.GPIO as GPIO
 from datetime import datetime, timedelta
 import sys

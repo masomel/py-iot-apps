@@ -107,10 +107,10 @@ class LgTVDevice(MediaPlayerDevice):
                         channel_name = channel.find('chname')
                         if channel_name is not None:
                             channel_names.append(str(channel_name.text))
-                    self._sources = dict(zip(channel_names, channel_list))
+                    self._sources = dict(list(zip(channel_names, channel_list)))
                     # sort source names by the major channel number
                     source_tuples = [(k, self._sources[k].find('major').text)
-                                     for k in self._sources.keys()]
+                                     for k in list(self._sources.keys())]
                     sorted_sources = sorted(
                         source_tuples, key=lambda channel: int(channel[1]))
                     self._source_names = [n for n, k in sorted_sources]

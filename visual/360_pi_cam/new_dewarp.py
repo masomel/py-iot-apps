@@ -29,7 +29,7 @@ def buildMap(Ws,Hs,Wd,Hd,R1,R2,Cx,Cy):
 #       for x in range(0,int(Wd-1)):
 #               map_x.itemset((y,x),int(sinMap))
 #               map_y.itemset((y,x),int(cosMap))
-    for y in xrange(0, int(Hd-1)):
+    for y in range(0, int(Hd-1)):
         map_x[y] = Cx + rMap[y] * sinMap
         map_y[y] = Cy + rMap[y] * cosMap
         #(map1, map2) = cv2.convertMaps(map_x, map_y, cv2.CV_16SC2)
@@ -89,11 +89,11 @@ Hd = (R2-R1)
 Ws = img.width
 Hs = img.height
 # build the pixel map, this could be sped up
-print "BUILDING MAP!"
+print("BUILDING MAP!")
 #print "HD value" + str(Hd)
 #print "WD value" + str(Wd)
 xmap,ymap = buildMap(Ws,Hs,Wd,Hd,R1,R2,Cx,Cy)
-print "MAP DONE!"
+print("MAP DONE!")
 # do an unwarping and show it to us
 result = unwarp(img,xmap,ymap)
 #result = result.adaptiveScale(resolution=(640,480))
@@ -113,7 +113,7 @@ result.save(disp)
 # avconv -f image2 -r 30 -v:b 1024K -i samples/lapinsnipermin/%03d.jpeg output.mpeg
 i = 0
 while img is not None:
-    print img.width,img.height
+    print(img.width,img.height)
     result = unwarp(img,xmap,ymap)
     #derp = result.adaptiveScale(resolution=(640,480))
     #result = result.resize(w=img.width)

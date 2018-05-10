@@ -59,7 +59,7 @@ class What(object):
 
     #Solve math equation and say answer
     def math(self):
-        if self.DEBUG: print 'EQUATION:', self.cmd
+        if self.DEBUG: print('EQUATION:', self.cmd)
 
         #Check for valid command again
         if len(self.cmd) == 3 or len(self.cmd) == 4:
@@ -81,9 +81,9 @@ class What(object):
             elif self.cmd[1] == 'divided':
                 self.answer = int(self.cmd[0]) / int(self.cmd[3])
         except:
-            if self.DEBUG: print 'Not, math, looking elsewhere...'
+            if self.DEBUG: print('Not, math, looking elsewhere...')
 
-        if self.DEBUG: print 'ANSWER = ', str(self.answer)
+        if self.DEBUG: print('ANSWER = ', str(self.answer))
 
     def time(self):
         #Get current time
@@ -114,7 +114,7 @@ class Walk():
     def __init__(self, cmd=['walk','happy'], DEBUG=False):
         self.cmd = cmd
         self.DEBUG = DEBUG
-        print self.cmd
+        print(self.cmd)
         self.cmd.pop(0)
         #Get movement command and run function
         if len(self.cmd) != 0:

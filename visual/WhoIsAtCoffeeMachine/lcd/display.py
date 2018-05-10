@@ -1,8 +1,8 @@
 from smbus import SMBus
 import math
 import time
-import backlight
-import screen
+from . import backlight
+from . import screen
 
 class Display(object):
     backlight = None

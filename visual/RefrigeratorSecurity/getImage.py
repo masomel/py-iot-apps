@@ -23,7 +23,7 @@ def fromIpCam(path, host):
         img.write(data)
         img.close()        
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print(("[Errno {0}] {1}".format(e.errno, e.strerror)))
 
     return
 

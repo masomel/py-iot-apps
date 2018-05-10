@@ -249,7 +249,7 @@ def async_prepare_setup_component(hass: core.HomeAssistant, config: dict,
         # Create a copy of the configuration with all config for current
         # component removed and add validated config back in.
         filter_keys = extract_domain_configs(config, domain)
-        config = {key: value for key, value in config.items()
+        config = {key: value for key, value in list(config.items())
                   if key not in filter_keys}
         config[domain] = platforms
 
@@ -399,12 +399,12 @@ def async_from_config_dict(config: Dict[str, Any],
     # Use OrderedDict in case original one was one.
     # Convert values to dictionaries if they are None
     new_config = OrderedDict()
-    for key, value in config.items():
+    for key, value in list(config.items()):
         new_config[key] = value or {}
     config = new_config
 
     # Filter out the repeating and common config section [homeassistant]
-    components = set(key.split(' ')[0] for key in config.keys()
+    components = set(key.split(' ')[0] for key in list(config.keys())
                      if key != core.DOMAIN)
 
     # setup components
@@ -581,7 +581,7 @@ def _async_persistent_notification(hass: core.HomeAssistant, component: str,
     """
     _PERSISTENT_ERRORS[component] = _PERSISTENT_ERRORS.get(component) or link
     _lst = [HA_COMPONENT_URL.format(name.replace('_', '-'), name)
-            if link else name for name, link in _PERSISTENT_ERRORS.items()]
+            if link else name for name, link in list(_PERSISTENT_ERRORS.items())]
     message = ('The following components and platforms could not be set up:\n'
                '* ' + '\n* '.join(list(_lst)) + '\nPlease check your config')
     persistent_notification.async_create(

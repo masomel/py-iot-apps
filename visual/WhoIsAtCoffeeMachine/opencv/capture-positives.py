@@ -11,8 +11,8 @@ import select
 
 import cv2
 
-import config
-import face
+from . import config
+from . import face
 
 
 # Prefix for positive training image filenames.
@@ -41,21 +41,21 @@ if __name__ == '__main__':
 	if len(files) > 0:
 		# Grab the count from the last filename.
 		count = int(files[-1][-7:-4])+1
-	print 'Capturing positive training images.'
-	print 'Press button or type c (and press enter) to capture an image.'
-	print 'Press Ctrl-C to quit.'
+	print('Capturing positive training images.')
+	print('Press button or type c (and press enter) to capture an image.')
+	print('Press Ctrl-C to quit.')
 	while True:
 		# Check if button was pressed or 'c' was received, then capture image.
 		if is_letter_input('c'):
-			print 'Capturing image...'
+			print('Capturing image...')
 			image = camera.read()
 			# Convert image to grayscale.
 			image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
 			# Get coordinates of single face in captured image.
 			result = face.detect_single(image)
 			if result is None:
-				print 'Could not detect single face!  Check the image in capture.pgm' \
-					  ' to see what was captured and try again with only one face visible.'
+				print('Could not detect single face!  Check the image in capture.pgm' \
+					  ' to see what was captured and try again with only one face visible.')
 				continue
 			x, y, w, h = result
 			# Crop image as close as possible to desired face aspect ratio.
@@ -64,5 +64,5 @@ if __name__ == '__main__':
 			# Save image to file.
 			filename = os.path.join(config.POSITIVE_DIR, POSITIVE_FILE_PREFIX + '%03d.pgm' % count)
 			cv2.imwrite(filename, crop)
-			print 'Found face and wrote training image', filename
+			print('Found face and wrote training image', filename)
 			count += 1

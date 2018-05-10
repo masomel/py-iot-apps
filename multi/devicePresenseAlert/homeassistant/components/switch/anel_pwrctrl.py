@@ -44,7 +44,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     port_recv = config.get(CONF_PORT_RECV)
     port_send = config.get(CONF_PORT_SEND)
 
-    from anel_pwrctrl import DeviceMaster
+    from .anel_pwrctrl import DeviceMaster
 
     try:
         master = DeviceMaster(
@@ -56,11 +56,11 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
         return False
 
     devices = []
-    for device in master.devices.values():
+    for device in list(master.devices.values()):
         parent_device = PwrCtrlDevice(device)
         devices.extend(
             PwrCtrlSwitch(switch, parent_device)
-            for switch in device.switches.values()
+            for switch in list(device.switches.values())
         )
 
     add_devices(devices)

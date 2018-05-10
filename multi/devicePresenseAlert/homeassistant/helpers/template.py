@@ -33,7 +33,7 @@ def attach(hass, obj):
         for child in obj:
             attach(hass, child)
     elif isinstance(obj, dict):
-        for child in obj.values():
+        for child in list(obj.values()):
             attach(hass, child)
     elif isinstance(obj, Template):
         obj.hass = hass

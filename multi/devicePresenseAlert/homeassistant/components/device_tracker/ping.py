@@ -76,7 +76,7 @@ class Host:
 def setup_scanner(hass, config, see):
     """Setup the Host objects and return the update function."""
     hosts = [Host(ip, dev_id, hass, config) for (dev_id, ip) in
-             config[const.CONF_HOSTS].items()]
+             list(config[const.CONF_HOSTS].items())]
     interval = timedelta(seconds=len(hosts) * config[CONF_PING_COUNT] +
                          DEFAULT_SCAN_INTERVAL)
     _LOGGER.info("Started ping tracker with interval=%s on hosts: %s",

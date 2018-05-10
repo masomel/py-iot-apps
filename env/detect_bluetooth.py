@@ -12,7 +12,7 @@ print("Welcome to the Bluetooth Detection Demo! \nMake sure your desired Bluetoo
 
 if addr == None:
     try:
-        input("When you are ready to begin, press the Enter key to continue...")
+        eval(input("When you are ready to begin, press the Enter key to continue..."))
     except SyntaxError:
         pass
 
@@ -21,7 +21,7 @@ if addr == None:
     nearby_devices = bluetooth.discover_devices(duration=search_time, flush_cache=True, lookup_names=True)
 
     if len(nearby_devices) > 0:
-        print("Found %d devices!" % len(nearby_devices))
+        print(("Found %d devices!" % len(nearby_devices)))
     else:
         print("No devices found! Please check your Bluetooth device and restart the demo!")
         exit(0)
@@ -29,15 +29,15 @@ if addr == None:
     i = 0 # Just an incrementer for labeling the list entries
     # Print out a list of all the discovered Bluetooth Devices
     for addr, name in nearby_devices:
-        print("%s. %s - %s" % (i, addr, name))
+        print(("%s. %s - %s" % (i, addr, name)))
         i =+ 1
 
-    device_num = input("Please specify the number of the device you want to track: ")
+    device_num = eval(input("Please specify the number of the device you want to track: "))
 
     # extract out the useful info on the desired device for use later
     addr, name = nearby_devices[device_num][0], nearby_devices[device_num][1]
 
-print("The script will now scan for the device %s." % (addr))
+print(("The script will now scan for the device %s." % (addr)))
 print("Feel free to move near and far away from the BeagleBone to see the state change on the LED.\nUse Ctrl+c to exit...")
 
 GPIO.setup(led_pin, GPIO.OUT)

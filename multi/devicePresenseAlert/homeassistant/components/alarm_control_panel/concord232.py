@@ -55,7 +55,7 @@ class Concord232Alarm(alarm.AlarmControlPanel):
 
     def __init__(self, hass, url, name):
         """Initialize the Concord232 alarm panel."""
-        from concord232 import client as concord232_client
+        from .concord232 import client as concord232_client
 
         self._state = STATE_UNKNOWN
         self._hass = hass

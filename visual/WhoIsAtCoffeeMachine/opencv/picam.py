@@ -12,7 +12,7 @@ import cv2
 import numpy as np
 import picamera
 
-import config
+from . import config
 
 
 class OpenCVCapture(object):

@@ -27,8 +27,8 @@ def ControlRelay(flag):
 
 if __name__ == "__main__":
     while True:
-        print(AirRead())
-        print(TemperatureRead())
+        print((AirRead()))
+        print((TemperatureRead()))
         ControlRelay(1)
         time.sleep(1)
         ControlRelay(0)

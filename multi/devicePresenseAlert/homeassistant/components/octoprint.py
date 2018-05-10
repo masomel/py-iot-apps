@@ -58,7 +58,7 @@ class OctoPrintAPI(object):
     def get_tools(self):
         """Get the dynamic list of tools that temperature is monitored on."""
         tools = self.printer_last_reading[0]['temperature']
-        return tools.keys()
+        return list(tools.keys())
 
     def get(self, endpoint):
         """Send a get request, and return the response as a dict."""

@@ -84,7 +84,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
 
 def dispose(event):
     """Close connections to Netio Devices."""
-    for _, value in DEVICES.items():
+    for _, value in list(DEVICES.items()):
         value.netio.stop()
 
 

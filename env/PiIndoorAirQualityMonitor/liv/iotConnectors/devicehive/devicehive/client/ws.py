@@ -5,8 +5,8 @@
 Client API implementation for WebSocket protocol.
 """
 
-from sys import maxint
-from urlparse import urlparse, urljoin
+from sys import maxsize
+from urllib.parse import urlparse, urljoin
 
 from twisted.python import log
 from twisted.internet import reactor
@@ -164,7 +164,7 @@ class WebSocketFactory(ClientFactory):
         return defer
     
     def command(self, device_id, cmd):
-        if not (isinstance(device_id, str) or isinstance(device_id, unicode)) :
+        if not (isinstance(device_id, str) or isinstance(device_id, str)) :
             raise TypeError('device_id should be a str or a unicode value')
         
         defer = Deferred()
@@ -199,7 +199,7 @@ class WebSocketFactory(ClientFactory):
                 LOG_MSG('Command {0} update has been received.'.format(msg))
                 defer = self.command_callbacks.pop(cmdid)
                 ocmd = WsCommand.create(cmd)
-                if (isinstance(ocmd.status, str) or isinstance(ocmd.status, unicode)) and ocmd.status.lower() == 'success' :
+                if (isinstance(ocmd.status, str) or isinstance(ocmd.status, str)) and ocmd.status.lower() == 'success' :
                     defer.callback(ocmd)
                 else :
                     defer.errback(ocmd)

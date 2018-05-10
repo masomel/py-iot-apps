@@ -38,7 +38,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
         )
     except KeyError:
         _LOGGER.error("Brand %s not supported\n supported brands: %s",
-                      config.get(CONF_BRAND), pm.SUPPORTED_SENSORS.keys())
+                      config.get(CONF_BRAND), list(pm.SUPPORTED_SENSORS.keys()))
         return
     except OSError as err:
         _LOGGER.error("Could not open serial connection to %s (%s)",

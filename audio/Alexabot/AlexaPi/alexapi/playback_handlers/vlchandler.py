@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 import threading
 import time
 from collections import deque
@@ -6,7 +6,7 @@ from collections import deque
 import vlc
 
 import alexapi.bcolors as bcolors
-from basehandler import BaseHandler
+from .basehandler import BaseHandler
 
 
 class VlcHandler(BaseHandler):

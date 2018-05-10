@@ -32,7 +32,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 def setup_scanner(hass, config, see):
     """Validate the configuration and return a scanner."""
-    from volvooncall import Connection
+    from .volvooncall import Connection
     connection = Connection(
         config.get(CONF_USERNAME),
         config.get(CONF_PASSWORD))

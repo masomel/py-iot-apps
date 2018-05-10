@@ -13,7 +13,7 @@ import gevent
 
 
 def printStatus(response, **kwargs):
-    print "Hue response was {}".format(response.status_code)
+    print("Hue response was {}".format(response.status_code))
 
 # The following allows us to specify the IP address and username in a more friendly JSON configuration file rather than 
 # hardcoding the values in the Python source.

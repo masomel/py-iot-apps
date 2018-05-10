@@ -16,9 +16,9 @@ def fileName (cur_name,post_name):
         files ={post_name:open(cur_name,'rb')}
         r = requests.post(url_image,files=files)
         if (r.status_code) ==200:
-                print "Posted"
+                print("Posted")
         else:
-                print r.status_code
+                print(r.status_code)
 
 ####################################Capturing Image ##########################################################
 def captureImage(initialName,finalName,timeInterval):
@@ -46,27 +46,27 @@ def checkCommandInp():
                 return "nothing received"
         else:
                 if "lights" in cmd and "on" in cmd:
-                        print "ligts on"
+                        print("ligts on")
                         #code for lights
                 elif "lights" in cmd and "off" in cmd:
-                        print "lights off"
+                        print("lights off")
                         #code for ligts off
                 elif "fan" in cmd and "on" in cmd:
-                        print "fan on"
+                        print("fan on")
                         #code for fan on
                 elif "fan" in cmd and "off" in cmd:
-                        print "fan off"
+                        print("fan off")
                 elif "Y" in cmd:
-                        print "opening the door"
+                        print("opening the door")
                         #open the door
                 elif "N" in cmd:
-                        print "closing the door"
+                        print("closing the door")
 
 while True:
         checkCommandInp()
         if (GPIO.input(4)): #input from PIR
                 captureImage("newName","intruder", 0.5)
-                print "Intruder captured"
+                print("Intruder captured")
 
 
 

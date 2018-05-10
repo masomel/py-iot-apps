@@ -2,7 +2,7 @@ import xively
 import datetime
 import httplib2 as http
 import json
-from urlparse import urlparse
+from urllib.parse import urlparse
 import time
 
 api = xively.XivelyAPIClient("YOUR_API_KEY")
@@ -24,13 +24,13 @@ data = json.loads(content)
 
 
 while (1):
-  print 'writing data to xively '
+  print('writing data to xively ')
   response, content = h.request(target.geturl(), method, body, headers)
   data = json.loads(content)
-  print data
+  print(data)
   now = datetime.datetime.utcnow()
   #now = datetime.datetime.now()
-  print now
+  print(now)
   feed.datastreams = [
     xively.Datastream(id='airpressure', current_value=data['AirPressure'], at=now),
     xively.Datastream(id='co2', current_value=data['CO2level'], at=now),

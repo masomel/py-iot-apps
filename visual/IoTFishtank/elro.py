@@ -92,8 +92,8 @@ if __name__ == '__main__':
 	import sys
 	
 	if len(sys.argv) < 3:
-		print "usage:sudo python %s int_device int_state (e.g. '%s 2 1' switches device 2 on)" % \
-			(sys.argv[0], sys.argv[0])
+		print("usage:sudo python %s int_device int_state (e.g. '%s 2 1' switches device 2 on)" % \
+			(sys.argv[0], sys.argv[0]))
 		sys.exit(1)
 
 	# Change the key[] variable below according to the dipswitches on your Elro receivers.

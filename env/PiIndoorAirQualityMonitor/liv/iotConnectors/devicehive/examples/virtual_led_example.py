@@ -7,7 +7,7 @@ import os
 from twisted.python import log
 from twisted.internet import reactor
 from zope.interface import implements
-from ConfigParser import ConfigParser as Conf
+from configparser import ConfigParser as Conf
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import devicehive
@@ -101,7 +101,7 @@ class VirtualLedApp(object):
         def on_subscribe(result) :
             self.connected = True
             def on_subsc(res):
-                print '!!!! SUBSCRIBED'
+                print('!!!! SUBSCRIBED')
             self.factory.subscribe(self.info.id, self.info.key).addCallback(on_subsc)
         def on_failed(reason) :
             log.err('Failed to save device {0}. Reason: {1}.'.format(self.info, reason))

@@ -14,8 +14,8 @@ import os
 import cv2
 import numpy as np
 
-import config
-import face
+from . import config
+from . import face
 
 
 MEAN_FILE = 'mean.png'
@@ -55,7 +55,7 @@ def normalize(X, low, high, dtype=None):
 	return np.asarray(X, dtype=dtype)
 
 if __name__ == '__main__':
-	print "Reading training images..."
+	print("Reading training images...")
 	faces = []
 	labels = []
 	pos_count = 0
@@ -64,7 +64,7 @@ if __name__ == '__main__':
 	for filename in walk_files(config.POSITIVE_DIR, '*.pgm'):
                 path = os.path.basename(filename)
                 path = path.split("_")[0]
-                print path
+                print(path)
                 if(path == "louis"):
                         faces.append(prepare_image(filename))
                         labels.append(config.LOUIS_LABEL)
@@ -101,16 +101,16 @@ if __name__ == '__main__':
 		faces.append(prepare_image(filename))
 		labels.append(config.NEGATIVE_LABEL)
 		neg_count += 1
-	print 'Read', pos_count, 'positive images and', neg_count, 'negative images.'
+	print('Read', pos_count, 'positive images and', neg_count, 'negative images.')
 
 	# Train model
-	print 'Training model...'
+	print('Training model...')
 	model = cv2.createEigenFaceRecognizer()
 	model.train(np.asarray(faces), np.asarray(labels))
 
 	# Save model results
 	model.save(config.TRAINING_FILE)
-	print 'Training data saved to', config.TRAINING_FILE
+	print('Training data saved to', config.TRAINING_FILE)
 
 	# Save mean and eignface images which summarize the face recognition model.
 	mean = model.getMat("mean").reshape(faces[0].shape)

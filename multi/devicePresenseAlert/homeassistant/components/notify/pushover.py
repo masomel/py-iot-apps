@@ -29,7 +29,7 @@ PLATFORM_SCHEMA = cv.PLATFORM_SCHEMA.extend({
 # pylint: disable=unused-variable
 def get_service(hass, config):
     """Get the Pushover notification service."""
-    from pushover import InitError
+    from .pushover import InitError
 
     try:
         return PushoverNotificationService(config[CONF_USER_KEY],
@@ -45,7 +45,7 @@ class PushoverNotificationService(BaseNotificationService):
 
     def __init__(self, user_key, api_token):
         """Initialize the service."""
-        from pushover import Client
+        from .pushover import Client
         self._user_key = user_key
         self._api_token = api_token
         self.pushover = Client(
@@ -53,7 +53,7 @@ class PushoverNotificationService(BaseNotificationService):
 
     def send_message(self, message='', **kwargs):
         """Send a message to a user."""
-        from pushover import RequestError
+        from .pushover import RequestError
 
         # Make a copy and use empty dict if necessary
         data = dict(kwargs.get(ATTR_DATA) or {})

@@ -205,7 +205,7 @@ class TempSensor(object):
                     return (volts - 500) / 10.0
                 return 0.0
         except Exception as e:
-            print 'Failed to convert temperature. Reason: %s' % e
+            print('Failed to convert temperature. Reason: %s' % e)
             return 0.0
 
     # check temperature, if greater than threshold, notify

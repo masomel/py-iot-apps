@@ -85,7 +85,7 @@ def ReadTemperature():
 	AltiBar.ActiveMode()						#puts sensor in active mode
 	time.sleep(1)
 	temperature = AltiBar.ReadTemperature()
-	print "temp %f" % temperature
+	print("temp %f" % temperature)
 	
 	return jsonify(Temp = temperature)
 

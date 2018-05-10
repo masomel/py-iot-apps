@@ -71,6 +71,6 @@ def setup(hass, config):
         except subprocess.SubprocessError:
             _LOGGER.exception('Error running command: %s', cmd)
 
-    for name in conf.keys():
+    for name in list(conf.keys()):
         hass.services.register(DOMAIN, name, service_handler)
     return True

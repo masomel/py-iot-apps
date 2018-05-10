@@ -19,11 +19,11 @@ def main(argv):
 	try:
 		opts, args = getopt.getopt(argv,"h:t:",["temperature="])
    	except getopt.GetoptError:
-         	print 'usage: setTemp.py -t <temperatureNeeded>'
+         	print('usage: setTemp.py -t <temperatureNeeded>')
       		sys.exit(2)
    	for opt, arg in opts:
       		if opt == '-h':
-         		print 'usage: setTemp.py -t <temperatureNeeded>'
+         		print('usage: setTemp.py -t <temperatureNeeded>')
          		sys.exit()
       		elif opt in ("-t", "--temperature"):
          		temperature = arg
@@ -33,7 +33,7 @@ def main(argv):
 			setTempNeeded(temperature)
 		except:
 			time.sleep(10)
-			print 'retry'
+			print('retry')
 			setTempNeeded(temperature)
 
 if __name__ == "__main__":

@@ -22,5 +22,5 @@ def trigger(event, val1=None, val2=None, val3=None):
 
     req_url = BASE_URL+event+'/with/key/'+settings.IFTTT_KEY
     print('~ Making GET request at:')
-    print(req_url+'\n')
+    print((req_url+'\n'))
     requests.get(req_url, params)

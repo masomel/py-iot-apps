@@ -44,7 +44,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Set up the Concord232 binary sensor platform."""
-    from concord232 import client as concord232_client
+    from .concord232 import client as concord232_client
 
     host = config.get(CONF_HOST)
     port = config.get(CONF_PORT)

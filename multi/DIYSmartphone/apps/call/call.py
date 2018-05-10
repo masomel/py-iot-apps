@@ -149,7 +149,7 @@ class Run():
                     self.first_call = False
 
             else:
-                print 'Invalid Number'
+                print('Invalid Number')
                 self.call = 0
 
         if self.ongoing_call and self.call == 0:

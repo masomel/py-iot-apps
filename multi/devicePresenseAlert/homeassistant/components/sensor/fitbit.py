@@ -232,7 +232,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     if "fitbit" in _CONFIGURING:
         get_component('configurator').request_done(_CONFIGURING.pop("fitbit"))
 
-    import fitbit
+    from . import fitbit
 
     access_token = config_file.get(ATTR_ACCESS_TOKEN)
     refresh_token = config_file.get(ATTR_REFRESH_TOKEN)

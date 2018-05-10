@@ -53,13 +53,13 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
 
     dev = []
     pins = config.get(CONF_PINS)
-    for pinnum, pin in pins.items():
+    for pinnum, pin in list(pins.items()):
         dev.append(ArestSwitchPin(
             resource, config.get(CONF_NAME, response.json()[CONF_NAME]),
             pin.get(CONF_NAME), pinnum))
 
     functions = config.get(CONF_FUNCTIONS)
-    for funcname, func in functions.items():
+    for funcname, func in list(functions.items()):
         dev.append(ArestSwitchFunction(
             resource, config.get(CONF_NAME, response.json()[CONF_NAME]),
             func.get(CONF_NAME), funcname))

@@ -102,10 +102,10 @@ def internet_on():
 	print("Checking Internet Connection...")
 	try:
 		r =requests.get('https://api.amazon.com/auth/o2/token')
-		print("Connection {}OK{}".format(bcolors.OKGREEN, bcolors.ENDC))
+		print(("Connection {}OK{}".format(bcolors.OKGREEN, bcolors.ENDC)))
 		return True
 	except:
-		print("Connection {}Failed{}".format(bcolors.WARNING, bcolors.ENDC))
+		print(("Connection {}Failed{}".format(bcolors.WARNING, bcolors.ENDC)))
 		return False
 
 def gettoken():
@@ -125,7 +125,7 @@ def gettoken():
 
 def alexa_speech_recognizer():
 	# https://developer.amazon.com/public/solutions/alexa/alexa-voice-service/rest/speechrecognizer-requests
-	if debug: print("{}Sending Speech Request...{}".format(bcolors.OKBLUE, bcolors.ENDC))
+	if debug: print(("{}Sending Speech Request...{}".format(bcolors.OKBLUE, bcolors.ENDC)))
 	GPIO.output(plb_light, GPIO.HIGH)
 	url = 'https://access-alexa-na.amazon.com/v1/avs/speechrecognizer/recognize'
 	headers = {'Authorization' : 'Bearer %s' % gettoken()}
@@ -162,7 +162,7 @@ def alexa_getnextitem(nav_token):
 	# https://developer.amazon.com/public/solutions/alexa/alexa-voice-service/rest/audioplayer-getnextitem-request
 	time.sleep(0.5)
         if audioplaying == False:
-		if debug: print("{}Sending GetNextItem Request...{}".format(bcolors.OKBLUE, bcolors.ENDC))
+		if debug: print(("{}Sending GetNextItem Request...{}".format(bcolors.OKBLUE, bcolors.ENDC)))
 		GPIO.output(plb_light, GPIO.HIGH)
 		url = 'https://access-alexa-na.amazon.com/v1/avs/audioplayer/getNextItem'
 		headers = {'Authorization' : 'Bearer %s' % gettoken(), 'content-type' : 'application/json; charset=UTF-8'}
@@ -180,7 +180,7 @@ def alexa_playback_progress_report_request(requestType, playerActivity, streamid
 	# streamId                  Specifies the identifier for the current stream.
 	# offsetInMilliseconds      Specifies the current position in the track, in milliseconds.
 	# playerActivity            IDLE, PAUSED, or PLAYING
-	if debug: print("{}Sending Playback Progress Report Request...{}".format(bcolors.OKBLUE, bcolors.ENDC))
+	if debug: print(("{}Sending Playback Progress Report Request...{}".format(bcolors.OKBLUE, bcolors.ENDC)))
 	headers = {'Authorization' : 'Bearer %s' % gettoken()}
 	d = {
 		"messageHeader": {},
@@ -215,13 +215,13 @@ def alexa_playback_progress_report_request(requestType, playerActivity, streamid
 	
 	r = requests.post(url, headers=headers, data=json.dumps(d))
 	if r.status_code != 204:
-		print("{}(alexa_playback_progress_report_request Response){} {}".format(bcolors.WARNING, bcolors.ENDC, r))
+		print(("{}(alexa_playback_progress_report_request Response){} {}".format(bcolors.WARNING, bcolors.ENDC, r)))
 	else:
-		if debug: print("{}Playback Progress Report was {}Successful!{}".format(bcolors.OKBLUE, bcolors.OKGREEN, bcolors.ENDC))
+		if debug: print(("{}Playback Progress Report was {}Successful!{}".format(bcolors.OKBLUE, bcolors.OKGREEN, bcolors.ENDC)))
 
 def process_response(r):
 	global nav_token, streamurl, streamid
-	if debug: print("{}Processing Request Response...{}".format(bcolors.OKBLUE, bcolors.ENDC))
+	if debug: print(("{}Processing Request Response...{}".format(bcolors.OKBLUE, bcolors.ENDC)))
 	nav_token = ""
 	streamurl = ""
 	streamid = ""
@@ -231,13 +231,13 @@ def process_response(r):
 		for payload in msg.get_payload():
 			if payload.get_content_type() == "application/json":
 				j =  json.loads(payload.get_payload())
-				if debug: print("{}JSON String Returned:{} {}".format(bcolors.OKBLUE, bcolors.ENDC, json.dumps(j)))
+				if debug: print(("{}JSON String Returned:{} {}".format(bcolors.OKBLUE, bcolors.ENDC, json.dumps(j))))
 			elif payload.get_content_type() == "audio/mpeg":
 				filename = path + "tmpcontent/"+payload.get('Content-ID').strip("<>")+".mp3" 
 				with open(filename, 'wb') as f:
 					f.write(payload.get_payload())
 			else:
-				if debug: print("{}NEW CONTENT TYPE RETURNED: {} {}".format(bcolors.WARNING, bcolors.ENDC, payload.get_content_type()))
+				if debug: print(("{}NEW CONTENT TYPE RETURNED: {} {}".format(bcolors.WARNING, bcolors.ENDC, payload.get_content_type())))
 		# Now process the response
 		if 'directives' in j['messageBody']:
 			if len(j['messageBody']['directives']) == 0:
@@ -250,7 +250,7 @@ def process_response(r):
 						play_audio(path + "tmpcontent/"+directive['payload']['audioContent'].lstrip("cid:")+".mp3")
 					elif directive['name'] == 'listen':
 						#listen for input - need to implement silence detection for this to be used.
-						if debug: print("{}Further Input Expected, timeout in: {} {}ms".format(bcolors.OKBLUE, bcolors.ENDC, directive['payload']['timeoutIntervalInMillis']))
+						if debug: print(("{}Further Input Expected, timeout in: {} {}ms".format(bcolors.OKBLUE, bcolors.ENDC, directive['payload']['timeoutIntervalInMillis'])))
 				elif directive['namespace'] == 'AudioPlayer':
 					#do audio stuff - still need to honor the playBehavior
 					if directive['name'] == 'play':
@@ -285,9 +285,9 @@ def process_response(r):
 			GPIO.output(plb_light, GPIO.HIGH)
 			time.sleep(.2)
 			GPIO.output(plb_light, GPIO.LOW)
-		if debug: print("{}Request Response is null {}(This is OKAY!){}".format(bcolors.OKBLUE, bcolors.OKGREEN, bcolors.ENDC))
+		if debug: print(("{}Request Response is null {}(This is OKAY!){}".format(bcolors.OKBLUE, bcolors.OKGREEN, bcolors.ENDC)))
 	else:
-		print("{}(process_response Error){} Status Code: {}".format(bcolors.WARNING, bcolors.ENDC, r.status_code))
+		print(("{}(process_response Error){} Status Code: {}".format(bcolors.WARNING, bcolors.ENDC, r.status_code)))
 		r.connection.close()
 		GPIO.output(lights, GPIO.LOW)
 		for x in range(0, 3):
@@ -310,7 +310,7 @@ def play_audio(file, offset=0):
 	if file.startswith('http://opml.radiotime.com'):
 		file = tuneinplaylist(file)
 	global nav_token, p, audioplaying
-	if debug: print("{}Play_Audio Request for:{} {}".format(bcolors.OKBLUE, bcolors.ENDC, file))
+	if debug: print(("{}Play_Audio Request for:{} {}".format(bcolors.OKBLUE, bcolors.ENDC, file)))
 	GPIO.output(plb_light, GPIO.HIGH)
 	i = vlc.Instance('--aout=alsa')
 	m = i.media_new(file)
@@ -337,7 +337,7 @@ def state_callback(event, player):
 	#5: 'Stopped'
 	#6: 'Ended'
 	#7: 'Error'
-	if debug: print("{}Player State:{} {}".format(bcolors.OKGREEN, bcolors.ENDC, state))
+	if debug: print(("{}Player State:{} {}".format(bcolors.OKGREEN, bcolors.ENDC, state)))
 	if state == 3:		#Playing
 		if streamid != "":
 			rThread = threading.Thread(target=alexa_playback_progress_report_request, args=("STARTED", "PLAYING", streamid))
@@ -376,16 +376,16 @@ def detect_button(channel):
         global button_pressed
         buttonPress = time.time()
         button_pressed = True
-        if debug: print("{}Button Pressed! Recording...{}".format(bcolors.OKBLUE, bcolors.ENDC))
+        if debug: print(("{}Button Pressed! Recording...{}".format(bcolors.OKBLUE, bcolors.ENDC)))
         time.sleep(.5) # time for the button input to settle down
         while (GPIO.input(button)==0):
                 button_pressed = True
                 time.sleep(.1)
                 if time.time() - buttonPress > 10: # pressing button for 10 seconds triggers a system halt
                 	play_audio(path+'alexahalt.mp3')
-                	if debug: print("{} -- 10 second putton press.  Shutting down. -- {}".format(bcolors.WARNING, bcolors.ENDC))
+                	if debug: print(("{} -- 10 second putton press.  Shutting down. -- {}".format(bcolors.WARNING, bcolors.ENDC)))
                 	os.system("halt")
-        if debug: print("{}Recording Finished.{}".format(bcolors.OKBLUE, bcolors.ENDC))
+        if debug: print(("{}Recording Finished.{}".format(bcolors.OKBLUE, bcolors.ENDC)))
         button_pressed = False
         time.sleep(.5) # more time for the button to settle down
 
@@ -449,7 +449,7 @@ def start():
                 rf.close()
                 inp.close()
 
-                if debug: print "Debug: Sending audio to be processed"
+                if debug: print("Debug: Sending audio to be processed")
 		alexa_speech_recognizer()
 		
                 # Now that request is handled restart audio decoding

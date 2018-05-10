@@ -31,7 +31,7 @@ while 1 == 1:#loops forever till keyboard interupt (ctr + C)
     #run command
     os.system(command)
     #diagnostics
-    print("Filename:", now)
+    print(("Filename:", now))
     
   
     # ----| Email     |---- #

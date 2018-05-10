@@ -28,7 +28,7 @@ CONFIG_SCHEMA = vol.Schema({
 
 def setup(hass, config):
     """Set up Zeroconf and make Home Assistant discoverable."""
-    from zeroconf import Zeroconf, ServiceInfo
+    from .zeroconf import Zeroconf, ServiceInfo
 
     zeroconf = Zeroconf()
 

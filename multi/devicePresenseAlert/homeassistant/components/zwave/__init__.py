@@ -217,10 +217,10 @@ def nice_print_node(node):
     """Print a nice formatted node to the output (debug method)."""
     node_dict = _obj_to_dict(node)
     node_dict['values'] = {value_id: _obj_to_dict(value)
-                           for value_id, value in node.values.items()}
+                           for value_id, value in list(node.values.items())}
 
     print("\n\n\n")
-    print("FOUND NODE", node.product_name)
+    print(("FOUND NODE", node.product_name))
     pprint(node_dict)
     print("\n\n\n")
 
@@ -228,7 +228,7 @@ def nice_print_node(node):
 def get_config_value(node, value_index):
     """Return the current configuration value for a specific index."""
     try:
-        for value in node.values.values():
+        for value in list(node.values.values()):
             # 112 == config command class
             if value.command_class == 112 and value.index == value_index:
                 return value.data
@@ -287,7 +287,7 @@ def setup(hass, config):
         def log_all(signal, value=None):
             """Log all the signals."""
             print("")
-            print("SIGNAL *****", signal)
+            print(("SIGNAL *****", signal))
             if value and signal in (ZWaveNetwork.SIGNAL_VALUE_CHANGED,
                                     ZWaveNetwork.SIGNAL_VALUE_ADDED,
                                     ZWaveNetwork.SIGNAL_SCENE_EVENT,
@@ -466,8 +466,7 @@ def setup(hass, config):
         size = service.data.get(const.ATTR_CONFIG_SIZE, 2)
         i = 0
         for value in (
-                node.get_values(class_id=const.COMMAND_CLASS_CONFIGURATION)
-                .values()):
+                list(node.get_values(class_id=const.COMMAND_CLASS_CONFIGURATION).values())):
             if value.index == param and value.type == const.TYPE_LIST:
                 _LOGGER.debug('Values for parameter %s: %s', param,
                               value.data_items)

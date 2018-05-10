@@ -91,7 +91,7 @@ class ActiontecDeviceScanner(DeviceScanner):
             if not actiontec_data:
                 return False
             self.last_results = [Device(data['mac'], name, now)
-                                 for name, data in actiontec_data.items()
+                                 for name, data in list(actiontec_data.items())
                                  if data['timevalid'] > -60]
             _LOGGER.info("actiontec scan successful")
             return True

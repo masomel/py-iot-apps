@@ -26,7 +26,7 @@ def sendMail(recipient,subject, text, *attachmentFilePaths):
   mailServer.login(config.gmailUser, config.gmailPassword)
   mailServer.sendmail(config.gmailUser, recipient, msg.as_string())
   mailServer.close()
-  print('Sent email to %s' % recipient)
+  print(('Sent email to %s' % recipient))
   
   ### log email address
   email_logger.log("", recipient)

@@ -62,7 +62,7 @@ def crc8(data):
 
 
 if platform.machine() == 'mips':
-    from gpio import *
+    from .gpio import *
     from threading import RLock
     import time
 

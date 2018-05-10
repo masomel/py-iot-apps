@@ -1,4 +1,4 @@
-from Tkinter import *
+from tkinter import *
 
 button_labels = ['`1234567890-=',
                  'qwertyuiop[]\\',
@@ -12,7 +12,7 @@ shifted_labels = ['~!@#$%^&*()_+',
 
 rows = []
 for ls, ss in zip(button_labels, shifted_labels):
-    rows.append(zip(ls, ss))
+    rows.append(list(zip(ls, ss)))
 
 top_row, second_row, third_row, bottom_row = rows
 
@@ -212,7 +212,7 @@ class Tkkb:
 def main():
     r = Tk()
     def onEnter():
-        print 'Enter Pressed'
+        print('Enter Pressed')
     entry = Entry(r, width=20, font=fontsize)
     entry.pack()
 

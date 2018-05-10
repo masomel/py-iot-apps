@@ -1,7 +1,7 @@
 import tkkb
 import os
 from credentials import OAuth2Login
-import Tkinter
+import tkinter
 
 class AlbumSelect:
     '''
@@ -9,26 +9,26 @@ class AlbumSelect:
     '''
     fontsize=20
     def __init__(self, root, entrybox, entries):
-        master = Tkinter.Toplevel(root)
-        button_frame = Tkinter.Frame(master)
-        list_frame = Tkinter.Frame(master)
-        kb_frame = Tkinter.Frame(master)
+        master = tkinter.Toplevel(root)
+        button_frame = tkinter.Frame(master)
+        list_frame = tkinter.Frame(master)
+        kb_frame = tkinter.Frame(master)
         
-        Tkinter.Button(button_frame, text="Reset", command=self.reset).pack(side=Tkinter.LEFT)
-        Tkinter.Button(button_frame, text="Select",
-                       command=self.select_and_push_result).pack(side=Tkinter.RIGHT)
+        tkinter.Button(button_frame, text="Reset", command=self.reset).pack(side=tkinter.LEFT)
+        tkinter.Button(button_frame, text="Select",
+                       command=self.select_and_push_result).pack(side=tkinter.RIGHT)
         button_frame.pack()
-        my_text = Tkinter.StringVar()
+        my_text = tkinter.StringVar()
         my_text.trace('w', self.filter_entries)
-        local_entry = Tkinter.Entry(list_frame, width=80, textvariable=my_text,
+        local_entry = tkinter.Entry(list_frame, width=80, textvariable=my_text,
                                     font=self.fontsize)
         local_entry.pack()
         local_entry.bind('<Return>', self.push_result)
         local_entry.bind('<Down>', self.select_next)
-        scrollbar = Tkinter.Scrollbar(list_frame)
-        scrollbar.pack(side=Tkinter.RIGHT, fill=Tkinter.Y)
+        scrollbar = tkinter.Scrollbar(list_frame)
+        scrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
 
-        self.listbox = Tkinter.Listbox(list_frame,
+        self.listbox = tkinter.Listbox(list_frame,
                                        yscrollcommand=scrollbar.set,
                                        width=80,
                                        height=5,
@@ -38,7 +38,7 @@ class AlbumSelect:
         self.all_entries = entries
         self.current_entries = self.all_entries
         self.update_list()
-        self.listbox.pack(side=Tkinter.LEFT, fill=Tkinter.BOTH)
+        self.listbox.pack(side=tkinter.LEFT, fill=tkinter.BOTH)
         
         scrollbar.config(command=self.listbox.yview)
 
@@ -50,13 +50,13 @@ class AlbumSelect:
         self.current = None
         self.local_entry.focus_set()
         
-        kb_frame = Tkinter.Frame(master)
+        kb_frame = tkinter.Frame(master)
         kb = tkkb.Tkkb(kb_frame, local_entry)
-        kb_frame.pack(side=Tkinter.TOP)
+        kb_frame.pack(side=tkinter.TOP)
 
         button_frame.pack()
         list_frame.pack()
-        kb_frame.pack(side=Tkinter.BOTTOM)
+        kb_frame.pack(side=tkinter.BOTTOM)
     def select_next(self, event):
         self.listbox.selection_set(0)
         self.listbox.focus_set()
@@ -66,7 +66,7 @@ class AlbumSelect:
         if selected:
             idx = selected[0]
             choice = self.current_entries[idx]
-            self.local_entry.delete(0, Tkinter.END)
+            self.local_entry.delete(0, tkinter.END)
             self.local_entry.insert(0, choice)
             self.local_entry.focus_set()
         else:
@@ -82,14 +82,14 @@ class AlbumSelect:
         value = self.local_entry.get()
         id = value.split('::')[-1]
         if self.entrybox is not None:
-            self.entrybox.delete(0, Tkinter.END)
+            self.entrybox.delete(0, tkinter.END)
             self.entrybox.insert(0, id)
         self.master.destroy()
         
     def update_list(self):
-        self.listbox.delete(0, Tkinter.END)
+        self.listbox.delete(0, tkinter.END)
         for entry in self.current_entries:
-            self.listbox.insert(Tkinter.END, entry)
+            self.listbox.insert(tkinter.END, entry)
 
     def filter_entries(self, *args):
         text = self.local_entry.get()
@@ -99,7 +99,7 @@ class AlbumSelect:
             self.listbox.selection_set(0)
         
     def reset(self, *args):
-        self.local_entry.delete(0, Tkinter.END)
+        self.local_entry.delete(0, tkinter.END)
         self.filter_entries()
         self.update_list()
         
@@ -113,9 +113,9 @@ class AlbumSelect:
     def list_has_changed(self, selection):
         if selection:
             choice = self.current_entries[selection[0]]
-            print 'selection is', choice
-            self.local_entry.delete(0, Tkinter.END)
-            self.local_entry.insert(Tkinter.END, choice)
+            print('selection is', choice)
+            self.local_entry.delete(0, tkinter.END)
+            self.local_entry.insert(tkinter.END, choice)
         
 def getAlbums(email):
 
@@ -140,10 +140,10 @@ def test():
     if False:
         entries = getAlbums(email="kevin.osborn@gmail.com")
     else:
-        entries = map(str, range(1000))
+        entries = list(map(str, list(range(1000))))
 
-    root = Tkinter.Tk()
-    entrybox = Tkinter.Entry(root, width=80)
+    root = tkinter.Tk()
+    entrybox = tkinter.Entry(root, width=80)
     entrybox.pack()
     AlbumSelect(root, entrybox, entries)
     root.mainloop()
@@ -155,4 +155,4 @@ if __name__ == '__main__':
             test()
     else:
         for l in getAlbums(email="kevin.osborn@gmail.com"):
-            print l
+            print(l)

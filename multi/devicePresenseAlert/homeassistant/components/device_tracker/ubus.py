@@ -74,7 +74,7 @@ class UbusDeviceScanner(DeviceScanner):
                                        'call', 'uci', 'get',
                                        config="dhcp", type="dnsmasq")
                 if result:
-                    values = result["values"].values()
+                    values = list(result["values"].values())
                     self.leasefile = next(iter(values))["leasefile"]
                 else:
                     return
@@ -109,7 +109,7 @@ class UbusDeviceScanner(DeviceScanner):
             if not self.hostapd:
                 hostapd = _req_json_rpc(self.url, self.session_id,
                                         'list', 'hostapd.*', '')
-                self.hostapd.extend(hostapd.keys())
+                self.hostapd.extend(list(hostapd.keys()))
 
             self.last_results = []
             results = 0
@@ -119,7 +119,7 @@ class UbusDeviceScanner(DeviceScanner):
 
                 if result:
                     results = results + 1
-                    self.last_results.extend(result['clients'].keys())
+                    self.last_results.extend(list(result['clients'].keys()))
 
             return bool(results)
 

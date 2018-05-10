@@ -1,6 +1,6 @@
 import time, datetime
 import serial
-from thread import start_new_thread
+from _thread import start_new_thread
 
 class FishFeederStatus:
 	READY = 0

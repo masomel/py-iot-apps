@@ -38,7 +38,7 @@ class Bot(object):
         while True:
             requests.get("http://localhost:8080/clear")
             if self.vision.recognize_face():
-                print "Found face"
+                print("Found face")
                 if use_launch_phrase:
                     recognizer, audio = self.speech.listen_for_audio()
                     if self.speech.is_call_to_action(recognizer, audio):
@@ -61,7 +61,7 @@ class Bot(object):
             try:
                 r = requests.get('https://api.wit.ai/message?v=20160918&q=%s' % speech,
                                  headers={"Authorization": wit_ai_token})
-                print r.text
+                print(r.text)
                 json_resp = json.loads(r.text)
                 entities = None
                 intent = None
@@ -69,7 +69,7 @@ class Bot(object):
                     entities = json_resp['entities']
                     intent = json_resp['entities']['Intent'][0]["value"]
 
-                print intent
+                print(intent)
                 if intent == 'greeting':
                     self.__text_action(self.nlg.greet())
                 elif intent == 'snow white':
@@ -103,7 +103,7 @@ class Bot(object):
                     return
 
             except Exception as e:
-                print "Failed wit!"
+                print("Failed wit!")
                 print(e)
                 traceback.print_exc()
                 self.__text_action("I'm sorry, I couldn't understand what you meant by that")
@@ -192,7 +192,7 @@ class Bot(object):
                         skip_weather = True
             if 'Weather_Type' in nlu_entities:
                 weather_type = nlu_entities['Weather_Type'][0]['value']
-                print weather_type
+                print(weather_type)
                 if weather_type == "current":
                     forecast_obj = {'forecast_type': 'current', 'forecast': weather_obj['current_forecast']}
                     forecast_speech = self.nlg.forecast(forecast_obj)

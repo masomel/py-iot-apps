@@ -23,7 +23,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
         hub.update_alarms()
         alarms.extend([
             VerisureAlarm(value.id)
-            for value in hub.alarm_status.values()
+            for value in list(hub.alarm_status.values())
             ])
     add_devices(alarms)
 

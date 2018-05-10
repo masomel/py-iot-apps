@@ -30,10 +30,10 @@ class Run():
     def get_events(self, event):
         if event.pos[0] > 60 and event.pos[0] < 260:
             if event.pos[1] > 134 and event.pos[1] < 200:
-                print 'Shutting Down TYOS'
+                print('Shutting Down TYOS')
                 self.shutdown()
             if event.pos[1] > 200 and event.pos[1] < 272:
-                print 'Logging Out of TYOS'
+                print('Logging Out of TYOS')
                 self.logout()
             if event.pos[1] > 272 and event.pos[1] < 344:
                 self.exit = True

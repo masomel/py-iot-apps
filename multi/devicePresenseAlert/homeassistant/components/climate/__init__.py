@@ -275,7 +275,7 @@ def async_setup(hass, config):
 
         for climate in target_climate:
             kwargs = {}
-            for value, temp in service.data.items():
+            for value, temp in list(service.data.items()):
                 if value in CONVERTIBLE_ATTRIBUTE:
                     kwargs[value] = convert_temperature(
                         temp,

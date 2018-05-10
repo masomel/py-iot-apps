@@ -188,7 +188,7 @@ class HTML5PushRegistrationView(HomeAssistantView):
                                      HTTP_BAD_REQUEST)
 
         name = ensure_unique_string('unnamed device',
-                                    self.registrations.keys())
+                                    list(self.registrations.keys()))
 
         self.registrations[name] = data
 
@@ -210,7 +210,7 @@ class HTML5PushRegistrationView(HomeAssistantView):
 
         found = None
 
-        for key, registration in self.registrations.items():
+        for key, registration in list(self.registrations.items()):
             if registration.get(ATTR_SUBSCRIPTION) == subscription:
                 found = key
                 break
@@ -369,7 +369,7 @@ class HTML5NotificationService(BaseNotificationService):
 
             data_tmp = {}
 
-            for key, val in data.items():
+            for key, val in list(data.items()):
                 if key in HTML5_SHOWNOTIFICATION_PARAMETERS:
                     payload[key] = val
                 else:
@@ -384,7 +384,7 @@ class HTML5NotificationService(BaseNotificationService):
         targets = kwargs.get(ATTR_TARGET)
 
         if not targets:
-            targets = self.registrations.keys()
+            targets = list(self.registrations.keys())
 
         for target in targets:
             info = self.registrations.get(target)

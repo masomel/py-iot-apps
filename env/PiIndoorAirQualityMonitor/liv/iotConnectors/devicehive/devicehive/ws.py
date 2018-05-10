@@ -9,11 +9,11 @@ import json
 import base64
 import sha
 import struct
-import urlparse
+import urllib.parse
 from time import time
 from random import Random
 from array import array
-from sys import maxint
+from sys import maxsize
 from zope.interface import implements, Interface, Attribute
 from twisted.python import log
 from twisted.python.constants import Values, ValueConstant
@@ -282,7 +282,7 @@ class WebSocketProtocol13(object):
         self.transport = transport
         self.host = host
         self.uri = uri
-        self.rand = Random(long(time()))
+        self.rand = Random(int(time()))
         self.security_key = base64.b64encode(array('B', [self.rand.randint(0, 0xff) for x in range(12)]).tostring())
         self.parser = WebSocketParser(self)
     
@@ -379,8 +379,8 @@ class WebSocketDeviceHiveProtocol(Protocol):
         """
         self.factory = factory
 
-        path = urlparse.urlparse(factory.url).path or '/'
-        self.uri = urlparse.urljoin(path, uri)
+        path = urllib.parse.urlparse(factory.url).path or '/'
+        self.uri = urllib.parse.urljoin(path, uri)
         self.socket = None
         self.timeout = timeout
 
@@ -447,7 +447,7 @@ class WebSocketDeviceHiveProtocol(Protocol):
         if self.socket is not None :
             defer = Deferred()
             # generating message id
-            msg_id = self.request_counter.next()
+            msg_id = next(self.request_counter)
             message['requestId'] = msg_id
             self.msg_callbacks[msg_id] = defer
             # all messages should be in utf-8
@@ -470,7 +470,7 @@ class WebSocketDeviceHiveProtocol(Protocol):
     
     def ping(self):
         if self.socket is not None :
-            pingid = self.ping_counter.next()
+            pingid = next(self.ping_counter)
             defer = Deferred()
             self.ping_callbacks[pingid] = defer
             

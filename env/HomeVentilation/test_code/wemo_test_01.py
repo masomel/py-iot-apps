@@ -2,22 +2,22 @@ import ouimeaux
 from ouimeaux.environment import Environment
 from time import sleep
 
-print "env"
+print("env")
 wemo = Environment()
-print "start"
+print("start")
 wemo.start()
-print "discover"
+print("discover")
 wemo.discover(5)
-print wemo.list_switches()
+print(wemo.list_switches())
 wemoFan = wemo.get_switch('wemoFan02')
 
-print "on"
+print("on")
 wemoFan.on()
 sleep (5)
-print "off"
+print("off")
 wemoFan.off()
 sleep (5)
-print "toggle"
+print("toggle")
 wemoFan.toggle()
 
 

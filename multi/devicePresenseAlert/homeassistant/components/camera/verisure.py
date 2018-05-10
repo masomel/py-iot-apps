@@ -28,7 +28,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     smartcams = []
     smartcams.extend([
         VerisureSmartcam(hass, value.deviceLabel, directory_path)
-        for value in hub.smartcam_status.values()])
+        for value in list(hub.smartcam_status.values())])
     add_devices(smartcams)
 
 

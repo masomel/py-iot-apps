@@ -38,9 +38,9 @@ def task(quit_event):
             try:
                 text = bing.recognize(data)
                 if text:
-                    print('Recognized %s' % text)
+                    print(('Recognized %s' % text))
             except Exception as e:
-                print(e.message)
+                print((e.message))
 
 
 def main():

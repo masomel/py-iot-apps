@@ -45,10 +45,10 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Setup the Flux lights."""
-    import flux_led
+    from . import flux_led
     lights = []
     light_ips = []
-    for ipaddr, device_config in config[CONF_DEVICES].items():
+    for ipaddr, device_config in list(config[CONF_DEVICES].items()):
         device = {}
         device['name'] = device_config[CONF_NAME]
         device['ipaddr'] = ipaddr
@@ -85,7 +85,7 @@ class FluxLight(Light):
 
     def __init__(self, device):
         """Initialize the light."""
-        import flux_led
+        from . import flux_led
 
         self._name = device['name']
         self._ipaddr = device['ipaddr']

@@ -3,8 +3,8 @@ import wave
 import audioop
 from collections import deque
 import os
-import urllib2
-import urllib
+import urllib.request, urllib.error, urllib.parse
+import urllib.request, urllib.parse, urllib.error
 import time
 import math
 
@@ -38,7 +38,7 @@ def audio_int(num_samples=50):
         is the avg of the 20% largest intensities recorded.
     """
 
-    print "Getting intensity values from mic."
+    print("Getting intensity values from mic.")
     p = pyaudio.PyAudio()
 
     stream = p.open(format=FORMAT,
@@ -51,8 +51,8 @@ def audio_int(num_samples=50):
               for x in range(num_samples)] 
     values = sorted(values, reverse=True)
     r = sum(values[:int(num_samples * 0.2)]) / int(num_samples * 0.2)
-    print " Finished "
-    print " Average audio intensity is ", r
+    print(" Finished ")
+    print(" Average audio intensity is ", r)
     stream.close()
     p.terminate()
     return r
@@ -108,7 +108,7 @@ def listen_for_speech(threshold=THRESHOLD, num_phrases=1):
             try:
                 os.remove(filename)
             except:
-                print 'Error removing file.'
+                print('Error removing file.')
             # Reset all
             started = False
             slid_win = deque(maxlen=SILENCE_LIMIT * rel)
@@ -163,11 +163,11 @@ def stt_google_wav(audio_fname):
     hrs = {"User-Agent": "Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7", 
            'Content-type': 'audio/x-flac; rate=16000'}  
 
-    req = urllib2.Request(GOOGLE_SPEECH_URL, data=flac_cont, headers=hrs)
+    req = urllib.request.Request(GOOGLE_SPEECH_URL, data=flac_cont, headers=hrs)
     #print "Sending request to Google TTS"
     #print "response", response
     try:
-        p = urllib2.urlopen(req)
+        p = urllib.request.urlopen(req)
         response = p.read()
         res = eval(response)['hypotheses']
     except:
@@ -177,7 +177,7 @@ def stt_google_wav(audio_fname):
         try:
             os.remove(filename)  # Remove temp file
         except:
-            print 'Error deleting file...'
+            print('Error deleting file...')
             time.sleep(5)
 
     return res
@@ -188,6 +188,6 @@ if(__name__ == '__main__'):
     #print stt_google_wav('hello.flac')  # translate audio file
     #audio_int()  # To measure your mic levels
     try:
-        print data[0][0]['utterance']
+        print(data[0][0]['utterance'])
     except:
-        print "No Input recieved."
+        print("No Input recieved.")

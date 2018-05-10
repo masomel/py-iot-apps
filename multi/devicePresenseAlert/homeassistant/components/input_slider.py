@@ -83,7 +83,7 @@ def async_setup(hass, config):
 
     entities = []
 
-    for object_id, cfg in config[DOMAIN].items():
+    for object_id, cfg in list(config[DOMAIN].items()):
         name = cfg.get(CONF_NAME)
         minimum = cfg.get(CONF_MIN)
         maximum = cfg.get(CONF_MAX)

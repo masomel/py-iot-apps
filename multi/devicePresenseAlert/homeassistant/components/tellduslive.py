@@ -67,7 +67,7 @@ class TelldusLiveClient(object):
 
     def __init__(self, hass, config):
         """Initialize the Tellus data object."""
-        from tellduslive import Client
+        from .tellduslive import Client
 
         public_key = config[DOMAIN].get(CONF_PUBLIC_KEY)
         private_key = config[DOMAIN].get(CONF_PRIVATE_KEY)
@@ -108,7 +108,7 @@ class TelldusLiveClient(object):
 
         def identify_device(device):
             """Find out what type of HA component to create."""
-            from tellduslive import (DIM, UP, TURNON)
+            from .tellduslive import (DIM, UP, TURNON)
             if device.methods & DIM:
                 return 'light'
             elif device.methods & UP:
@@ -145,7 +145,7 @@ class TelldusLiveClient(object):
 
     def device(self, device_id):
         """Return device representation."""
-        import tellduslive
+        from . import tellduslive
         return tellduslive.Device(self._client, device_id)
 
     def is_available(self, device_id):

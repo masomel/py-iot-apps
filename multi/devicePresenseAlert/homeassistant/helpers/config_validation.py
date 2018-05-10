@@ -6,7 +6,7 @@ import re
 from urllib.parse import urlparse
 from socket import _GLOBAL_DEFAULT_TIMEOUT
 
-from typing import Any, Union, TypeVar, Callable, Sequence, Dict
+from .typing import Any, Union, TypeVar, Callable, Sequence, Dict
 
 import voluptuous as vol
 
@@ -50,7 +50,7 @@ def has_at_least_one_key(*keys: str) -> Callable:
         if not isinstance(obj, dict):
             raise vol.Invalid('expected dictionary')
 
-        for k in obj.keys():
+        for k in list(obj.keys()):
             if k in keys:
                 return obj
         raise vol.Invalid('must contain one of {}.'.format(', '.join(keys)))
@@ -282,7 +282,7 @@ def template_complex(value):
             value[idx] = template_complex(element)
         return value
     if isinstance(value, dict):
-        for key, element in value.items():
+        for key, element in list(value.items()):
             value[key] = template_complex(element)
         return value
 
@@ -376,7 +376,7 @@ def ordered_dict(value_validator, key_validator=match_all):
         """Validate ordered dict."""
         config = OrderedDict()
 
-        for key, val in value.items():
+        for key, val in list(value.items()):
             v_res = item_validator({key: val})
             config.update(v_res)
 

@@ -1,4 +1,4 @@
-import StringIO
+import io
 import os.path
 import pycurl
 import time
@@ -29,7 +29,7 @@ while True:
 	c = pycurl.Curl()
 	c.setopt(pycurl.VERBOSE, 0)
 	c.setopt(pycurl.URL, url)
-	fout = StringIO.StringIO()
+	fout = io.StringIO()
 	c.setopt(pycurl.WRITEFUNCTION, fout.write)
 
 	c.setopt(pycurl.POST, 1)
@@ -54,7 +54,7 @@ while True:
 	c.close()
 
 
-	print "You Said:" + final_result
+	print("You Said:" + final_result)
 	d = 'espeak -vhi+m5 -k5 -s160 -a200 -p90 --punct="<characters>" "%s" 2>>/dev/null' % final_result #speak aloud
 	execute_unix(d)
 #	final_result="Who is God Shiva?"

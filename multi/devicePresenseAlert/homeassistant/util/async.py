@@ -1,7 +1,7 @@
 """Asyncio backports for Python 3.4.3 compatibility."""
 import concurrent.futures
 import threading
-import logging
+from . import logging
 from asyncio import coroutines
 from asyncio.futures import Future
 

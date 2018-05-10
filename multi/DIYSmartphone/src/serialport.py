@@ -20,9 +20,9 @@ class SerialPort():
 
         #Check for good return
         if 'OK' in reply:
-            print 'Connected to FONA'
+            print('Connected to FONA')
         else:
-            print 'Error Comunicating with FONA'
+            print('Error Comunicating with FONA')
 
     def transmit(self, data):
         self.serialport.write(data + '\r')
@@ -33,7 +33,7 @@ class SerialPort():
     
     def check(self):
         self.model = self.transmit('ATI')
-        print self.model
+        print(self.model)
 
     def close(self):
         self.serialport.close()

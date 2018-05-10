@@ -69,9 +69,9 @@ if temperature is not None:
 # If this happens try again!
 if humidity is not None and temperature is not None:
         json_data = json.dumps(data)
-        print 'Temp={0:0.1f}*F  Humidity={1:0.1f}%'.format(temperature, humidity)
+        print('Temp={0:0.1f}*F  Humidity={1:0.1f}%'.format(temperature, humidity))
         f.write(str(json_data)+'\n')
         x = requests.post(Apiurl, data=json_data, verify=False)
-        print 'Result of http request: ' + str(x.status_code)
+        print('Result of http request: ' + str(x.status_code))
 else:
-        print 'Failed to get reading. Try again!'
+        print('Failed to get reading. Try again!')

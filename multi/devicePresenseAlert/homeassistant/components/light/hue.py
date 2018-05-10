@@ -73,7 +73,7 @@ def _find_host_from_config(hass, filename=PHUE_CONFIG_FILE):
 
     try:
         with open(path) as inp:
-            return next(json.loads(''.join(inp)).keys().__iter__())
+            return next(list(json.loads(''.join(inp)).keys()).__iter__())
     except (ValueError, AttributeError, StopIteration):
         # ValueError if can't parse as JSON
         # AttributeError if JSON value is not a dict
@@ -180,7 +180,7 @@ def setup_bridge(host, hass, add_devices, filename, allow_unreachable):
         else:
             bridge_type = 'hue'
 
-        for light_id, info in api_lights.items():
+        for light_id, info in list(api_lights.items()):
             if light_id not in lights:
                 lights[light_id] = HueLight(int(light_id), info,
                                             bridge, update_lights,
@@ -190,7 +190,7 @@ def setup_bridge(host, hass, add_devices, filename, allow_unreachable):
                 lights[light_id].info = info
                 lights[light_id].schedule_update_ha_state()
 
-        for lightgroup_id, info in api_groups.items():
+        for lightgroup_id, info in list(api_groups.items()):
             if 'state' not in info:
                 _LOGGER.warning('Group info does not contain state. '
                                 'Please update your hub.')

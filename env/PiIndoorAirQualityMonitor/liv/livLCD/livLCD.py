@@ -13,11 +13,11 @@ import os
 import sqlite3
 import logging
 import logging.config
-import ConfigParser
+import configparser
 from lcd16x2 import lcd16x2
 
 # Read parameters from configuration file
-config = ConfigParser.ConfigParser()
+config = configparser.ConfigParser()
 config.read('./livLCD.config')
 
 LCDAddress = config.get('LCD_DISPLAY', 'I2C_address')
@@ -134,7 +134,7 @@ while(True):
       del dData[v]
       del aValues[v]
 
-  lcdDisplayData = zip(dStrings.values(),dData.values()) 
+  lcdDisplayData = list(zip(list(dStrings.values()),list(dData.values()))) 
   
   
   for x in range(0,displayCycles):
@@ -146,7 +146,7 @@ while(True):
       lcd.cleanSecondLine()    
       
       lcd.writeFirstLine(l[0])
-      if (aValues.values()[idx] == True):
+      if (list(aValues.values())[idx] == True):
         #blink every 0.5 seconds
         t=0
         while(t < displayTime):

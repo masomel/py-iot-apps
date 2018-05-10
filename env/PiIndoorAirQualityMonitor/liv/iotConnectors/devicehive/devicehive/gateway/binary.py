@@ -307,7 +307,7 @@ class AbstractBinaryProperty(property):
     
     def __init__(self, type, fget = None, fset = None):
         if (fget is None) and (fset is None) :
-            fieldname = AbstractBinaryProperty.__prop_counter.next()
+            fieldname = next(AbstractBinaryProperty.__prop_counter)
             fieldtype = type
             def getter(self):
                 return getattr(self, fieldname, AbstractBinaryProperty.__DEFAULT_VALUE__[fieldtype])
@@ -614,7 +614,7 @@ class BinaryFormatter(object) :
             members[prop_name] = prop
             members['__binary_struct__'].append(prop)
         
-        return type(BinaryFormatter.__class_counter.next(), (object,), members)
+        return type(next(BinaryFormatter.__class_counter), (object,), members)
     
     @staticmethod
     def deserialize_json_array_definition(json):
@@ -835,7 +835,7 @@ class Updateable(object):
         
         cls = obj.__class__
         # iterate over AbstractBinaryProperties which names are present in value dictionary
-        for prop, pname in [x for x in [(getattr(cls, pname), pname) for pname in dir(cls) if value.has_key(pname)] if isinstance(x[0], AbstractBinaryProperty) and x[0] in cls.__binary_struct__] :
+        for prop, pname in [x for x in [(getattr(cls, pname), pname) for pname in dir(cls) if pname in value] if isinstance(x[0], AbstractBinaryProperty) and x[0] in cls.__binary_struct__] :
             if prop.type == DATA_TYPE_OBJECT :
                 o = prop.qualifier()
                 Updateable.update_object(o, value[pname])
@@ -905,7 +905,7 @@ class BinaryConstructable(object):
                 prop = binary_property(fieldtype)
             members[fieldname] = prop
             members['__binary_struct__'].append(prop)
-        return type(BinaryConstructable.__descriptor_counter.next(), (ToDictionary, Updateable), members)
+        return type(next(BinaryConstructable.__descriptor_counter), (ToDictionary, Updateable), members)
 
 
 def define_accessors(field):
@@ -1204,7 +1204,7 @@ class BinaryFactory(ServerFactory):
         log.msg('A new command has came from a device-hive server to device "{0}".'.format(device))
         command_id = command.id
         command_name = command.command
-        descrs = [x for x in self.command_descriptors[device.id].values() if x.name == command_name]
+        descrs = [x for x in list(self.command_descriptors[device.id].values()) if x.name == command_name]
         if len(descrs) > 0:
             log.msg('Has found {0} matching command {1} descriptor(s).'.format(len(descrs), command))
             command_desc = descrs[0]

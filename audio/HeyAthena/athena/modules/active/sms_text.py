@@ -23,7 +23,7 @@ class SendTextTask(ActiveTask):
         return self.match_and_save_groups(text, self.groups)
 
     def action(self, text):
-        for key_num, aliases in settings.CONTACTS.items():
+        for key_num, aliases in list(settings.CONTACTS.items()):
             for alias in aliases:
                 if alias in self.msg.lower():
                     self.msg = self.msg.lower().replace(alias, key_num, 1)

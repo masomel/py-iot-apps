@@ -1,12 +1,12 @@
 """YAML utility functions."""
-import logging
+from . import logging
 import os
 import sys
 import fnmatch
 from collections import OrderedDict
 from typing import Union, List, Dict
 
-import yaml
+from . import yaml
 try:
     import keyring
 except ImportError:

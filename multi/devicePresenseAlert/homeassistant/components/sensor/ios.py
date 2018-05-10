@@ -22,7 +22,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     if discovery_info is None:
         return
     dev = list()
-    for device_name, device in ios.devices().items():
+    for device_name, device in list(ios.devices().items()):
         for sensor_type in ("level", "state"):
             dev.append(IOSSensor(sensor_type, device_name, device))
 

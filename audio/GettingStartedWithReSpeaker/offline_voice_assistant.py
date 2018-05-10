@@ -31,7 +31,7 @@ def task(quit_event):
             data = mic.listen()
             text = mic.recognize(data)
             if text:
-                print('Recognized %s' % text)
+                print(('Recognized %s' % text))
 
 
 def main():

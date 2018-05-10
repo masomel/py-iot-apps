@@ -79,22 +79,22 @@ params=(
 )
 )
 #time.sleep(2)
-print" ===========after sleep"
-print str(response.code)
-print"response.code"
-print str(response.headers)
-print" response.headers"
-print str(response.body)
+print(" ===========after sleep")
+print(str(response.code))
+print("response.code")
+print(str(response.headers))
+print(" response.headers")
+print(str(response.body))
 x = str(response.body)
-print" response.body"
-print str(response.raw_body)
+print(" response.body")
+print(str(response.raw_body))
 o = str(response.raw_body)
-print"raw"
+print("raw")
 import re
-p = re.compile(ur'"_text" : "(?s)(.*)",')
+p = re.compile(r'"_text" : "(?s)(.*)",')
 t = re.search(p, o)
 t = t.group(1)
-print t
+print(t)
 
 
 

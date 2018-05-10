@@ -1,6 +1,6 @@
 """Logging utilities."""
 import asyncio
-import logging
+from . import logging
 import threading
 
 from .async import run_coroutine_threadsafe

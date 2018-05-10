@@ -89,7 +89,7 @@ class WsClientSendingTestCase(unittest.TestCase):
             'Sec-WebSocket-Protocol: device-hive, devicehive\r\n',
             'Sec-WebSocket-Version: 13\r\n\r\n',
         ))
-        self.assertEquals(origin, self.transport.value())
+        self.assertEqual(origin, self.transport.value())
 
         proto.dataReceived('HTTP/1.1 101 OK\r\n\r\n')
         self.assertTrue(self.handler.is_connected)
@@ -99,7 +99,7 @@ class WsClientSendingTestCase(unittest.TestCase):
         proto.socket.rand = Random(1)
         defer = self.factory.send_message({'test': True})
         self.assertIsInstance(defer, Deferred)
-        self.assertEquals('{{"test": true, "requestId": {0}}}'.format(max(proto.msg_callbacks.keys())), decode_ws_message(self.transport.value()))
+        self.assertEqual('{{"test": true, "requestId": {0}}}'.format(max(proto.msg_callbacks.keys())), decode_ws_message(self.transport.value()))
         self.assertFalse(defer.called)
         # testing message response
         request_id = max(proto.msg_callbacks.keys())
@@ -122,38 +122,38 @@ class WsClientMethodsTestCase(unittest.TestCase):
         self.transport.clear()
         defer = self.factory.notify('nt', {'a':1,'b':2}, device_id='123', device_key='321')
         s = decode_ws_message(self.transport.value())
-        self.assertEquals({u'action': u'notification/insert',
-                           u'notification': {u'notification': u'nt',
-                                             u'parameters': {u'a': 1, u'b': 2}},
-                           u'deviceKey': u'321',
-                           u'deviceId': u'123',
-                           u'requestId': max(self.proto.msg_callbacks.keys())}, json.loads(s))
+        self.assertEqual({'action': 'notification/insert',
+                           'notification': {'notification': 'nt',
+                                             'parameters': {'a': 1, 'b': 2}},
+                           'deviceKey': '321',
+                           'deviceId': '123',
+                           'requestId': max(self.proto.msg_callbacks.keys())}, json.loads(s))
     
     def test_subscribe(self):
         self.transport.clear()
         defer = self.factory.subscribe('123', '321')
         s = decode_ws_message(self.transport.value())
-        self.assertEquals({u'action': u'command/subscribe',
-                           u'deviceId': u'123',
-                           u'deviceKey': u'321',
-                           u'requestId': max(self.proto.msg_callbacks.keys())}, json.loads(s))
+        self.assertEqual({'action': 'command/subscribe',
+                           'deviceId': '123',
+                           'deviceKey': '321',
+                           'requestId': max(self.proto.msg_callbacks.keys())}, json.loads(s))
     
     def test_unsubscribe(self):
         self.transport.clear()
         defer = self.factory.unsubscribe('123', '312')
         s = decode_ws_message(self.transport.value())
-        self.assertEquals({u'action': u'command/unsubscribe',
-                           u'deviceKey': u'312',
-                           u'deviceId': u'123',
-                           u'requestId': max(self.proto.msg_callbacks.keys())}, json.loads(s))
+        self.assertEqual({'action': 'command/unsubscribe',
+                           'deviceKey': '312',
+                           'deviceId': '123',
+                           'requestId': max(self.proto.msg_callbacks.keys())}, json.loads(s))
     
     def test_authenticate(self):
         self.factory.authenticate('123', '321')
         s = decode_ws_message(self.transport.value())
-        self.assertEquals({u'action': u'authenticate',
-                           u'deviceId': u'123',
-                           u'deviceKey': u'321',
-                           u'requestId': max(self.proto.msg_callbacks.keys())}, json.loads(s))
+        self.assertEqual({'action': 'authenticate',
+                           'deviceId': '123',
+                           'deviceKey': '321',
+                           'requestId': max(self.proto.msg_callbacks.keys())}, json.loads(s))
 
     def create_test_device(self):
         class TestDev(object):
@@ -176,15 +176,15 @@ class WsClientMethodsTestCase(unittest.TestCase):
         s = decode_ws_message(self.transport.value())
 
         self.assertDictEqual({
-            u'action': u'device/save',
-            u'device': {
-                u'equipment': [],
-                u'name': u'td_name',
-                u'key': u'td_key',
+            'action': 'device/save',
+            'device': {
+                'equipment': [],
+                'name': 'td_name',
+                'key': 'td_key',
             },
-            u'deviceKey': u'td_key',
-            u'deviceId': u'td_id',
-            u'requestId': max(self.proto.msg_callbacks.keys()),
+            'deviceKey': 'td_key',
+            'deviceId': 'td_id',
+            'requestId': max(self.proto.msg_callbacks.keys()),
         }, json.loads(s))
 
     def test_device_save_with_equipment(self):
@@ -195,15 +195,15 @@ class WsClientMethodsTestCase(unittest.TestCase):
         s = decode_ws_message(self.transport.value())
 
         self.assertDictEqual({
-            u'action': u'device/save',
-            u'device': {
-                u'equipment': [{u'name': u'en', u'code': u'cd', u'type': u'tp', }, ],
-                u'name': u'td_name',
-                u'key': u'td_key'
+            'action': 'device/save',
+            'device': {
+                'equipment': [{'name': 'en', 'code': 'cd', 'type': 'tp', }, ],
+                'name': 'td_name',
+                'key': 'td_key'
             },
-            u'deviceKey': u'td_key',
-            u'deviceId': u'td_id',
-            u'requestId': max(self.proto.msg_callbacks.keys()),
+            'deviceKey': 'td_key',
+            'deviceId': 'td_id',
+            'requestId': max(self.proto.msg_callbacks.keys()),
         }, json.loads(s))
 
     def test_device_save_with_equipment_and_data(self):
@@ -214,15 +214,15 @@ class WsClientMethodsTestCase(unittest.TestCase):
         s = decode_ws_message(self.transport.value())
 
         self.assertDictEqual({
-            u'action': u'device/save',
-            u'device': {
-                u'equipment': [{u'name': u'en', u'code': u'cd', u'type': u'tp', u'data': u'dt', }, ],
-                u'name': u'td_name',
-                u'key': u'td_key'
+            'action': 'device/save',
+            'device': {
+                'equipment': [{'name': 'en', 'code': 'cd', 'type': 'tp', 'data': 'dt', }, ],
+                'name': 'td_name',
+                'key': 'td_key'
             },
-            u'deviceKey': u'td_key',
-            u'deviceId': u'td_id',
-            u'requestId': max(self.proto.msg_callbacks.keys()),
+            'deviceKey': 'td_key',
+            'deviceId': 'td_id',
+            'requestId': max(self.proto.msg_callbacks.keys()),
         }, json.loads(s))
 
     def test_device_save_with_network(self):
@@ -233,21 +233,21 @@ class WsClientMethodsTestCase(unittest.TestCase):
         result = json.loads(decode_ws_message(self.transport.value()))
 
         self.assertDictEqual({
-            u'action': u'device/save',
-            u'device': {
-                u'equipment': [],
-                u'name': u'td_name',
-                u'key': u'td_key',
-                u'network': {
-                    u'id': u'nid',
-                    u'name': u'nname',
-                    u'key': u'nkey',
-                    u'description': 'ndesr'
+            'action': 'device/save',
+            'device': {
+                'equipment': [],
+                'name': 'td_name',
+                'key': 'td_key',
+                'network': {
+                    'id': 'nid',
+                    'name': 'nname',
+                    'key': 'nkey',
+                    'description': 'ndesr'
                 }
             },
-            u'deviceKey': u'td_key',
-            u'deviceId': u'td_id',
-            u'requestId': max(self.proto.msg_callbacks.keys()),
+            'deviceKey': 'td_key',
+            'deviceId': 'td_id',
+            'requestId': max(self.proto.msg_callbacks.keys()),
         }, result)
 
 

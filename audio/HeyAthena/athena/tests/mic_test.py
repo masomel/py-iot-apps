@@ -22,18 +22,18 @@ try:
     text = ''
     while 'q' not in text.lower():
         print('\n~ Type \'q\' at any time to quit')
-        text = input('~ Test Active or Passive Listening? (A/P): ')
+        text = eval(input('~ Test Active or Passive Listening? (A/P): '))
         if 'p' in text.lower():
-            print('\n~ Wake Up Word: \''+settings.WAKE_UP_WORD+'\'')
+            print(('\n~ Wake Up Word: \''+settings.WAKE_UP_WORD+'\''))
             stt.listen_keyword()
             print('~ Wake Up Word Detected!')
         elif 'a' in text.lower():
             text = stt.active_listen()
-            print("~ Text received: "+text)
+            print(("~ Text received: "+text))
     
     print('\nMicrophone Test PASSED! :)\n')
 except Exception as e:
-    print(traceback.format_exc())
+    print((traceback.format_exc()))
     if 'invalid input device' in str(e).lower():
         print('\n~ PyAudio could not detect a microphone!')
         print('~ Try using a USB microphone and connecting it to different ports.')

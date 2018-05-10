@@ -17,23 +17,23 @@ class Server():
         self.port = 5150
         self.server.bind((self.host, self.port))
         self.server.listen(5)
-        print 'Listing for a client...'
+        print('Listing for a client...')
         self.client, self.addr = self.server.accept()
-        print 'Accepted connection from ', self.addr
+        print('Accepted connection from ', self.addr)
         self.client.send(str.encode('Connection made with Andy'))
 
     def get_cmd(self):
         try:
             self.data = self.client.recv(1024)
         except:
-            print 'Lost Connection with ', self.addr
+            print('Lost Connection with ', self.addr)
             return None
-        print 'Recieved data from client: ', bytes.decode(self.data)
+        print('Recieved data from client: ', bytes.decode(self.data))
 
         return bytes.decode(self.data)
 
     def end(self):
-        print 'Closing connection...'
+        print('Closing connection...')
         self.client.close()
         
 def start():

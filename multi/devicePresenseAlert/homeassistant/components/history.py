@@ -235,7 +235,7 @@ class HistoryPeriodView(HomeAssistantView):
             None, get_significant_states, start_time, end_time, entity_id,
             self.filters)
 
-        return self.json(result.values())
+        return self.json(list(result.values()))
 
 
 class Filters(object):

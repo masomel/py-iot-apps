@@ -2,7 +2,7 @@ import MySQLdb
 import time
 import sys
 import traceback
-from thread import *
+from _thread import *
 
 from pushbullet import PushBullet
 

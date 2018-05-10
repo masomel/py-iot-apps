@@ -69,7 +69,7 @@ def async_setup(hass, config):
 
     entities = []
 
-    for object_id, cfg in config[DOMAIN].items():
+    for object_id, cfg in list(config[DOMAIN].items()):
         if not cfg:
             cfg = DEFAULT_CONFIG
 

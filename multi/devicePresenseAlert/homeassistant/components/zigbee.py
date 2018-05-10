@@ -201,7 +201,7 @@ class ZigBeeDigitalInConfig(ZigBeePinConfig):
                 True: True,
                 False: False
             }
-        state2bool = {v: k for k, v in bool2state.items()}
+        state2bool = {v: k for k, v in list(bool2state.items())}
         return bool2state, state2bool
 
     @property
@@ -251,7 +251,7 @@ class ZigBeeDigitalOutConfig(ZigBeePinConfig):
                 True: GPIO_DIGITAL_OUTPUT_HIGH,
                 False: GPIO_DIGITAL_OUTPUT_LOW
             }
-        state2bool = {v: k for k, v in bool2state.items()}
+        state2bool = {v: k for k, v in list(bool2state.items())}
         return bool2state, state2bool
 
     @property

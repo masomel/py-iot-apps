@@ -4,7 +4,7 @@ import smbus
 import time
 from ctypes import c_short
 import time 
-import httplib,urllib
+import http.client,urllib.request,urllib.parse,urllib.error
 DEVICE = 0x77 # Default device I2C address
  
 #bus = smbus.SMBus(0)  # Rev 1 Pi uses 0
@@ -103,22 +103,22 @@ def readBmp180(addr=DEVICE):
 def main():
     
   (chip_id, chip_version) = readBmp180Id()
-  print "Chip ID     :", chip_id
-  print "Version     :", chip_version
+  print("Chip ID     :", chip_id)
+  print("Version     :", chip_version)
 
-  print
+  print()
   
   (temperature,pressure)=readBmp180()
-  conn=httplib.HTTPConnection("api.thingspeak.com:80")
-  print "Temperature : ", temperature, "C"
-  print "Pressure    : ", pressure, "mbar\n\n"
+  conn=http.client.HTTPConnection("api.thingspeak.com:80")
+  print("Temperature : ", temperature, "C")
+  print("Pressure    : ", pressure, "mbar\n\n")
   headers={"Content-type":"application/x-www-form-urlencoded","Accept":"text/plain"}
   for i in range(0,100):
     (temperature,pressure)=readBmp180()
-    params=urllib.urlencode({'field1':temperature,'field2':pressure,'key':'Your Write API key'})
+    params=urllib.parse.urlencode({'field1':temperature,'field2':pressure,'key':'Your Write API key'})
     conn.request("POST","/update",params,headers)
     response=conn.getresponse()
-    print response.status,response.reason
+    print(response.status,response.reason)
     data = response.read()
   conn.close()
 if __name__=="__main__":   

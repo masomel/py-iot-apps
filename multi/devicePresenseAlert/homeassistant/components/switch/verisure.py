@@ -22,7 +22,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     switches = []
     switches.extend([
         VerisureSmartplug(value.deviceLabel)
-        for value in hub.smartplug_status.values()])
+        for value in list(hub.smartplug_status.values())])
     add_devices(switches)
 
 

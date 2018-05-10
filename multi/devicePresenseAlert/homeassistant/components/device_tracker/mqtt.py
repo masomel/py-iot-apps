@@ -34,7 +34,7 @@ def setup_scanner(hass, config, see):
         """MQTT message received."""
         see(dev_id=dev_id_lookup[topic], location_name=payload)
 
-    for dev_id, topic in devices.items():
+    for dev_id, topic in list(devices.items()):
         dev_id_lookup[topic] = dev_id
         mqtt.subscribe(hass, topic, device_tracker_message_received, qos)
 

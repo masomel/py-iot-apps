@@ -46,7 +46,7 @@ def repr_helper(inp: Any) -> str:
     if isinstance(inp, (dict, MappingProxyType)):
         return ", ".join(
             repr_helper(key)+"="+repr_helper(item) for key, item
-            in inp.items())
+            in list(inp.items()))
     elif isinstance(inp, datetime):
         return as_local(inp).isoformat()
     else:

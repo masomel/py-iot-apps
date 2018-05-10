@@ -137,7 +137,7 @@ class YamahaDevice(MediaPlayerDevice):
     def build_source_list(self):
         """Build the source list."""
         self._reverse_mapping = {alias: source for source, alias in
-                                 self._source_names.items()}
+                                 list(self._source_names.items())}
 
         self._source_list = sorted(
             self._source_names.get(source, source) for source in
@@ -189,7 +189,7 @@ class YamahaDevice(MediaPlayerDevice):
                    'stop': SUPPORT_STOP,
                    'skip_f': SUPPORT_NEXT_TRACK,
                    'skip_r': SUPPORT_PREVIOUS_TRACK}
-        for attr, feature in mapping.items():
+        for attr, feature in list(mapping.items()):
             if getattr(supports, attr, False):
                 supported_commands |= feature
         return supported_commands
@@ -231,7 +231,7 @@ class YamahaDevice(MediaPlayerDevice):
 
     def media_next_track(self):
         """Send next track command."""
-        self._call_playback_function(self._receiver.next, "next track")
+        self._call_playback_function(self._receiver.__next__, "next track")
 
     def _call_playback_function(self, function, function_text):
         import rxv

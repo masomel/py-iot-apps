@@ -41,7 +41,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Setup the Radio Thermostat."""
-    import radiotherm
+    from . import radiotherm
 
     hosts = []
     if CONF_HOST in config:

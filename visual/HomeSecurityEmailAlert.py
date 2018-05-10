@@ -31,16 +31,16 @@ while True:
 
     if current_state != previous_state:
         new_state = "HIGH" if current_state else "LOW"
-        print("GPIO pin %s is %s" % (sensor, new_state))
+        print(("GPIO pin %s is %s" % (sensor, new_state)))
         if current_state:
                 cap = cv2.VideoCapture(0)
                 ret, frame = cap.read()
                 cap = cv2.VideoCapture(0)
-                print "Saving Photo"
+                print("Saving Photo")
                 picname = datetime.now().strftime("%y-%m-%d-%H-%M")
                 picname = picname+'.jpg'
                 cv2.imwrite(picname, frame)
-                print "Sending email"
+                print("Sending email")
 
                 attach = picname
 
@@ -67,5 +67,5 @@ while True:
                 mailServer.sendmail(gmail_user, to, msg.as_string())
                 # Should be mailServer.quit(), but that crashes...
                 mailServer.close()
-                print "Email Sent"
+                print("Email Sent")
                 os.remove(picname)

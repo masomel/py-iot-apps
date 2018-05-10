@@ -20,4 +20,4 @@ try:
         brain.inst.execute_mods(text)
     print('~ Input Test passed! :)')
 except:
-    print(traceback.format_exc())
+    print((traceback.format_exc()))

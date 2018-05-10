@@ -2,7 +2,7 @@
 
 from time import sleep
 import os
-import http.client, urllib
+import http.client, urllib.request, urllib.parse, urllib.error
 import RPi.GPIO as GPIO
 import subprocess
 import datetime
@@ -67,21 +67,21 @@ def PushOver(title,message,url):
 # Application specific variables
  
 # PushOver('Doorbell','Started','')
-print 'Doorbell Server Started\r'
+print('Doorbell Server Started\r')
  
 while True:
 	if (GPIO.input(18) == False):
-      		print 'Button Pushed!\r'
+      		print('Button Pushed!\r')
 		
 
       		os.system('mpg321 -g 100 /home/pi/Ringtones/doorbell1.mp3 &amp;')
 
 		now = datetime.datetime.now()
                 timeString = now.strftime("%Y-%m-%d_%H_%M_%S")
-                print("request received" + timeString)
+                print(("request received" + timeString))
 		filename = timeString + '.jpg'
 		
-		print "BUTTON DOWN PRESSED"
+		print("BUTTON DOWN PRESSED")
 		takepic(filename)
 
 		#query="INSERT INTO images (id,url,date) VALUES (NULL," + filename  + ",NULL)"
@@ -98,5 +98,5 @@ while True:
 	
 # this is never hit, but should be here to indicate if you plan on leaving the main loop
 
-print "done"
+print("done")
 sleep(0.2);

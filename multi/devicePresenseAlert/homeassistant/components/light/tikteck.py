@@ -34,7 +34,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Set up the Tikteck platform."""
     lights = []
-    for address, device_config in config[CONF_DEVICES].items():
+    for address, device_config in list(config[CONF_DEVICES].items()):
         device = {}
         device['name'] = device_config[CONF_NAME]
         device['password'] = device_config[CONF_PASSWORD]
@@ -51,7 +51,7 @@ class TikteckLight(Light):
 
     def __init__(self, device):
         """Initialize the light."""
-        import tikteck
+        from . import tikteck
 
         self._name = device['name']
         self._address = device['address']

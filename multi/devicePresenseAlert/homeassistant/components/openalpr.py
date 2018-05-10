@@ -230,7 +230,7 @@ class OpenalprDevice(Entity):
         plate = STATE_UNKNOWN
 
         # search high plate
-        for i_pl, i_co in self._last.items():
+        for i_pl, i_co in list(self._last.items()):
             if i_co > confidence:
                 confidence = i_co
                 plate = i_pl
@@ -463,7 +463,7 @@ class OpenalprApiLocal(OpenalprApi):
         # process result
         f_plates = {}
         for found in result:
-            for plate, confidence in found.items():
+            for plate, confidence in list(found.items()):
                 if confidence >= self._confidence:
                     f_plates[plate] = confidence
         event_callback(f_plates)

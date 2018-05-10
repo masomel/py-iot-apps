@@ -43,14 +43,14 @@ class ArduinoIR():
             self.serialPortsArray = []
             self.serialPortsArray = self.listSerialPorts()
         except:
-            print "Is the arduino plugged in?"
+            print("Is the arduino plugged in?")
         if len(self.serialPortsArray) == 1:
             self.ser = serial.Serial(self.serialPortsArray[0],
                                      timeout=5)  # open first serial port
             self.ser.write(command)  # write a string
             self.response = self.ser.readline()
             if self.response.endswith("is an unknown command"):
-                print "The Arduino didn't understand our command"
+                print("The Arduino didn't understand our command")
                 raise Exception
-            print(self.response),
+            print((self.response), end=' ')
             self.ser.close()  # close port

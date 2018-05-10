@@ -34,9 +34,9 @@ class Servo():
     def move(self, position, servo):
         self.dutyCyclePercentage = position * 100 / self.msPerCycle
         if self.DEBUG:
-            print 'Position: ' + str(position)
-            print 'Duty Cycle: ' + str(self.dutyCyclePercentage) + '%'
-            print
+            print('Position: ' + str(position))
+            print('Duty Cycle: ' + str(self.dutyCyclePercentage) + '%')
+            print()
 
         servo.start(self.dutyCyclePercentage)
         

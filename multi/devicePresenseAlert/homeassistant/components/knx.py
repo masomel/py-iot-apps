@@ -280,7 +280,7 @@ class KNXMultiAddressDevice(Entity):
 
         This is mostly important for optional addresses.
         """
-        for attributename, dummy_attribute in self.names.items():
+        for attributename, dummy_attribute in list(self.names.items()):
             if attributename == name:
                 return True
         return False
@@ -290,7 +290,7 @@ class KNXMultiAddressDevice(Entity):
         from knxip.core import KNXException
 
         addr = None
-        for attributeaddress, attributename in self.names.items():
+        for attributeaddress, attributename in list(self.names.items()):
             if attributename == name:
                 addr = attributeaddress
 
@@ -311,7 +311,7 @@ class KNXMultiAddressDevice(Entity):
         from knxip.core import KNXException
 
         addr = None
-        for attributeaddress, attributename in self.names.items():
+        for attributeaddress, attributename in list(self.names.items()):
             if attributename == name:
                 addr = attributeaddress
 

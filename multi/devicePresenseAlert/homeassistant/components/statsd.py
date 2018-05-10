@@ -40,7 +40,7 @@ CONFIG_SCHEMA = vol.Schema({
 
 def setup(hass, config):
     """Setup the StatsD component."""
-    import statsd
+    from . import statsd
 
     conf = config[DOMAIN]
     host = conf.get(CONF_HOST)
@@ -77,7 +77,7 @@ def setup(hass, config):
                 )
 
             # Send attribute values
-            for key, value in states.items():
+            for key, value in list(states.items()):
                 if isinstance(value, (float, int)):
                     stat = "%s.%s" % (state.entity_id, key.replace(' ', '_'))
                     statsd_client.gauge(stat, value, sample_rate)

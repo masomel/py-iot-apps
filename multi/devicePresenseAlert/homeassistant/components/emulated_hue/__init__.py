@@ -157,7 +157,7 @@ class Config(object):
             return entity_id
 
         # Google Home
-        for number, ent_id in self.numbers.items():
+        for number, ent_id in list(self.numbers.items()):
             if entity_id == ent_id:
                 return number
 

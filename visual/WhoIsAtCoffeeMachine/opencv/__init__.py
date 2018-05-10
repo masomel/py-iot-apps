@@ -1,2 +1,2 @@
-import config
-import face
+from . import config
+from . import face

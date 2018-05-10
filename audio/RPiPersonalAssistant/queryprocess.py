@@ -23,6 +23,6 @@ if len(res.pods) > 0:
         texts = "I have no answer for that"
         # to skip ascii character in case of error
         texts = texts.encode('ascii', 'ignore')
-    print texts
+    print(texts)
 else:
-    print "Sorry, I am not sure."
+    print("Sorry, I am not sure.")

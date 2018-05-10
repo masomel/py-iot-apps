@@ -91,7 +91,7 @@ def _valid_customize(value):
     if not isinstance(value, dict):
         raise vol.Invalid('Expected dictionary')
 
-    for key, val in value.items():
+    for key, val in list(value.items()):
         if not valid_entity_id(key):
             raise vol.Invalid('Invalid entity ID: {}'.format(key))
 
@@ -130,8 +130,8 @@ def ensure_config_exists(config_dir: str, detect_location: bool=True) -> str:
     config_path = find_config_file(config_dir)
 
     if config_path is None:
-        print("Unable to find configuration. Creating default one in",
-              config_dir)
+        print(("Unable to find configuration. Creating default one in",
+              config_dir))
         config_path = create_default_config(config_dir, detect_location)
 
     return config_path
@@ -186,7 +186,7 @@ def create_default_config(config_dir, detect_location=True):
         return config_path
 
     except IOError:
-        print('Unable to create default configuration file', config_path)
+        print(('Unable to create default configuration file', config_path))
         return None
 
 

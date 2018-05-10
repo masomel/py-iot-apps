@@ -12,9 +12,9 @@ GPIO.setup(13,GPIO.IN)
 GPIO.setup(15,GPIO.IN)
 GPIO.setup(16,GPIO.IN)
 
-timeset_HH = input('Enter the hour you would like to be emailed at: ') #Enter time to be emailed at in 24-hour time
+timeset_HH = eval(input('Enter the hour you would like to be emailed at: ')) #Enter time to be emailed at in 24-hour time
 
-timeset_MM = input('Enter the minute you would like to be emailed at: ')
+timeset_MM = eval(input('Enter the minute you would like to be emailed at: '))
 
 mail = smtplib.SMTP('smtp.gmail.com',587) #Set up and login to email
 

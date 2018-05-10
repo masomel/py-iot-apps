@@ -71,7 +71,7 @@ CONFIG_SCHEMA = vol.Schema({
 
 def setup(hass, config):
     """Setup the MySensors component."""
-    import mysensors.mysensors as mysensors
+    from . import mysensors.mysensors as mysensors
 
     version = config[DOMAIN].get(CONF_VERSION)
     persistence = config[DOMAIN].get(CONF_PERSISTENCE)
@@ -180,8 +180,8 @@ def pf_callback_factory(map_sv_types, devices, add_devices, entity_class):
             _LOGGER.info('No sketch_name: node %s', node_id)
             return
 
-        for child in gateway.sensors[node_id].children.values():
-            for value_type in child.values.keys():
+        for child in list(gateway.sensors[node_id].children.values()):
+            for value_type in list(child.values.keys()):
                 key = node_id, child.id, value_type
                 if child.type not in map_sv_types or \
                         value_type not in map_sv_types[child.type]:
@@ -318,7 +318,7 @@ class MySensorsDeviceEntity(object):
 
         set_req = self.gateway.const.SetReq
 
-        for value_type, value in self._values.items():
+        for value_type, value in list(self._values.items()):
             try:
                 attr[set_req(value_type).name] = value
             except ValueError:
@@ -337,7 +337,7 @@ class MySensorsDeviceEntity(object):
         node = self.gateway.sensors[self.node_id]
         child = node.children[self.child_id]
         set_req = self.gateway.const.SetReq
-        for value_type, value in child.values.items():
+        for value_type, value in list(child.values.items()):
             _LOGGER.debug(
                 "%s: value_type %s, value = %s", self._name, value_type, value)
             if value_type in (set_req.V_ARMED, set_req.V_LIGHT,

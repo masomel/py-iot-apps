@@ -6,7 +6,7 @@ Functions to help with the detection and cropping of faces.
 """
 import cv2
 
-import config
+from . import config
 
 
 haar_faces = cv2.CascadeClassifier(config.HAAR_FACES)

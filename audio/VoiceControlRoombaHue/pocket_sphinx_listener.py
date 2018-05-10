@@ -44,7 +44,7 @@ class PocketSphinxListener(object):
                                        frames_per_buffer=self.bitesize)
 
         # Let the use know that we're ready for them to speak
-        print 'Need more input: '
+        print('Need more input: ')
 
         # This is a flag that we'll use in a bit to determine whether we are going from silence to speech
         # or from speech to silence.
@@ -82,7 +82,7 @@ class PocketSphinxListener(object):
                     self.hypothesis = self.decoder.hyp()
                     if self.hypothesis is not None:
                         bestGuess = self.hypothesis.hypstr
-                        print 'I just heard you say:"{}"'.format(bestGuess)
+                        print('I just heard you say:"{}"'.format(bestGuess))
                         # We are done with the microphone for now so we'll close the stream.
                         self.stream.stop_stream()
                         self.stream.close()
@@ -92,4 +92,4 @@ class PocketSphinxListener(object):
                         return bestGuess
                 # The following is here for debugging to see what the decoder thinks we're saying as we go
                 if debug and self.decoder.hyp() is not None:
-                    print self.decoder.hyp().hypstr
+                    print(self.decoder.hyp().hypstr)

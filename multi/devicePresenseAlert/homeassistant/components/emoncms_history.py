@@ -79,7 +79,7 @@ def setup(hass, config):
         if len(payload_dict) > 0:
             payload = "{%s}" % ",".join("{}:{}".format(key, val)
                                         for key, val in
-                                        payload_dict.items())
+                                        list(payload_dict.items()))
 
             send_data(conf.get(CONF_URL), conf.get(CONF_API_KEY),
                       str(conf.get(CONF_INPUTNODE)), payload)

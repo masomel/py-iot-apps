@@ -96,7 +96,7 @@ def async_setup(hass, config):
 
     entities = []
 
-    for object_id, cfg in config[DOMAIN].items():
+    for object_id, cfg in list(config[DOMAIN].items()):
         name = cfg.get(CONF_NAME)
         options = cfg.get(CONF_OPTIONS)
         state = cfg.get(CONF_INITIAL, options[0])

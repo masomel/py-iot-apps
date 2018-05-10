@@ -41,7 +41,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
 
     switches = []
     ports = config.get(CONF_PORTS)
-    for port, name in ports.items():
+    for port, name in list(ports.items()):
         switches.append(RPiGPIOSwitch(name, port, invert_logic))
     add_devices(switches)
 

@@ -85,7 +85,7 @@ class PilightSensor(Entity):
         # Check if received code matches defined playoad
         # True if payload is contained in received code dict, not
         # all items have to match
-        if self._payload.items() <= call.data.items():
+        if list(self._payload.items()) <= list(call.data.items()):
             try:
                 value = call.data[self._variable]
                 self._state = value

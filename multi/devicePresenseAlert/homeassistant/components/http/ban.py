@@ -111,7 +111,7 @@ def load_ip_bans_config(path: str):
         _LOGGER.error('Unable to load %s: %s', path, str(err))
         return []
 
-    for ip_ban, ip_info in list_.items():
+    for ip_ban, ip_info in list(list_.items()):
         try:
             ip_info = SCHEMA_IP_BAN_ENTRY(ip_info)
             ip_list.append(IpBan(ip_ban, ip_info['banned_at']))

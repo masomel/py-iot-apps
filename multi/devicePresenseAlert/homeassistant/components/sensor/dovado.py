@@ -69,7 +69,7 @@ class Dovado:
 
     def setup(self, hass, config, add_devices):
         """Setup the connection."""
-        import dovado
+        from . import dovado
         self._dovado = dovado.Dovado(
             config.get(CONF_USERNAME),
             config.get(CONF_PASSWORD),
@@ -170,5 +170,5 @@ class DovadoSensor(Entity):
     @property
     def device_state_attributes(self):
         """Return the state attributes."""
-        return {k: v for k, v in self._dovado.state.items()
+        return {k: v for k, v in list(self._dovado.state.items())
                 if k not in ["date", "time"]}

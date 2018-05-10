@@ -10,9 +10,9 @@ import nfc, sys, threading
 
 def on_connect(mqttc, obj, flags, rc):
     if rc == 0:
-        print "Connected to the AWS IoT service!"
+        print("Connected to the AWS IoT service!")
     else :
-        print("Error connecting to AWS IoT service! (Error code " + str(rc) + ": " + RESULT_CODES[rc] + ")")
+        print(("Error connecting to AWS IoT service! (Error code " + str(rc) + ": " + RESULT_CODES[rc] + ")"))
         client.disconnect()
 
 #Connect to AWS IoT
@@ -38,7 +38,7 @@ tsl.set_time(0x00)
 def connected(tag):
     global nfcid
     nfcid = str(tag)[12:]
-    print "read successful"
+    print("read successful")
     time.sleep(3)
     return False
 
@@ -92,7 +92,7 @@ while True:
     # send data to AWS
     if count == 0:
         msg = {'ts': ts, 'lux': mlux, 'pir': mpir, 'mat': mmat, 'sound': msound, 'volume': mvolume, 'mom': mom, 'dad': dad}
-        print json.dumps(msg)
+        print(json.dumps(msg))
         client.publish('sensors', json.dumps(msg))
         mlux = mpir = mmat = msound = mvolume = 0
         if mmat == 1:
@@ -136,7 +136,7 @@ while True:
     # send data to AWS
     if count == 0:
         msg = {'ts': ts, 'lux': mlux, 'pir': mpir, 'mat': mmat, 'sound': msound, 'volume': mvolume, 'mom': mom, 'dad': dad}
-        print json.dumps(msg)
+        print(json.dumps(msg))
         client.publish('sensors', json.dumps(msg))
         mlux = mpir = mmat = msound = mvolume = 0
         if mmat == 1:

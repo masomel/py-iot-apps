@@ -681,7 +681,7 @@ class StateMachine(object):
 
         domain_filter = domain_filter.lower()
 
-        return [state.entity_id for state in self._states.values()
+        return [state.entity_id for state in list(self._states.values())
                 if state.domain == domain_filter]
 
     def all(self):
@@ -876,7 +876,7 @@ class ServiceRegistry(object):
         This method must be run in the event loop.
         """
         return {domain: {key: value.as_dict() for key, value
-                         in self._services[domain].items()}
+                         in list(self._services[domain].items())}
                 for domain in self._services}
 
     def has_service(self, domain, service):

@@ -6,7 +6,7 @@ https://home-assistant.io/components/notify.telegram/
 """
 import io
 import logging
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 import requests
 import voluptuous as vol
@@ -39,7 +39,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 def get_service(hass, config):
     """Get the Telegram notification service."""
-    import telegram
+    from . import telegram
 
     try:
         chat_id = config.get(CONF_CHAT_ID)
@@ -82,7 +82,7 @@ class TelegramNotificationService(BaseNotificationService):
 
     def __init__(self, api_key, chat_id):
         """Initialize the service."""
-        import telegram
+        from . import telegram
 
         self._api_key = api_key
         self._chat_id = chat_id
@@ -90,7 +90,7 @@ class TelegramNotificationService(BaseNotificationService):
 
     def send_message(self, message="", **kwargs):
         """Send a message to a user."""
-        import telegram
+        from . import telegram
 
         title = kwargs.get(ATTR_TITLE)
         data = kwargs.get(ATTR_DATA)
@@ -126,7 +126,7 @@ class TelegramNotificationService(BaseNotificationService):
 
     def send_photo(self, data):
         """Send a photo."""
-        import telegram
+        from . import telegram
         caption = data.get(ATTR_CAPTION)
 
         # send photo
@@ -145,7 +145,7 @@ class TelegramNotificationService(BaseNotificationService):
 
     def send_document(self, data):
         """Send a document."""
-        import telegram
+        from . import telegram
         caption = data.get(ATTR_CAPTION)
 
         # send photo
@@ -164,7 +164,7 @@ class TelegramNotificationService(BaseNotificationService):
 
     def send_location(self, gps):
         """Send a location."""
-        import telegram
+        from . import telegram
         latitude = float(gps.get(ATTR_LATITUDE, 0.0))
         longitude = float(gps.get(ATTR_LONGITUDE, 0.0))
 

@@ -80,7 +80,7 @@ def load_token(session_file):
     with open(session_file) as handle:
         data = json.load(handle)
 
-    for mx_id, token in data.items():
+    for mx_id, token in list(data.items()):
         AUTH_TOKENS[mx_id] = token
 
 

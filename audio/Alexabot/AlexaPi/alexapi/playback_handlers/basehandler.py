@@ -1,9 +1,7 @@
 from abc import ABCMeta, abstractmethod
 
 
-class BaseHandler:
-	__metaclass__ = ABCMeta
-
+class BaseHandler(metaclass=ABCMeta):
 	is_playing = False
 	volume = None
 	media_volume = None

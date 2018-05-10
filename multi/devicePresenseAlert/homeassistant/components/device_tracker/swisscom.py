@@ -80,7 +80,7 @@ class SwisscomDeviceScanner(DeviceScanner):
             if not data:
                 return False
 
-            active_clients = [client for client in data.values() if
+            active_clients = [client for client in list(data.values()) if
                               client['status']]
             self.last_results = active_clients
             return True

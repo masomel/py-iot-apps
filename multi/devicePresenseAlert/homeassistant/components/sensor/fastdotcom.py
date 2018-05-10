@@ -115,6 +115,6 @@ class SpeedtestData(object):
 
     def update(self, now):
         """Get the latest data from fast.com."""
-        from fastdotcom import fast_com
+        from .fastdotcom import fast_com
         _LOGGER.info('Executing fast.com speedtest')
         self.data = {'download': fast_com()}

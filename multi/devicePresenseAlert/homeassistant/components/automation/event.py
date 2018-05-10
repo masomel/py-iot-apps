@@ -33,7 +33,7 @@ def async_trigger(hass, config, action):
     def handle_event(event):
         """Listen for events and calls the action when data matches."""
         if not event_data or all(val == event.data.get(key) for key, val
-                                 in event_data.items()):
+                                 in list(event_data.items())):
             hass.async_run_job(action, {
                 'trigger': {
                     'platform': 'event',

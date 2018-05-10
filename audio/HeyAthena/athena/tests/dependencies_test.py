@@ -8,7 +8,7 @@ print('---- Running Dependencies Test ----')
 dep = ['PyAudio', 'pocketsphinx', 'SpeechRecognition', 'gTTS',
         'pyglet', 'WolframAlpha', 'HeyAthena']
 
-print('\n~ Requires: '+str(dep)[1:-1]+'\n')
+print(('\n~ Requires: '+str(dep)[1:-1]+'\n'))
 
 passed = True
 
@@ -16,7 +16,7 @@ passed = True
 def test_case(case):
     global passed
     try:
-        print('~ Checking dependency:', dep[case])
+        print(('~ Checking dependency:', dep[case]))
         if case is 0:
             import pyaudio
         elif case is 1:
@@ -36,7 +36,7 @@ def test_case(case):
             import athena.brain
         print('~ Import successful.')
     except:
-        print(traceback.format_exc())
+        print((traceback.format_exc()))
         print('~ Import failed!')
         passed = False
 

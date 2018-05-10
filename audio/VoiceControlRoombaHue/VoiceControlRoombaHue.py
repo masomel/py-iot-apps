@@ -76,7 +76,7 @@ def runMain():
             gevent.sleep(1)
 
         except (KeyboardInterrupt, SystemExit):
-            print 'People sometimes make mistakes, Goodbye.'
+            print('People sometimes make mistakes, Goodbye.')
             sys.exit()
         except Exception as e:
             exc_type, exc_value, exc_traceback = sys.exc_info()

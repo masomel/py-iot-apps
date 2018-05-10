@@ -48,7 +48,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     location = config.get(CONF_LOCATION)
     password = config.get(CONF_PASSWORD)
 
-    import mpd
+    from . import mpd
 
     # pylint: disable=no-member
     try:
@@ -80,7 +80,7 @@ class MpdDevice(MediaPlayerDevice):
     # pylint: disable=no-member
     def __init__(self, server, port, location, password):
         """Initialize the MPD device."""
-        import mpd
+        from . import mpd
 
         self.server = server
         self.port = port
@@ -96,7 +96,7 @@ class MpdDevice(MediaPlayerDevice):
 
     def update(self):
         """Get the latest data and update the state."""
-        import mpd
+        from . import mpd
         try:
             self.status = self.client.status()
             self.currentsong = self.client.currentsong()
@@ -217,7 +217,7 @@ class MpdDevice(MediaPlayerDevice):
 
     def media_next_track(self):
         """Service to send the MPD the command for next track."""
-        self.client.next()
+        next(self.client)
 
     def media_previous_track(self):
         """Service to send the MPD the command for previous track."""

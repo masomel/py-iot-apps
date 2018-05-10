@@ -25,12 +25,12 @@ def run(args: List) -> int:
 
     if not args:
         print('Please specify a script to run.')
-        print('Available scripts:', ', '.join(scripts))
+        print(('Available scripts:', ', '.join(scripts)))
         return 1
 
     if args[0] not in scripts:
         print('Invalid script specified.')
-        print('Available scripts:', ', '.join(scripts))
+        print(('Available scripts:', ', '.join(scripts)))
         return 1
 
     script = importlib.import_module('homeassistant.scripts.' + args[0])
@@ -41,7 +41,7 @@ def run(args: List) -> int:
     logging.basicConfig(stream=sys.stdout, level=logging.INFO)
     for req in getattr(script, 'REQUIREMENTS', []):
         if not install_package(req, target=deps_dir):
-            print('Aborting scipt, could not install dependency', req)
+            print(('Aborting scipt, could not install dependency', req))
             return 1
 
     return script.run(args[1:])  # type: ignore

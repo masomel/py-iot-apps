@@ -19,7 +19,7 @@ while True:
 	timeFormat = now.strftime("%Y%m%d_%H%M_%S.%s") #To put date and time in images 
 	
         if input17 == True or input18 == True:  #If PIR Sensor detects something, the Picamera will take. 
-                print('Motion_Detected_%s' %timeFormat)  
+                print(('Motion_Detected_%s' %timeFormat))  
 		camera.capture('image_%s.jpg' %timeFormat) #To take a picture
 		
                 time.sleep(1) #sleeping time 1 second

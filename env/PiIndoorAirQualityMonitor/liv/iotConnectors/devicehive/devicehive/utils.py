@@ -3,7 +3,7 @@
 
 import json
 from datetime import datetime
-from urlparse import urlsplit, urljoin
+from urllib.parse import urlsplit, urljoin
 from twisted.internet.protocol import Protocol
 from twisted.internet.defer import Deferred, succeed, fail
 from twisted.web.iweb import IBodyProducer
@@ -90,7 +90,7 @@ class EmptyDataProducer(object):
         try:
             consumer.write('')
             return succeed(None)
-        except Exception, error:
+        except Exception as error:
             return fail(error)
     
     def stopProducing(self):

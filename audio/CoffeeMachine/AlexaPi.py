@@ -77,10 +77,10 @@ def internet_on():
     print("Checking Internet Connection...")
     try:
         r =requests.get('https://api.amazon.com/auth/o2/token')
-        print("Connection {}OK{}".format(bcolors.OKGREEN, bcolors.ENDC))
+        print(("Connection {}OK{}".format(bcolors.OKGREEN, bcolors.ENDC)))
         return True
     except:
-        print("Connection {}Failed{}".format(bcolors.WARNING, bcolors.ENDC))
+        print(("Connection {}Failed{}".format(bcolors.WARNING, bcolors.ENDC)))
         return False
 
 def gettoken():
@@ -101,7 +101,7 @@ def gettoken():
 def alexa_speech_recognizer():
     # https://developer.amazon.com/public/solutions/alexa/alexa-voice-service/rest/speechrecognizer-requests
     GPIO.output(act_light, GPIO.HIGH)
-    if debug: print("{}Sending Speech Request...{}".format(bcolors.OKBLUE, bcolors.ENDC))
+    if debug: print(("{}Sending Speech Request...{}".format(bcolors.OKBLUE, bcolors.ENDC)))
     url = 'https://access-alexa-na.amazon.com/v1/avs/speechrecognizer/recognize'
     headers = {'Authorization' : 'Bearer %s' % gettoken()}
     d = {
@@ -139,7 +139,7 @@ def alexa_playback_progress_report_request(requestType, playerActivity, streamid
     # streamId                  Specifies the identifier for the current stream.
     # offsetInMilliseconds      Specifies the current position in the track, in milliseconds.
     # playerActivity            IDLE, PAUSED, or PLAYING
-    if debug: print("{}Sending Playback Progress Report Request...{}".format(bcolors.OKBLUE, bcolors.ENDC))
+    if debug: print(("{}Sending Playback Progress Report Request...{}".format(bcolors.OKBLUE, bcolors.ENDC)))
     headers = {'Authorization' : 'Bearer %s' % gettoken()}
     d = {
         "messageHeader": {},
@@ -174,26 +174,26 @@ def alexa_playback_progress_report_request(requestType, playerActivity, streamid
     
     r = requests.post(url, headers=headers, data=json.dumps(d))
     if r.status_code != 204:
-        print("{}(alexa_playback_progress_report_request Response){} {}".format(bcolors.WARNING, bcolors.ENDC, r))
+        print(("{}(alexa_playback_progress_report_request Response){} {}".format(bcolors.WARNING, bcolors.ENDC, r)))
     else:
-        if debug: print("{}Playback Progress Report was {}Successful!{}".format(bcolors.OKBLUE, bcolors.OKGREEN, bcolors.ENDC))
+        if debug: print(("{}Playback Progress Report was {}Successful!{}".format(bcolors.OKBLUE, bcolors.OKGREEN, bcolors.ENDC)))
 
 def process_response(r):
     global currVolume, isMute
-    if debug: print("{}Processing Request Response...{}".format(bcolors.OKBLUE, bcolors.ENDC))
+    if debug: print(("{}Processing Request Response...{}".format(bcolors.OKBLUE, bcolors.ENDC)))
     if r.status_code == 200:
         data = "Content-Type: " + r.headers['content-type'] +'\r\n\r\n'+ r.content
         msg = email.message_from_string(data)        
         for payload in msg.get_payload():
             if payload.get_content_type() == "application/json":
                 j =  json.loads(payload.get_payload())
-                if debug: print("{}JSON String Returned:{} {}".format(bcolors.OKBLUE, bcolors.ENDC, json.dumps(j)))
+                if debug: print(("{}JSON String Returned:{} {}".format(bcolors.OKBLUE, bcolors.ENDC, json.dumps(j))))
             elif payload.get_content_type() == "audio/mpeg":
                 filename = path + "tmpcontent/"+payload.get('Content-ID').strip("<>")+".mp3" 
                 with open(filename, 'wb') as f:
                     f.write(payload.get_payload())
             else:
-                if debug: print("{}NEW CONTENT TYPE RETURNED: {} {}".format(bcolors.WARNING, bcolors.ENDC, payload.get_content_type()))
+                if debug: print(("{}NEW CONTENT TYPE RETURNED: {} {}".format(bcolors.WARNING, bcolors.ENDC, payload.get_content_type())))
         
         # Now process the response
         if 'directives' in j['messageBody']:
@@ -213,7 +213,7 @@ def process_response(r):
                     for directive in j['messageBody']['directives']: # if Alexa expects a response
                         if directive['namespace'] == 'SpeechRecognizer': # this is included in the same string as above if a response was expected
                             if directive['name'] == 'listen':
-                                if debug: print("{}Further Input Expected, timeout in: {} {}ms".format(bcolors.OKBLUE, bcolors.ENDC, directive['payload']['timeoutIntervalInMillis']))
+                                if debug: print(("{}Further Input Expected, timeout in: {} {}ms".format(bcolors.OKBLUE, bcolors.ENDC, directive['payload']['timeoutIntervalInMillis'])))
 
                                 #play_audio(path+'audio/sound_beep.wav', 0, 100)
                                 timeout = directive['payload']['timeoutIntervalInMillis']/116
@@ -229,9 +229,9 @@ def process_response(r):
             GPIO.output(plb_light, GPIO.HIGH)
             time.sleep(.2)
             GPIO.output(plb_light, GPIO.LOW)
-        if debug: print("{}Request Response is null {}(This is OKAY!){}".format(bcolors.OKBLUE, bcolors.OKGREEN, bcolors.ENDC))
+        if debug: print(("{}Request Response is null {}(This is OKAY!){}".format(bcolors.OKBLUE, bcolors.OKGREEN, bcolors.ENDC)))
     else:
-        print("{}(process_response Error){} Status Code: {}".format(bcolors.WARNING, bcolors.ENDC, r.status_code))
+        print(("{}(process_response Error){} Status Code: {}".format(bcolors.WARNING, bcolors.ENDC, r.status_code)))
         r.connection.close()
         GPIO.output(lights, GPIO.LOW)
         for x in range(0, 3):
@@ -245,7 +245,7 @@ def play_audio(file, offset=0, overRideVolume=0):
     global p, audioplaying
     k = file.rfind("/") #find the start of the filename from the full path
     new_file = file[k+1:] #filname only
-    if debug: print("{}Play_Audio Request for:{} {}".format(bcolors.OKBLUE, bcolors.ENDC, new_file))
+    if debug: print(("{}Play_Audio Request for:{} {}".format(bcolors.OKBLUE, bcolors.ENDC, new_file)))
     i = vlc.Instance('--aout=alsa') # , '--alsa-audio-device=mono', '--file-logging', '--logfile=vlc-log.txt')
     m = i.media_new(file)
     p = i.media_player_new()
@@ -285,7 +285,7 @@ def state_callback(event, player):
 def detect_button(channel):
     global button_pressed
     button_pressed = True
-    if debug: print("{}Button Pressed!{}".format(bcolors.OKBLUE, bcolors.ENDC))
+    if debug: print(("{}Button Pressed!{}".format(bcolors.OKBLUE, bcolors.ENDC)))
     time.sleep(.5) # time for the button input to settle down
     while (GPIO.input(button)==0): #button seems to still be pressed
         button_pressed = True
@@ -297,7 +297,7 @@ def silence_listener(MaxRecordingLength):
     global rec_light_pwm
 
     rec_light_pwm.ChangeDutyCycle(rec_dim)
-    print("{}Recording...{}".format(bcolors.OKBLUE, bcolors.ENDC))
+    print(("{}Recording...{}".format(bcolors.OKBLUE, bcolors.ENDC)))
     play_audio(path+"audio/sound_start.mp3")
 
     # Reenable reading microphone raw data
@@ -357,7 +357,7 @@ def silence_listener(MaxRecordingLength):
     rf.close()
     inp.close()
 
-    print("{}Recording Finished.{}".format(bcolors.OKBLUE, bcolors.ENDC))
+    print(("{}Recording Finished.{}".format(bcolors.OKBLUE, bcolors.ENDC)))
     play_audio(path+"audio/sound_stop.mp3")
     rec_light_pwm.ChangeDutyCycle(0)
 
@@ -411,12 +411,12 @@ def setup():
 
 if __name__ == '__main__':
     try:
-        print 'AlexaPi started, Press Ctrl-C to quit.'
+        print('AlexaPi started, Press Ctrl-C to quit.')
         setup()
         start()
     finally:
         rec_light_pwm.stop()
         GPIO.cleanup()
         if debug == False: os.system("rm "+path+"tmpcontent/*")
-        print 'AlexaPi stopped.'
+        print('AlexaPi stopped.')
 

@@ -49,7 +49,7 @@ def setup_bridge(bridge, add_devices):
 
         new_lights = []
 
-        for light_id, device in bridge.Lights.items():
+        for light_id, device in list(bridge.Lights.items()):
             if light_id not in lights:
                 lights[light_id] = WemoLight(device, update_lights)
                 new_lights.append(lights[light_id])

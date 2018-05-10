@@ -34,7 +34,7 @@ def createPerson(personGroupID, name):
         data = json.loads(data)
         return data
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print(("[Errno {0}] {1}".format(e.errno, e.strerror)))
     return
 
     
@@ -59,7 +59,7 @@ def getPerson(personGroupID, personID):
         data = json.loads(data)
         return data
     except Exception as e:
-            print("[Errno {0}] {1}".format(e.errno, e.strerror))
+            print(("[Errno {0}] {1}".format(e.errno, e.strerror)))
     return
 
     
@@ -84,7 +84,7 @@ def listPersonsInPersonGroup(personGroupID):
         data = json.loads(data)
         return data
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror)) 
+        print(("[Errno {0}] {1}".format(e.errno, e.strerror))) 
     return
 	
     
@@ -114,7 +114,7 @@ def addPersonFace(personGroupID, personID, image, targetFace='{string}'):
         data = json.loads(data)
         return data
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print(("[Errno {0}] {1}".format(e.errno, e.strerror)))
     
     return
 

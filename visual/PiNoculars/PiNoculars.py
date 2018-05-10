@@ -23,7 +23,7 @@
 # BSD license, all text above must be included in any redistribution.
 
 import atexit
-import cPickle as pickle
+import pickle as pickle
 import errno
 import fnmatch
 import io
@@ -86,7 +86,7 @@ class Button:
 	  self.fg       = None # Foreground Icon name
 	  self.callback = None # Callback function
 	  self.value    = None # Value passed to callback
-	  for key, value in kwargs.iteritems():
+	  for key, value in kwargs.items():
 	    if   key == 'color': self.color    = value
 	    elif key == 'bg'   : self.bg       = value
 	    elif key == 'fg'   : self.fg       = value
@@ -447,7 +447,7 @@ def takePicture():
 	      stat.S_IROTH | stat.S_IXOTH)
 	  except OSError as e:
 	    # errno = 2 if can't create folder
-	    print errno.errorcode[e.errno]
+	    print(errno.errorcode[e.errno])
 	    return
 
 	# If this is the first time accessing this directory,

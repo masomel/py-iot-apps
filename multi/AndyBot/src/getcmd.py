@@ -8,7 +8,7 @@ class Get_cmd():
                      lmd_persona='models/waitlm.lm', dictd_persona='models/waitdic.dic')
 
         self.THRESHOLD = self.microphone.fetchThreshold()
-        print 'Threshold: ' + str(self.THRESHOLD)
+        print('Threshold: ' + str(self.THRESHOLD))
         self.run_client = False
         self.client = None
         
@@ -29,7 +29,7 @@ class Get_cmd():
         if self.run_client != True:
             self.cmd = self.microphone.activeListen(THRESHOLD=self.THRESHOLD)
                 
-        print 'COMMAND: ', self.cmd
+        print('COMMAND: ', self.cmd)
         return self.cmd
 
     def get_client_cmd(self):
@@ -82,6 +82,6 @@ def get_fav_ice_cream():
     
 if __name__ == '__main__':
     fav_cream = get_fav_ice_cream()
-    print fav_cream
+    print(fav_cream)
         
     

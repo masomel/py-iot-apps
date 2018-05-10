@@ -26,7 +26,7 @@ class Stream():
             index_file.write('0')
             index_file.close()
             index_file = open('/home/pi/index.dat')
-            print 'NO INDEX FILE. CREATED /home/pi/index.dat'
+            print('NO INDEX FILE. CREATED /home/pi/index.dat')
         self.index = int(index_file.readline())
         index_file.close()
         
@@ -153,7 +153,7 @@ class Stream():
                                 
                         if event.pos[0] > 255:
                             if self.mode == 'capture':
-                                print 'exiting...'
+                                print('exiting...')
                                 os.remove('/home/pi/index.dat')
                                 new = open('/home/pi/index.dat', 'w+')
                                 new.write(str(self.index))

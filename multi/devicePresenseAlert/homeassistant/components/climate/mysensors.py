@@ -163,7 +163,7 @@ class MySensorsHVAC(mysensors.MySensorsDeviceEntity, ClimateDevice):
         set_req = self.gateway.const.SetReq
         node = self.gateway.sensors[self.node_id]
         child = node.children[self.child_id]
-        for value_type, value in child.values.items():
+        for value_type, value in list(child.values.items()):
             _LOGGER.debug(
                 '%s: value_type %s, value = %s', self._name, value_type, value)
             if value_type == set_req.V_HVAC_FLOW_STATE:

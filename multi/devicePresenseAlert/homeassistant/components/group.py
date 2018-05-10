@@ -204,7 +204,7 @@ def async_setup(hass, config):
 def _async_process_config(hass, config, component):
     """Process group configuration."""
     groups = []
-    for object_id, conf in config.get(DOMAIN, {}).items():
+    for object_id, conf in list(config.get(DOMAIN, {}).items()):
         name = conf.get(CONF_NAME, object_id)
         entity_ids = conf.get(CONF_ENTITIES) or []
         icon = conf.get(CONF_ICON)

@@ -66,9 +66,9 @@ class Mic:
             self.speechRec.decode_raw(wavFile)
             result = self.speechRec.get_hyp()
 
-        print "==================="
-        print "ANDY: " + result[0]
-        print "==================="
+        print("===================")
+        print("ANDY: " + result[0])
+        print("===================")
 
         return result[0]
 
@@ -186,7 +186,7 @@ class Mic:
 
         # no use continuing if no flag raised
         if not didDetect:
-            print "No disturbance detected"
+            print("No disturbance detected")
             return
 
         # cutoff any recording before this disturbance was detected
@@ -236,7 +236,7 @@ class Mic:
 
         # check if no threshold provided
         if THRESHOLD == None:
-            print 'Getting threshold...'
+            print('Getting threshold...')
             THRESHOLD = self.fetchThreshold()
 
         #Give user a little time

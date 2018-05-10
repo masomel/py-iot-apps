@@ -10,12 +10,12 @@ from collections import namedtuple
 
 import voluptuous as vol
 
-from homeassistant.const import (
+from .homeassistant.const import (
     ATTR_ENTITY_ID, SERVICE_TURN_ON, CONF_PLATFORM)
-from homeassistant.helpers import extract_domain_configs
-import homeassistant.helpers.config_validation as cv
-from homeassistant.helpers.entity import Entity
-from homeassistant.helpers.entity_component import EntityComponent
+from .homeassistant.helpers import extract_domain_configs
+from . import homeassistant.helpers.config_validation as cv
+from .homeassistant.helpers.entity import Entity
+from .homeassistant.helpers.entity_component import EntityComponent
 
 DOMAIN = 'scene'
 DEPENDENCIES = ['group']

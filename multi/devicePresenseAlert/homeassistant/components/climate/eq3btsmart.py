@@ -35,7 +35,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     """Setup the eQ-3 BLE thermostats."""
     devices = []
 
-    for name, device_cfg in config[CONF_DEVICES].items():
+    for name, device_cfg in list(config[CONF_DEVICES].items()):
         mac = device_cfg[CONF_MAC]
         devices.append(EQ3BTSmartThermostat(mac, name))
 

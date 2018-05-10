@@ -191,16 +191,16 @@ def async_setup(hass: HomeAssistantType, config: ConfigType):
             async_setup_platform(DISCOVERY_PLATFORMS[service], {}, info))
 
     discovery.async_listen(
-        hass, DISCOVERY_PLATFORMS.keys(), async_device_tracker_discovered)
+        hass, list(DISCOVERY_PLATFORMS.keys()), async_device_tracker_discovered)
 
     # Clean up stale devices
     async_track_utc_time_change(
-        hass, tracker.async_update_stale, second=range(0, 60, 5))
+        hass, tracker.async_update_stale, second=list(range(0, 60, 5)))
 
     @asyncio.coroutine
     def async_see_service(call):
         """Service to see a device."""
-        args = {key: value for key, value in call.data.items() if key in
+        args = {key: value for key, value in list(call.data.items()) if key in
                 (ATTR_MAC, ATTR_DEV_ID, ATTR_HOST_NAME, ATTR_LOCATION_NAME,
                  ATTR_GPS, ATTR_GPS_ACCURACY, ATTR_BATTERY, ATTR_ATTRIBUTES)}
         yield from tracker.async_see(**args)
@@ -275,7 +275,7 @@ class DeviceTracker(object):
             return
 
         # If no device can be found, create it
-        dev_id = util.ensure_unique_string(dev_id, self.devices.keys())
+        dev_id = util.ensure_unique_string(dev_id, list(self.devices.keys()))
         device = Device(
             self.hass, self.consider_home, self.track_new,
             dev_id, mac, (host_name or dev_id).replace('_', ' '))
@@ -326,7 +326,7 @@ class DeviceTracker(object):
 
         This method is a coroutine.
         """
-        entity_ids = (dev.entity_id for dev in self.devices.values()
+        entity_ids = (dev.entity_id for dev in list(self.devices.values())
                       if dev.track)
         self.group = yield from group.Group.async_create_group(
             self.hass, GROUP_NAME_ALL_DEVICES, entity_ids, False)
@@ -337,7 +337,7 @@ class DeviceTracker(object):
 
         This method must be run in the event loop.
         """
-        for device in self.devices.values():
+        for device in list(self.devices.values()):
             if (device.track and device.last_update_home) and \
                device.stale(now):
                 self.hass.async_add_job(device.async_update_ha_state(True))
@@ -616,7 +616,7 @@ def async_load_config(path: str, hass: HomeAssistantType,
             _LOGGER.error('Unable to load %s: %s', path, str(err))
             return []
 
-        for dev_id, device in devices.items():
+        for dev_id, device in list(devices.items()):
             try:
                 device = dev_schema(device)
                 device['dev_id'] = cv.slugify(dev_id)

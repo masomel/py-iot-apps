@@ -32,7 +32,7 @@ except ImportError:
 
 from devicehive import Notification
 from array import array
-from thread import allocate_lock
+from _thread import allocate_lock
 from zope.interface import implements
 from twisted.internet import reactor, threads, interfaces
 from twisted.internet.protocol import ServerFactory, Protocol
@@ -191,7 +191,7 @@ class I2cTransport(object):
         Method set destination address to be used with following write calls.
         @param index: an C{int} index of destination address
         """
-        if not isinstance(index, int) and not isinstance(index, long):
+        if not isinstance(index, int) and not isinstance(index, int):
             raise TypeError('int index expected')
         if index < 0 or index > len(self.addresses):
             raise ValueError('Addresses index is out of range.')
@@ -207,7 +207,7 @@ class I2cTransport(object):
         Sets destination register for the subsequent write operations.
         @param register:
         """
-        if isinstance(register, unicode):
+        if isinstance(register, str):
             register = int(register)
         elif not isinstance(register, int):
             raise TypeError('Type of register parameter should be unicode or int.')
@@ -242,7 +242,7 @@ class I2cTransport(object):
         if self.dest_direction == 0:
             if (not isinstance(data, list)) or (len(data) > 32):
                 raise TypeError('data must be a list of at least one, but not more than 32 integers')
-        elif isinstance(data, unicode):
+        elif isinstance(data, str):
             data = int(data)
         elif not isinstance(data, int):
             raise TypeError('Type of data parameter should be unicode or int.')
@@ -262,7 +262,7 @@ class I2cTransport(object):
                 with adaptor_lock:
                     try:
                         bus.write_i2c_block_data(dest_address, dest_register, data)
-                    except IOError, error:
+                    except IOError as error:
                         LOG_ERR(str(error))
                         raise error
                 LOG_INFO('The data has been successfully written into {0} i2c slave register {1}.'.format(dest_address, dest_register))
@@ -271,7 +271,7 @@ class I2cTransport(object):
                 with adaptor_lock:
                     try:
                         data_out = bus.read_i2c_block_data(dest_address, dest_register, data)
-                    except IOError, error:
+                    except IOError as error:
                         LOG_ERR(str(error))
                         raise error
                 LOG_INFO('The data has been successfully read from {0} i2c slave register {1}.'.format(dest_address, dest_register))

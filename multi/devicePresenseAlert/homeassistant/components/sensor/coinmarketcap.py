@@ -121,6 +121,6 @@ class CoinMarketCapData(object):
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):
         """Get the latest data from blockchain.info."""
-        from coinmarketcap import Market
+        from .coinmarketcap import Market
 
         self.ticker = Market().ticker(self.currency)

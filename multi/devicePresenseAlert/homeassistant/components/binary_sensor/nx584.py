@@ -42,7 +42,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Setup the NX584 binary sensor platform."""
-    from nx584 import client as nx584_client
+    from .nx584 import client as nx584_client
 
     host = config.get(CONF_HOST)
     port = config.get(CONF_PORT)
@@ -68,7 +68,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
         for zone in zones
         if zone['number'] not in exclude}
     if zone_sensors:
-        add_devices(zone_sensors.values())
+        add_devices(list(zone_sensors.values()))
         watcher = NX584Watcher(client, zone_sensors)
         watcher.start()
     else:

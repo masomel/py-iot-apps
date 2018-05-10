@@ -170,7 +170,7 @@ class EntityComponent(object):
 
         This method must be run in the event loop.
         """
-        if entity is None or entity in self.entities.values():
+        if entity is None or entity in list(self.entities.values()):
             return False
 
         entity.hass = self.hass
@@ -191,7 +191,7 @@ class EntityComponent(object):
 
             entity.entity_id = async_generate_entity_id(
                 self.entity_id_format, object_id,
-                self.entities.keys())
+                list(self.entities.keys()))
 
         # Make sure it is valid in case an entity set the value themselves
         if entity.entity_id in self.entities:
@@ -220,12 +220,12 @@ class EntityComponent(object):
         if self.group is None and self.group_name is not None:
             group = get_component('group')
             self.group = yield from group.Group.async_create_group(
-                self.hass, self.group_name, self.entities.keys(),
+                self.hass, self.group_name, list(self.entities.keys()),
                 user_defined=False
             )
         elif self.group is not None:
             yield from self.group.async_update_tracked_entity_ids(
-                self.entities.keys())
+                list(self.entities.keys()))
 
     def reset(self):
         """Remove entities and reset the entity component to initial values."""
@@ -238,7 +238,7 @@ class EntityComponent(object):
         This method must be run in the event loop.
         """
         tasks = [platform.async_reset() for platform
-                 in self._platforms.values()]
+                 in list(self._platforms.values())]
 
         if tasks:
             yield from asyncio.wait(tasks, loop=self.hass.loop)

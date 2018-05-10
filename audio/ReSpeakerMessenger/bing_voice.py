@@ -9,8 +9,9 @@ import uuid
 import wave
 import io
 from monotonic import monotonic
-from urllib import urlencode
-from urllib2 import Request, urlopen, URLError, HTTPError
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
+from urllib.error import URLError, HTTPError
 
 class RequestError(Exception):
     pass
@@ -117,7 +118,7 @@ class BingVoice():
     def synthesize(self, text, language="en-US", gender="Female"):
         self.auth()
 
-        if language not in self.locales.keys():
+        if language not in list(self.locales.keys()):
             raise LocaleError("language locale not supported.")
 
         lang = self.locales.get(language)
@@ -126,7 +127,7 @@ class BingVoice():
             gender = "Female"
 
         if len(lang) == 1:
-            gender = lang.keys()[0]
+            gender = list(lang.keys())[0]
 
         service_name = lang[gender]
 

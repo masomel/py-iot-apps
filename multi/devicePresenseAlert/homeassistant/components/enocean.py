@@ -42,7 +42,7 @@ class EnOceanDongle:
 
     def __init__(self, hass, ser):
         """Initialize the EnOcean dongle."""
-        from enocean.communicators.serialcommunicator import SerialCommunicator
+        from .enocean.communicators.serialcommunicator import SerialCommunicator
         self.__communicator = SerialCommunicator(port=ser,
                                                  callback=self.callback)
         self.__communicator.start()
@@ -71,7 +71,7 @@ class EnOceanDongle:
         python-enocan whenever there is an incoming
         packet.
         """
-        from enocean.protocol.packet import RadioPacket
+        from .enocean.protocol.packet import RadioPacket
         if isinstance(temp, RadioPacket):
             rxtype = None
             value = None
@@ -124,6 +124,6 @@ class EnOceanDevice():
     # pylint: disable=no-self-use
     def send_command(self, data, optional, packet_type):
         """Send a command via the EnOcean dongle."""
-        from enocean.protocol.packet import Packet
+        from .enocean.protocol.packet import Packet
         packet = Packet(packet_type, data=data, optional=optional)
         ENOCEAN_DONGLE.send_command(packet)

@@ -46,7 +46,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     pins = config.get(CONF_PINS)
 
     switches = []
-    for pinnum, pin in pins.items():
+    for pinnum, pin in list(pins.items()):
         switches.append(ArduinoSwitch(pinnum, pin))
     add_devices(switches)
 

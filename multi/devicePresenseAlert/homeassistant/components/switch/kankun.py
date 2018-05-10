@@ -39,7 +39,7 @@ def setup_platform(hass, config, add_devices_callback, discovery_info=None):
     switches = config.get('switches', {})
     devices = []
 
-    for dev_name, properties in switches.items():
+    for dev_name, properties in list(switches.items()):
         devices.append(
             KankunSwitch(
                 hass,

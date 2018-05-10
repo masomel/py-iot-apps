@@ -6,7 +6,7 @@ https://home-assistant.io/components/media_player.kodi/
 """
 import asyncio
 import logging
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 import aiohttp
 import voluptuous as vol

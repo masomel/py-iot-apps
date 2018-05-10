@@ -260,7 +260,7 @@ class EventForwarder(object):
                (self.restrict_origin and event.origin != self.restrict_origin):
                 return
 
-            for api in self._targets.values():
+            for api in list(self._targets.values()):
                 fire_event(api, event.event_type, event.data)
 
 

@@ -35,7 +35,7 @@ qos=0
 retain=False
 
 def powerup():
-    print ("send magic packet to "+mac)
+    print(("send magic packet to "+mac))
     subprocess.Popen(["wakeonlan", mac])
     time.sleep(1)
     subprocess.Popen(["wakeonlan", mac])
@@ -68,7 +68,7 @@ def scan():
     output=output.decode()
     print (output)
     output=output.splitlines()
-    print (len(output))
+    print((len(output)))
     return "Active IP: " + str(len(output))
 
 def checkspeed(index):
@@ -94,7 +94,7 @@ def checkspeed(index):
         b[i] = output[i].split(' = Counter32: ', 1 )
     for i in range(len(a)):
         c[i] = int((((int(b[i][1])-int(a[i][1]))*8*100)/(5*100)))
-        print (c[i])
+        print((c[i]))
     return c
     
 def monspeed():
@@ -114,7 +114,7 @@ def status():
     return output[0]
 
 def on_message(client, userdata, msg):
-    print("Message: " + msg.topic + " Payload:" + str(msg.payload))
+    print(("Message: " + msg.topic + " Payload:" + str(msg.payload)))
     if "timestamp" in str(msg.payload):
         return;
     if "request" not in str(msg.payload):
@@ -140,7 +140,7 @@ def on_message(client, userdata, msg):
     client.publish(topic, payload, qos, retain)
 
 def on_log(client, userdata, level, msg):
-    print("Log: " + msg)
+    print(("Log: " + msg))
 
 def on_connect(client, userdata, flags, rc):
     client.subscribe("$aws/things/netmon1/#")

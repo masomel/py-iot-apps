@@ -1,6 +1,6 @@
-from __future__ import print_function
 
-from baseplatform import BasePlatform
+
+from .baseplatform import BasePlatform
 
 
 class DummyPlatform(BasePlatform):

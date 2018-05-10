@@ -99,4 +99,4 @@ class Database():
 if __name__ == '__main__':   
         t = Database()
         test = t.get_people_data('Tyler','age')
-        print test
+        print(test)

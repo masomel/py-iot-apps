@@ -61,7 +61,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
 
     _LOGGER.debug(devices)
 
-    for device_id, device_config in devices.items():
+    for device_id, device_config in list(devices.items()):
         args = {
             "name": device_config.get(CONF_NAME),
             "device_id": device_config.get(CONF_DEVICE, device_id),

@@ -58,8 +58,8 @@ class HDC1000:
                 return tmp
             else :
                return -1
-        except IOError, err:
-            print "No ACK!"
+        except IOError as err:
+            print("No ACK!")
             time.sleep(0.1)
             self.i2cReg(wr,addr,data)
             
@@ -94,8 +94,8 @@ class HDC1000:
             raw = ( d[0]<<8 | d[1] )
             #print (float(raw)/(2**16))*(165-40)
             return float(raw)/65536.0*165.0-40.0
-        except IOError, err:
-            print "No ACK!"
+        except IOError as err:
+            print("No ACK!")
             time.sleep(0.1)
             self.Temperature()
 
@@ -111,8 +111,8 @@ class HDC1000:
             #print "0x%02X :0x%02X" % (d[0],d[1])
             raw = ( d[0]<<8 | d[1] )
             return float(raw)/65536.0*100.0
-        except IOError, err:
-            print "No ACK!"
+        except IOError as err:
+            print("No ACK!")
             time.sleep(0.1)
             self.Humidity()
 

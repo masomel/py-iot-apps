@@ -399,10 +399,10 @@ class MQTT(object):
 
         old_topics = self.topics
 
-        self.topics = {key: value for key, value in self.topics.items()
+        self.topics = {key: value for key, value in list(self.topics.items())
                        if value is None}
 
-        for topic, qos in old_topics.items():
+        for topic, qos in list(old_topics.items()):
             # qos is None if we were in process of subscribing
             if qos is not None:
                 self.subscribe(topic, qos)
@@ -446,7 +446,7 @@ class MQTT(object):
     def _mqtt_on_disconnect(self, _mqttc, _userdata, result_code):
         """Disconnected callback."""
         self.progress = {}
-        self.topics = {key: value for key, value in self.topics.items()
+        self.topics = {key: value for key, value in list(self.topics.items())
                        if value is not None}
 
         # Remove None values from topic list

@@ -29,5 +29,5 @@ def readTemp():
 while True:
     tempC = readTemp()
     tempF = tempC * 9.0 / 5.0 + 32.0
-    print str(tempF) + " F"
+    print(str(tempF) + " F")
     time.sleep(.5)

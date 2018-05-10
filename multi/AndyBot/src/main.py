@@ -28,11 +28,11 @@ def main(DEBUG=False):
     write(None)
     #Enter main loop
     while True:
-        print
+        print()
         #Get the command and convert it to a list
         cmd = getit.get().split()
         write('load')
-        if DEBUG: print 'COMMAND:', cmd
+        if DEBUG: print('COMMAND:', cmd)
 
         #Remove unused words from command
         num = 0
@@ -84,7 +84,7 @@ if __name__ == '__main__':
         error = traceback.format_exc()
         error_log = open('/home/pi/ANDY/src/temp/error.txt', 'w')
         error_log.write(error)
-        print 'An error occurred. Please check error.txt for more details.'
+        print('An error occurred. Please check error.txt for more details.')
         say('An error occurred.. Please check error dot text for more details.')
         time.sleep(4)
         write(None)

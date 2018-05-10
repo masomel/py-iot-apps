@@ -58,7 +58,7 @@ CAPTURE_IMAGE_SCHEMA = vol.Schema({
 
 def setup(hass, config):
     """Setup the Verisure component."""
-    import verisure
+    from . import verisure
     global HUB
     HUB = VerisureHub(config[DOMAIN], verisure)
     if not HUB.login():

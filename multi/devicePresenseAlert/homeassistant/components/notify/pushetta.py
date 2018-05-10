@@ -42,7 +42,7 @@ class PushettaNotificationService(BaseNotificationService):
 
     def __init__(self, api_key, channel_name, send_test_msg):
         """Initialize the service."""
-        from pushetta import Pushetta
+        from .pushetta import Pushetta
         self._api_key = api_key
         self._channel_name = channel_name
         self.is_valid = True
@@ -53,7 +53,7 @@ class PushettaNotificationService(BaseNotificationService):
 
     def send_message(self, message="", **kwargs):
         """Send a message to a user."""
-        from pushetta import exceptions
+        from .pushetta import exceptions
         title = kwargs.get(ATTR_TITLE, ATTR_TITLE_DEFAULT)
 
         try:

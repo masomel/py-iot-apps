@@ -19,13 +19,13 @@ path = os.path.realpath(__file__).rstrip(os.path.basename(__file__))
 
 
 def internet_on():
-    print "Checking Internet Connection"
+    print("Checking Internet Connection")
     try:
         r = requests.get('https://api.amazon.com/auth/o2/token')
-        print "Connection OK"
+        print("Connection OK")
         return True
     except:
-        print "Connection Failed"
+        print("Connection Failed")
         return False
 
 
@@ -42,7 +42,7 @@ def gettoken():
         print(payload)
         r = requests.post(url, data=payload)
         print("res=")
-        print(r.text)
+        print((r.text))
         resp = json.loads(r.text)
         mc.set("access_token", resp['access_token'], 3570)
         return resp['access_token']
@@ -78,8 +78,8 @@ def alexa():
             ('file', ('request', json.dumps(d), 'application/json; charset=UTF-8')),
             ('file', ('audio', inf, 'audio/L16; rate=16000; channels=1'))
         ]
-        print type(files)
-        print type(d)
+        print(type(files))
+        print(type(d))
         r = requests.post(url, headers=headers, files=files)
     if r.status_code == 200:
         for v in r.headers['content-type'].split(";"):
@@ -89,17 +89,17 @@ def alexa():
         for d in data:
             if (len(d) >= 1024):
                 audio = d.split('\r\n\r\n')[1].rstrip('--')
-                print type(audio)
+                print(type(audio))
         with open(path + "response.mp3", 'wb') as f:
             f.write(audio)
         os.system(
             'mpg123 -q {}1sec.mp3 {}response.mp3'.format(path + "/assets/", path))
     else:
-        print "requests returned r.status_code = %r" % r.status_code
+        print("requests returned r.status_code = %r" % r.status_code)
 
 
 def start():
-    print "Touch MATRIX Creator IR Sensor"
+    print("Touch MATRIX Creator IR Sensor")
     process = subprocess.Popen(
         ['./micarray/build/micarray_dump'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     audio, err = process.communicate()
@@ -111,12 +111,12 @@ def start():
 
 
 if __name__ == "__main__":
-    print "This is a MATRIX Creator demo - not ready for production"
-    print "Running workaround for GPIO 16 (IR-RX) "
+    print("This is a MATRIX Creator demo - not ready for production")
+    print("Running workaround for GPIO 16 (IR-RX) ")
     subprocess.Popen(['sudo', 'rmmod', 'lirc_rpi'])
 
     while internet_on() == False:
-        print "."
+        print(".")
     token = gettoken()
     os.system('mpg123 -q {}1sec.mp3 {}hello.mp3'.format(path +
                                                         "/assets/", path + "/assets/"))

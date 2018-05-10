@@ -39,25 +39,25 @@ class PingApp(object):
     
     def connected(self):
         def on_ok(result):
-            print 'The application authenticated.'
+            print('The application authenticated.')
             def on_subscribed(msg):
-                print 'Application subscribed.'
+                print('Application subscribed.')
                 self.send_next_command()
             def on_subscribed_failed(rsn):
-                print 'Application failed to subscribe.'
+                print('Application failed to subscribe.')
             self.factory.subscribe([self.dev_id]).addCallbacks(on_subscribed, on_subscribed_failed)
         def on_fail(reason):
-            print 'The application FAILED authentication.'
+            print('The application FAILED authentication.')
         self.factory.authenticate('YOUR_LOGIC', 'YOUR_PASSWORD').addCallbacks(on_ok, on_fail)
     
     def do_notification(self, device_id, notification):
-        print 'Notification {0} has been received for device {1}.'.format(notification, device_id)
+        print('Notification {0} has been received for device {1}.'.format(notification, device_id))
     
     def failure(self, reason):
-        print 'Network failure {0}'.format(reason)
+        print('Network failure {0}'.format(reason))
     
     def send_next_command(self):
-        print 'APP -> DH: {0}'.format(datetime.utcnow())
+        print('APP -> DH: {0}'.format(datetime.utcnow()))
         def on_cmd_sent(res):
             #print 'DH -> APP: {0}. CMD: {1}.'.format(datetime.utcnow(), res)
             pass
@@ -72,7 +72,7 @@ class Gateway(devicehive.gateway.BaseGateway):
         self.ping_app = None
     
     def registration_received(self, device_info):
-        print 'Registration received from device.'
+        print('Registration received from device.')
         self.ping_app = PingApp(device_info.id)
         transport = devicehive.client.ws.WebSocketFactory(self.ping_app)
         transport.connect('ws://pg.devicehive.com:8010')
@@ -82,9 +82,9 @@ class Gateway(devicehive.gateway.BaseGateway):
         super(Gateway, self).notification_received(device_info, notification)
     
     def do_command(self, sender, command, finish_deferred):
-        print 'DH -> DEVICE: {0}. CMD: {1}'.format(datetime.utcnow(), command)
-        print 'Time %0.10f' % (time() - self.ping_app.tm)
-        print '--------------------------------------'
+        print('DH -> DEVICE: {0}. CMD: {1}'.format(datetime.utcnow(), command))
+        print('Time %0.10f' % (time() - self.ping_app.tm))
+        print('--------------------------------------')
         super(Gateway, self).do_command(sender, command, finish_deferred)
         self.ping_app.send_next_command()
     

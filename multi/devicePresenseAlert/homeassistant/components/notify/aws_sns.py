@@ -71,7 +71,7 @@ class AWSSNS(BaseNotificationService):
 
         message_attributes = {k: {"StringValue": json.dumps(v),
                                   "DataType": "String"}
-                              for k, v in kwargs.items() if v}
+                              for k, v in list(kwargs.items()) if v}
         for target in targets:
             self.client.publish(TargetArn=target, Message=message,
                                 Subject=kwargs.get(ATTR_TITLE,

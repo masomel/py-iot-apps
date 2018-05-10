@@ -50,7 +50,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     pins = config.get(CONF_PINS)
 
     switches = []
-    for pin, params in pins.items():
+    for pin, params in list(pins.items()):
         switches.append(BBBGPIOSwitch(pin, params))
     add_devices(switches)
 

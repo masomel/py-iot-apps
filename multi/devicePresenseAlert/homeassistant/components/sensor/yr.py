@@ -7,7 +7,7 @@ https://home-assistant.io/components/sensor.yr/
 import asyncio
 from datetime import timedelta
 import logging
-from random import randrange
+from .random import randrange
 from xml.parsers.expat import ExpatError
 
 import async_timeout
@@ -53,7 +53,7 @@ SENSOR_TYPES = {
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_MONITORED_CONDITIONS, default=['symbol']): vol.All(
-        cv.ensure_list, vol.Length(min=1), [vol.In(SENSOR_TYPES.keys())]),
+        cv.ensure_list, vol.Length(min=1), [vol.In(list(SENSOR_TYPES.keys()))]),
     vol.Optional(CONF_LATITUDE): cv.latitude,
     vol.Optional(CONF_LONGITUDE): cv.longitude,
     vol.Optional(CONF_ELEVATION): vol.Coerce(int),

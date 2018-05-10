@@ -107,7 +107,7 @@ class Itunes(object):
         """Set playback to paused and returns the current state."""
         return self._command('pause')
 
-    def next(self):
+    def __next__(self):
         """Skip to the next track and returns the current state."""
         return self._command('next')
 
@@ -332,7 +332,7 @@ class ItunesDevice(MediaPlayerDevice):
 
     def media_next_track(self):
         """Send media_next command to media player."""
-        response = self.client.next()
+        response = next(self.client)
         self.update_state(response)
 
     def media_previous_track(self):

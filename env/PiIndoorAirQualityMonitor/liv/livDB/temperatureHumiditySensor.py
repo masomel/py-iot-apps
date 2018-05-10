@@ -57,7 +57,7 @@ class  temperatureHumiditySensor:
 
 if __name__ == "__main__":
 
-  print 'testing DHT temp and humidity Sensor'
+  print('testing DHT temp and humidity Sensor')
   logging.config.fileConfig('logging.ini')
   log = logging.getLogger(__name__)
   
@@ -67,5 +67,5 @@ if __name__ == "__main__":
   thSensor.logger.info('Test temperature sensor: ' + t )
   thSensor.logger.info('Test humidity sensor: ' + h )
   
-  print 'temperature is ' + str(t)
-  print 'humidity is ' + str(h)
+  print('temperature is ' + str(t))
+  print('humidity is ' + str(h))

@@ -82,10 +82,10 @@ class WelcomeData(object):
         self.update()
         if not self.home:
             for home in self.welcomedata.cameras:
-                for camera in self.welcomedata.cameras[home].values():
+                for camera in list(self.welcomedata.cameras[home].values()):
                     self.camera_names.append(camera['name'])
         else:
-            for camera in self.welcomedata.cameras[self.home].values():
+            for camera in list(self.welcomedata.cameras[self.home].values()):
                 self.camera_names.append(camera['name'])
         return self.camera_names
 
@@ -95,7 +95,7 @@ class WelcomeData(object):
         self.update()
         cam_id = self.welcomedata.cameraByName(camera=camera_name,
                                                home=self.home)['id']
-        for module in self.welcomedata.modules.values():
+        for module in list(self.welcomedata.modules.values()):
             if cam_id == module['cam_id']:
                 self.module_names.append(module['name'])
         return self.module_names

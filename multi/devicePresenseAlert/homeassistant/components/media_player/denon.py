@@ -93,7 +93,7 @@ class DenonDevice(MediaPlayerDevice):
         for line in self.telnet_request(telnet, 'SSSOD ?', all_lines=True):
             source, status = line[len('SSSOD'):].split(" ", 1)
             if status == 'DEL':
-                for pretty_name, name in self._source_list.items():
+                for pretty_name, name in list(self._source_list.items()):
                     if source == name:
                         del self._source_list[pretty_name]
                         break
@@ -145,7 +145,7 @@ class DenonDevice(MediaPlayerDevice):
         self._muted = (self.telnet_request(telnet, 'MU?') == 'MUON')
         self._mediasource = self.telnet_request(telnet, 'SI?')[len('SI'):]
 
-        if self._mediasource in MEDIA_MODES.values():
+        if self._mediasource in list(MEDIA_MODES.values()):
             self._mediainfo = ""
             answer_codes = ["NSE0", "NSE1X", "NSE2X", "NSE3X", "NSE4", "NSE5",
                             "NSE6", "NSE7", "NSE8"]
@@ -195,7 +195,7 @@ class DenonDevice(MediaPlayerDevice):
     @property
     def supported_media_commands(self):
         """Flag of media commands that are supported."""
-        if self._mediasource in MEDIA_MODES.values():
+        if self._mediasource in list(MEDIA_MODES.values()):
             return SUPPORT_DENON | SUPPORT_MEDIA_MODES
         else:
             return SUPPORT_DENON
@@ -203,7 +203,7 @@ class DenonDevice(MediaPlayerDevice):
     @property
     def source(self):
         """Return the current input source."""
-        for pretty_name, name in self._source_list.items():
+        for pretty_name, name in list(self._source_list.items()):
             if self._mediasource == name:
                 return pretty_name
 

@@ -68,7 +68,7 @@ class TestRegisterRequest(unittest.TestCase):
             'Auth-Devicekey: {0}'.format(self.device_delegate.device_key()),
             'Accept: application/json',
         ))
-        self.assertEquals(headers + '\r\n\r\n' + data, str(self.transport.value()))
+        self.assertEqual(headers + '\r\n\r\n' + data, str(self.transport.value()))
 
 
 if __name__ == '__main__':

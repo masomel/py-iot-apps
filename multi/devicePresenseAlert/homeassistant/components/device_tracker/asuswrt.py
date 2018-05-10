@@ -163,7 +163,7 @@ class AsusWrtDeviceScanner(DeviceScanner):
             if not data:
                 return False
 
-            active_clients = [client for client in data.values() if
+            active_clients = [client for client in list(data.values()) if
                               client['status'] == 'REACHABLE' or
                               client['status'] == 'DELAY' or
                               client['status'] == 'STALE' or
@@ -311,7 +311,7 @@ class AsusWrtDeviceScanner(DeviceScanner):
                             continue
 
                         # skip current check if already in ARP table
-                        if nvram_match.group('ip') in devices.keys():
+                        if nvram_match.group('ip') in list(devices.keys()):
                             continue
 
                         devices[nvram_match.group('ip')] = {

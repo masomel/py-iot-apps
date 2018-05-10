@@ -79,7 +79,7 @@ class AWSLambda(BaseNotificationService):
             return
 
         for target in targets:
-            cleaned_kwargs = dict((k, v) for k, v in kwargs.items() if v)
+            cleaned_kwargs = dict((k, v) for k, v in list(kwargs.items()) if v)
             payload = {"message": message}
             payload.update(cleaned_kwargs)
 

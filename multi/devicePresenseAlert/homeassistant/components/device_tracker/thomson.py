@@ -94,7 +94,7 @@ class ThomsonDeviceScanner(DeviceScanner):
                 return False
 
             # Flag C stands for CONNECTED
-            active_clients = [client for client in data.values() if
+            active_clients = [client for client in list(data.values()) if
                               client['status'].find('C') != -1]
             self.last_results = active_clients
             return True

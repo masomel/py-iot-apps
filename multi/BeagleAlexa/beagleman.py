@@ -13,7 +13,7 @@ from hdc1000 import getTemperature
 from pocketsphinx.pocketsphinx import *
 from requests.packages.urllib3.exceptions import *
 from sphinxbase.sphinxbase import *
-from StringIO import StringIO
+from io import StringIO
 from threading import Thread
 
 # Avoid warning about insure request
@@ -85,13 +85,13 @@ requests.packages.urllib3.disable_warnings(InsecurePlatformWarning)
 
 # Verify that the user is connected to the internet
 def internet_on():
-	print "Checking Internet Connection"
+	print("Checking Internet Connection")
 	try:
 		r =requests.get('https://api.amazon.com/auth/o2/token')
-	        print "Connection OK"
+	        print("Connection OK")
 		return True
 	except:
-		print "Connection Failed"
+		print("Connection Failed")
 		return False
 
 #Get Alexa Token
@@ -144,7 +144,7 @@ def alexa():
 		r = requests.post(url, headers=headers, files=files)
 
 	if r.status_code == 200:
-		print "Debug: Alexa provided a response"
+		print("Debug: Alexa provided a response")
 
 		for v in r.headers['content-type'].split(";"):
 			if re.match('.*boundary.*', v):
@@ -158,7 +158,7 @@ def alexa():
 		with open(path+"response.mp3", 'wb') as f:
 			f.write(audio)
 	else:
-		print "Debug: Alexa threw an error with code: ",r.status_code
+		print("Debug: Alexa threw an error with code: ",r.status_code)
 
 def offline_speak(string):
 	os.system('espeak -ven-uk -p50 -s140 "'+string+'" > /dev/null 2>&1')
@@ -229,17 +229,17 @@ def wit_ai():
 	wit_ai_received = False
    
         # Check if we got an error
-	if 'error' not in response.keys():
-                print "Debug: Wit.ai believe the audio said: ", response["_text"]
+	if 'error' not in list(response.keys()):
+                print("Debug: Wit.ai believe the audio said: ", response["_text"])
 
                 # See if our code handles the specified intent
 		if response["outcomes"][0]["intent"] == "UNKNOWN" or not handle_intent(response["outcomes"]):
-                    print "Debug: Unrecognized Wit.ai intent. Let Alexa handle it"
+                    print("Debug: Unrecognized Wit.ai intent. Let Alexa handle it")
                 else:
 			wit_ai_received = True
-                        print "Debug: Wit.ai handled response ignore response from Alexa"
+                        print("Debug: Wit.ai handled response ignore response from Alexa")
         else:
-            print "Debug: Wit.ai returned an error"
+            print("Debug: Wit.ai returned an error")
 
 def web_service():
 	global wit_ai_received
@@ -265,18 +265,18 @@ def web_service():
 		
 
 while internet_on() == False:
-	print "."
+	print(".")
 
 offline_speak("Hello "+username+", Ask me any question")
 
-print "Debug: Ready to receive request"
+print("Debug: Ready to receive request")
 while True:
 	try:
 		# Read from microphone
 		l,buf = inp.read()
 	except:
                 # Hopefully we read fast enough to avoid overflow errors
-		print "Debug: Overflow"
+		print("Debug: Overflow")
 		continue
 
         #Process microphone audio via PocketSphinx only when trigger word
@@ -325,7 +325,7 @@ while True:
 		# Convert raw PCM to wav file (includes audio headers)
 		os.system("sox -t raw -r 16000 -e signed -b 16 -c 1 "+filename_raw+" "+filename+" && sync");
 
-		print "Debug: Sending audio to services to be processed"
+		print("Debug: Sending audio to services to be processed")
 		# Send recording to our speech recognition web services
 		web_service()
 

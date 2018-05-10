@@ -74,7 +74,7 @@ class TwitchSensor(Entity):
     # pylint: disable=no-member
     def update(self):
         """Update device state."""
-        from twitch.api import v3 as twitch
+        from .twitch.api import v3 as twitch
         stream = twitch.streams.by_channel(self._channel).get('stream')
         if stream:
             self._game = stream.get('channel').get('game')

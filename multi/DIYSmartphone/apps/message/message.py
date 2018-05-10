@@ -142,10 +142,10 @@ class Run():
         try:
             contact_file = open('/home/pi/tyos/configure/contacts.conf', 'r')
         except:
-            print '***********************************************************'
-            print 'NO CONTACTS FOUND'
-            print 'PLEASE EDIT /home/pi/tyos/configure/contacts.conf FILE'
-            print '***********************************************************'
+            print('***********************************************************')
+            print('NO CONTACTS FOUND')
+            print('PLEASE EDIT /home/pi/tyos/configure/contacts.conf FILE')
+            print('***********************************************************')
             if not os.path.exists('/home/pi/tyos/configure'):
                 os.mkdir('/home/pi/tyos/configure')
             if not os.path.exists('/home/pi/tyos/logs'):
@@ -179,8 +179,8 @@ class Run():
         num_sms = num_sms[1]
         num_sms = num_sms.split(',')
         num_sms = num_sms[1]
-        print 'SMS FOUND IN MEMORY: ' + num_sms
-        print 'LOADING SMS MESSAGES...'
+        print('SMS FOUND IN MEMORY: ' + num_sms)
+        print('LOADING SMS MESSAGES...')
         #Retrieve sms messages
         for i in range(1, int(num_sms) + 1):
             self.sms_messages['senders'].append(self.fona.transmit('AT+CMGR=' + str(i))[1].split('"')[3].replace('+',''))

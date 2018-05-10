@@ -19,7 +19,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     data.update()
 
     dev = list()
-    for bed_id, _ in data.beds.items():
+    for bed_id, _ in list(data.beds.items()):
         for side in sleepiq.SIDES:
             dev.append(SleepNumberSensor(data, bed_id, side))
     add_devices(dev)

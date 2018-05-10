@@ -51,7 +51,7 @@ class NX584Alarm(alarm.AlarmControlPanel):
 
     def __init__(self, hass, url, name):
         """Initalize the nx584 alarm panel."""
-        from nx584 import client
+        from .nx584 import client
         self._hass = hass
         self._name = name
         self._url = url

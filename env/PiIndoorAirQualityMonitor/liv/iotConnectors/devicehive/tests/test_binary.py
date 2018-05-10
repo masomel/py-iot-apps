@@ -16,31 +16,31 @@ class PacketTests(unittest.TestCase):
         pass
     
     def test_properties(self):
-        self.assertEquals(PACKET_SIGNATURE, self.pkt.signature, 'Signatures are not equal')
-        self.assertEquals(2, self.pkt.version, 'Versions are not equal')
-        self.assertEquals(3, self.pkt.flags, 'Flags are not equal')
-        self.assertEquals(4, self.pkt.intent, 'Intents are not equal')
+        self.assertEqual(PACKET_SIGNATURE, self.pkt.signature, 'Signatures are not equal')
+        self.assertEqual(2, self.pkt.version, 'Versions are not equal')
+        self.assertEqual(3, self.pkt.flags, 'Flags are not equal')
+        self.assertEqual(4, self.pkt.intent, 'Intents are not equal')
     
     def test_checksum(self):
-        self.assertEquals(0xd5, self.pkt.checksum, 'Invalid checksum')
+        self.assertEqual(0xd5, self.pkt.checksum, 'Invalid checksum')
     
     def test_checksum2(self):
         pkt =  Packet(PACKET_SIGNATURE, 0x1, 0x0, 0x101, b'\x01\x02\x03\x04\x05\x06')
-        self.assertEquals(0x59, pkt.checksum)
+        self.assertEqual(0x59, pkt.checksum)
     
     def test_to_binary(self):
         tstval = bytearray([PACKET_SIGNATURE_HI, PACKET_SIGNATURE_LO, 0x02, 0x03, 0x03, 0x00, 0x04, 0x00, 0x31, 0x32, 0x33, 0xd5])
         binval = self.pkt.to_binary()
-        self.assertEquals(tstval, binval, 'Invalid binary message has been formated')
+        self.assertEqual(tstval, binval, 'Invalid binary message has been formated')
     
     def test_from_binary(self):
         pktcopy = Packet.from_binary(self.pkt.to_binary())
-        self.assertEquals(self.pkt.signature, pktcopy.signature)
-        self.assertEquals(self.pkt.version, pktcopy.version)
-        self.assertEquals(self.pkt.flags, pktcopy.flags)
-        self.assertEquals(self.pkt.intent, pktcopy.intent)
-        self.assertEquals(self.pkt.length, pktcopy.length)
-        self.assertEquals(self.pkt.data, pktcopy.data)
+        self.assertEqual(self.pkt.signature, pktcopy.signature)
+        self.assertEqual(self.pkt.version, pktcopy.version)
+        self.assertEqual(self.pkt.flags, pktcopy.flags)
+        self.assertEqual(self.pkt.intent, pktcopy.intent)
+        self.assertEqual(self.pkt.length, pktcopy.length)
+        self.assertEqual(self.pkt.data, pktcopy.data)
 
     def test_crc_error(self):
         tstval = bytearray([PACKET_SIGNATURE_HI, PACKET_SIGNATURE_LO, 0x02, 0x03, 0x03, 0x00, 0x04, 0x00, 0x31, 0x32, 0x33, 0xBA])
@@ -80,7 +80,7 @@ class BinaryPacketBufferTests(unittest.TestCase):
         pkt = [PACKET_SIGNATURE_HI, PACKET_SIGNATURE_LO, 0x02, 0x03, 0x03, 0x00, 0x04, 0x00, 0x31, 0x32, 0x33, 0xd5]
         pkt_buff  = BinaryPacketBuffer()
         pkt_buff.append(pkt)
-        self.assertEquals( str(bytearray(pkt)), pkt_buff.data)
+        self.assertEqual( str(bytearray(pkt)), pkt_buff.data)
         self.assertTrue(pkt_buff.has_packet())
     
     def test_adding_partial_packet(self):
@@ -88,7 +88,7 @@ class BinaryPacketBufferTests(unittest.TestCase):
         pkt_buff  = BinaryPacketBuffer()
         pkt_buff.append(pkt[:4])
         pkt_buff.append(pkt[4:])
-        self.assertEquals( str(bytearray(pkt)), pkt_buff.data, 'One complete packet should be located in the buffer')
+        self.assertEqual( str(bytearray(pkt)), pkt_buff.data, 'One complete packet should be located in the buffer')
         self.assertTrue(pkt_buff.has_packet())
     
     def test_add_packet_prefixed_with_junk(self):
@@ -96,7 +96,7 @@ class BinaryPacketBufferTests(unittest.TestCase):
         pkt_buff = BinaryPacketBuffer()
         pkt_buff.append(pkt[:6])
         pkt_buff.append(pkt[6:])
-        self.assertEquals( str(bytearray(pkt[3:])), pkt_buff.data, 'Junk data should be skipped in the head of packet buffer. {0} != {1}'.format(pkt[3:], pkt_buff.data))
+        self.assertEqual( str(bytearray(pkt[3:])), pkt_buff.data, 'Junk data should be skipped in the head of packet buffer. {0} != {1}'.format(pkt[3:], pkt_buff.data))
         self.assertTrue(pkt_buff.has_packet())
 
     def test_onechar_junk_add(self):
@@ -104,21 +104,21 @@ class BinaryPacketBufferTests(unittest.TestCase):
         pkt_buff.append([0])
         pkt_buff.append([1])
         pkt_buff.append([2])
-        self.assertEquals(0, len(pkt_buff.data), 'If buffer is empty and one character comes to it this character should be of SIGNATURE_HI value')
+        self.assertEqual(0, len(pkt_buff.data), 'If buffer is empty and one character comes to it this character should be of SIGNATURE_HI value')
         self.assertFalse(pkt_buff.has_packet())
 
     def test_invalid_signature(self):
         pkt = [99, 98, 97, PACKET_SIGNATURE_HI, 96, PACKET_SIGNATURE_LO, 94, 93, PACKET_SIGNATURE_HI, PACKET_SIGNATURE_LO, 0x02, 0x03, 0x03, 0x00, 0x04, 0x00, 0x31, 0x32, 0x33, 0xd5]
         pkt_buff = BinaryPacketBuffer()
         pkt_buff.append(pkt)
-        self.assertEquals( str(bytearray(pkt[8:])), pkt_buff.data, 'Buffer should starts from FULL frame signature')
+        self.assertEqual( str(bytearray(pkt[8:])), pkt_buff.data, 'Buffer should starts from FULL frame signature')
         self.assertTrue(pkt_buff.has_packet())
     
     def test_inv_sign_last_signhi(self):
         pkt = [99, 98, 97, PACKET_SIGNATURE_HI, 96, PACKET_SIGNATURE_LO, 94, 93, PACKET_SIGNATURE_HI]
         pkt_buff = BinaryPacketBuffer()
         pkt_buff.append(pkt)
-        self.assertEquals( str(bytearray([PACKET_SIGNATURE_HI])), pkt_buff.data, 'One last character should stay untoched if it is SIGNATURE_HI')
+        self.assertEqual( str(bytearray([PACKET_SIGNATURE_HI])), pkt_buff.data, 'One last character should stay untoched if it is SIGNATURE_HI')
         self.assertFalse(pkt_buff.has_packet())
     
     def test_signature_byteatatime(self):
@@ -126,7 +126,7 @@ class BinaryPacketBufferTests(unittest.TestCase):
         pkt_buff = BinaryPacketBuffer()
         for byte in pkt:
             pkt_buff.append([byte])
-        self.assertEquals(str(bytearray(pkt[8:])), pkt_buff.data, 'Even if we adds packet by one byte the buffer should starts from FULL frame signature')
+        self.assertEqual(str(bytearray(pkt[8:])), pkt_buff.data, 'Even if we adds packet by one byte the buffer should starts from FULL frame signature')
         self.assertTrue(pkt_buff.has_packet())
 
 
@@ -198,23 +198,23 @@ class BinaryFormatterTest(unittest.TestCase):
     def test_serialize_byte(self):
         obj = self._create_default_test_object()
         binstr = BinaryFormatter.serialize(obj)
-        self.assertEquals(self.binary, binstr)
+        self.assertEqual(self.binary, binstr)
     
     def test_deserializer(self):
         res = BinaryFormatter.deserialize(self.binary, _TestObject)
-        self.assertEquals(0xab, res.byte_prop)
-        self.assertEquals(0xabcd, res.word_prop)
-        self.assertEquals(0x12345678, res.dword_prop)
+        self.assertEqual(0xab, res.byte_prop)
+        self.assertEqual(0xabcd, res.word_prop)
+        self.assertEqual(0x12345678, res.dword_prop)
         self.assertTrue(res.bool_prop)
         self.assertFalse(res.false_prop)
-        self.assertEquals('abc', res.str_prop)
-        self.assertEquals(2, len(res.arr_prop))
-        self.assertEquals(-1024, res.arr_prop[0].sword_prop)
-        self.assertEquals(-8192, res.arr_prop[1].sword_prop)
+        self.assertEqual('abc', res.str_prop)
+        self.assertEqual(2, len(res.arr_prop))
+        self.assertEqual(-1024, res.arr_prop[0].sword_prop)
+        self.assertEqual(-8192, res.arr_prop[1].sword_prop)
         
         guid = uuid.UUID('fa8a9d6e-6555-11e2-89b8-e0cb4eb92129')
-        self.assertEquals(guid, res.guid_prop)
-        self.assertEquals(guid, res.aguid_prop)
+        self.assertEqual(guid, res.guid_prop)
+        self.assertEqual(guid, res.aguid_prop)
     
     def test_deserialize_array_prop_invalid_definition(self):
         class _InvalidDefObject(object):
@@ -234,86 +234,86 @@ class BinaryFormatterTest(unittest.TestCase):
     def test_deserialize_register2(self):
         payload = b'{"id":"fa8a9d6e-6555-11e2-89b8-e0cb4eb92129","key":"DEVICE_KEY","name":"DEVICE_NAME","deviceClass":{"name":"DEVICE_CLASS_NAME","version":"DEVICE_CLASS_VERSION"},"equipment":[{"code":"LED_EQP_CODE","name":"LED_EQP_NAME","type":"LED_EQP_TYPE"},{"code":"BTN_EQP_CODE","name":"BTN_EQP_NAME","type":"BTN_EQP_TYPE"}],"commands":[{"intent":257,"name":"UpdateLedState","params":{"equipment":"str","state":"bool"}}],"notifications":[{"intent":256,"name":"equipment","params":{"equipment":"str","state":"bool"}}]}'
         obj = BinaryFormatter.deserialize_register2(payload)
-        self.assertEquals(uuid.UUID('fa8a9d6e-6555-11e2-89b8-e0cb4eb92129'), obj.device_id)
-        self.assertEquals(u'DEVICE_KEY', obj.device_key)
-        self.assertEquals(u'DEVICE_NAME', obj.device_name)
-        self.assertEquals(u'DEVICE_CLASS_NAME', obj.device_class_name)
-        self.assertEquals(u'DEVICE_CLASS_VERSION', obj.device_class_version)
+        self.assertEqual(uuid.UUID('fa8a9d6e-6555-11e2-89b8-e0cb4eb92129'), obj.device_id)
+        self.assertEqual('DEVICE_KEY', obj.device_key)
+        self.assertEqual('DEVICE_NAME', obj.device_name)
+        self.assertEqual('DEVICE_CLASS_NAME', obj.device_class_name)
+        self.assertEqual('DEVICE_CLASS_VERSION', obj.device_class_version)
         # equipment
-        self.assertEquals(2, len(obj.equipment))
-        self.assertEquals(u'LED_EQP_CODE', obj.equipment[0].code)
-        self.assertEquals(u'LED_EQP_NAME', obj.equipment[0].name)
-        self.assertEquals(u'LED_EQP_TYPE', obj.equipment[0].typename)
-        self.assertEquals(u'BTN_EQP_CODE', obj.equipment[1].code)
-        self.assertEquals(u'BTN_EQP_NAME', obj.equipment[1].name)
-        self.assertEquals(u'BTN_EQP_TYPE', obj.equipment[1].typename)
+        self.assertEqual(2, len(obj.equipment))
+        self.assertEqual('LED_EQP_CODE', obj.equipment[0].code)
+        self.assertEqual('LED_EQP_NAME', obj.equipment[0].name)
+        self.assertEqual('LED_EQP_TYPE', obj.equipment[0].typename)
+        self.assertEqual('BTN_EQP_CODE', obj.equipment[1].code)
+        self.assertEqual('BTN_EQP_NAME', obj.equipment[1].name)
+        self.assertEqual('BTN_EQP_TYPE', obj.equipment[1].typename)
         # command
-        self.assertEquals(1, len(obj.commands))
-        self.assertEquals(257, obj.commands[0].intent)
-        self.assertEquals(u'UpdateLedState', obj.commands[0].name)
-        self.assertEquals(2, len(obj.commands[0].parameters))
-        self.assertEquals(u'equipment', obj.commands[0].parameters[0].name)
-        self.assertEquals(DATA_TYPE_STRING, obj.commands[0].parameters[0].type)
-        self.assertEquals(u'state', obj.commands[0].parameters[1].name)
-        self.assertEquals(DATA_TYPE_BOOL, obj.commands[0].parameters[1].type)
+        self.assertEqual(1, len(obj.commands))
+        self.assertEqual(257, obj.commands[0].intent)
+        self.assertEqual('UpdateLedState', obj.commands[0].name)
+        self.assertEqual(2, len(obj.commands[0].parameters))
+        self.assertEqual('equipment', obj.commands[0].parameters[0].name)
+        self.assertEqual(DATA_TYPE_STRING, obj.commands[0].parameters[0].type)
+        self.assertEqual('state', obj.commands[0].parameters[1].name)
+        self.assertEqual(DATA_TYPE_BOOL, obj.commands[0].parameters[1].type)
         # notifications
-        self.assertEquals(1, len(obj.notifications))
-        self.assertEquals(256, obj.notifications[0].intent)
-        self.assertEquals(u'equipment', obj.notifications[0].name)
-        self.assertEquals(2, len(obj.notifications[0].parameters))
-        self.assertEquals(u'equipment', obj.notifications[0].parameters[0].name)
-        self.assertEquals(DATA_TYPE_STRING, obj.notifications[0].parameters[0].type)
-        self.assertEquals(u'state', obj.notifications[0].parameters[1].name)
-        self.assertEquals(DATA_TYPE_BOOL, obj.notifications[0].parameters[1].type)
+        self.assertEqual(1, len(obj.notifications))
+        self.assertEqual(256, obj.notifications[0].intent)
+        self.assertEqual('equipment', obj.notifications[0].name)
+        self.assertEqual(2, len(obj.notifications[0].parameters))
+        self.assertEqual('equipment', obj.notifications[0].parameters[0].name)
+        self.assertEqual(DATA_TYPE_STRING, obj.notifications[0].parameters[0].type)
+        self.assertEqual('state', obj.notifications[0].parameters[1].name)
+        self.assertEqual(DATA_TYPE_BOOL, obj.notifications[0].parameters[1].type)
     
     def test_deserialize_complex_array(self) :
         payload = b'{"id":"fa8a9d6e-6555-11e2-89b8-e0cb4eb92129","key":"1","name":"2","deviceClass":{"name":"3","version":"4"},"equipment":[{"code":"5","name":"6","type":"7"}],"commands":[{"intent":257,"name":"7","params":{"e":"str","state":"bool"}}],"notifications":[{"intent":300,"name":"equipment","params":{"array_prop":["str"]}}]}'
         obj = BinaryFormatter.deserialize_register2(payload)
-        self.assertEquals(300, obj.notifications[0].intent)
+        self.assertEqual(300, obj.notifications[0].intent)
         # test array property
         prop = obj.notifications[0].parameters[0]
-        self.assertEquals(DATA_TYPE_ARRAY, prop.type)
+        self.assertEqual(DATA_TYPE_ARRAY, prop.type)
         self.assertTrue(isinstance(prop.qualifier, ArrayQualifier))
-        self.assertEquals(DATA_TYPE_STRING, prop.qualifier.data_type)
+        self.assertEqual(DATA_TYPE_STRING, prop.qualifier.data_type)
     
     def test_deserialize_complex_obj(self) :
         payload = b'{"id":"fa8a9d6e-6555-11e2-89b8-e0cb4eb92129","key":"1","name":"2","deviceClass":{"name":"3","version":"4"},"equipment":[{"code":"5","name":"6","type":"7"}],"commands":[{"intent":257,"name":"7","params":{"e":"str","state":"bool"}}],"notifications":[{"intent":300,"name":"equipment","params":{"obj_prop":{"str_prop":"str"}}}]}'
         obj = BinaryFormatter.deserialize_register2(payload)
-        self.assertEquals(300, obj.notifications[0].intent)
+        self.assertEqual(300, obj.notifications[0].intent)
         prop = obj.notifications[0].parameters[0]
-        self.assertEquals(u'obj_prop', prop.name)
-        self.assertEquals(DATA_TYPE_OBJECT, prop.type)
+        self.assertEqual('obj_prop', prop.name)
+        self.assertEqual(DATA_TYPE_OBJECT, prop.type)
         self.assertTrue(hasattr(prop.qualifier, 'str_prop'))
         self.assertTrue(isinstance(prop.qualifier.str_prop, binary_property))
-        self.assertEquals(DATA_TYPE_STRING, prop.qualifier.str_prop.type)
+        self.assertEqual(DATA_TYPE_STRING, prop.qualifier.str_prop.type)
     
     def test_deserialize_complex_array_obj(self):
         payload = b'{"id":"fa8a9d6e-6555-11e2-89b8-e0cb4eb92129","key":"1","name":"2","deviceClass":{"name":"3","version":"4"},"equipment":[{"code":"5","name":"6","type":"7"}],"commands":[{"intent":257,"name":"7","params":{"e":"str","state":"bool"}}],"notifications":[{"intent":300,"name":"equipment","params":{"array_prop":[{"str_prop":"str"}]}}]}'
         obj = BinaryFormatter.deserialize_register2(payload)
         prop = obj.notifications[0].parameters[0]
-        self.assertEquals(u'array_prop', prop.name)
-        self.assertEquals(DATA_TYPE_ARRAY, prop.type)
+        self.assertEqual('array_prop', prop.name)
+        self.assertEqual(DATA_TYPE_ARRAY, prop.type)
         self.assertTrue( isinstance(prop.qualifier, ArrayQualifier) )
         self.assertFalse(prop.qualifier.data_type is None)
         self.assertTrue(hasattr(prop.qualifier.data_type, 'str_prop'))
         self.assertTrue(isinstance(prop.qualifier.data_type.str_prop, binary_property))
-        self.assertEquals(DATA_TYPE_STRING, prop.qualifier.data_type.str_prop.type)
+        self.assertEqual(DATA_TYPE_STRING, prop.qualifier.data_type.str_prop.type)
     
     def test_deserialize_complex_array_array_obj_array(self) :
         payload = b'{"id":"fa8a9d6e-6555-11e2-89b8-e0cb4eb92129","key":"1","name":"2","deviceClass":{"name":"3","version":"4"},"equipment":[{"code":"5","name":"6","type":"7"}],"commands":[{"intent":257,"name":"7","params":{"e":"str","state":"bool"}}],"notifications":[{"intent":300,"name":"equipment","params":{"array_prop":[[{"array_prop":["str"]}]]}}]}'
         obj = BinaryFormatter.deserialize_register2(payload)
         prop = obj.notifications[0].parameters[0]
-        self.assertEquals(u'array_prop', prop.name)
-        self.assertEquals(DATA_TYPE_ARRAY, prop.type)
+        self.assertEqual('array_prop', prop.name)
+        self.assertEqual(DATA_TYPE_ARRAY, prop.type)
         self.assertTrue(isinstance(prop.qualifier, ArrayQualifier))
         self.assertTrue(isinstance(prop.qualifier.data_type, ArrayQualifier))
         self.assertTrue(prop.qualifier.data_type.is_object())
         #
         objdescr = prop.qualifier.data_type.data_type
         self.assertTrue (hasattr(objdescr, 'array_prop'))
-        self.assertEquals(DATA_TYPE_ARRAY, objdescr.array_prop.type)
+        self.assertEqual(DATA_TYPE_ARRAY, objdescr.array_prop.type)
         self.assertTrue( isinstance(objdescr.array_prop.qualifier, ArrayQualifier) )
-        self.assertEquals(DATA_TYPE_STRING, objdescr.array_prop.qualifier.data_type)
+        self.assertEqual(DATA_TYPE_STRING, objdescr.array_prop.qualifier.data_type)
     
     def test_complex_object(self) :
         class _Tmp(object):
@@ -340,7 +340,7 @@ class BinaryFormatterTest(unittest.TestCase):
         t.a4_property = (ArrayContainer(_Tmp._SubTmp, [_Tmp._SubTmp()]),)
         t.a4_property[0][0].sub_byte_property = 70
         bin = BinaryFormatter.serialize(t)
-        self.assertEquals(bytearray([125, 100, 0x03, 0x00, 0x01, 0x02, 0x03, 0x02, 0x00, 50, 60, 0x02, 0x00, 0x02, 0x00, 1, 2, 0x02, 0x00, 3, 4, 0x01, 0x00, 0x01, 0x00, 70]), bin)
+        self.assertEqual(bytearray([125, 100, 0x03, 0x00, 0x01, 0x02, 0x03, 0x02, 0x00, 50, 60, 0x02, 0x00, 0x02, 0x00, 1, 2, 0x02, 0x00, 3, 4, 0x01, 0x00, 0x01, 0x00, 70]), bin)
 
 
 class BinaryConstructableTest(unittest.TestCase):
@@ -369,11 +369,11 @@ class BinaryConstructableTest(unittest.TestCase):
         self.assertTrue(hasattr(cls, 'property3'))
         self.assertTrue(isinstance(cls.property3, array_binary_property))
         self.assertTrue(isinstance(cls.property3.qualifier, ArrayQualifier))
-        self.assertEquals(DATA_TYPE_BYTE, cls.property3.qualifier.data_type)
+        self.assertEqual(DATA_TYPE_BYTE, cls.property3.qualifier.data_type)
         
         self.assertTrue(hasattr(cls, 'property4'))
         self.assertTrue(isinstance(cls.property4, object_binary_property))
-        self.assertEquals(BinaryConstructableTest._ElementType, cls.property4.qualifier)
+        self.assertEqual(BinaryConstructableTest._ElementType, cls.property4.qualifier)
         self.assertTrue(hasattr(cls.property4.qualifier, 'sub_property1'))
     
     def test_top_level_scalar(self):
@@ -410,39 +410,39 @@ class ToDictionaryTest(unittest.TestCase):
     def test_basic_property(self) :
         res = self.obj.to_dict()
         self.assertTrue('u8_prop' in res)
-        self.assertEquals(125, res['u8_prop'])
+        self.assertEqual(125, res['u8_prop'])
     
     def test_object_property(self):
         res = self.obj.to_dict()
         self.assertTrue('obj_prop' in res)
         self.assertTrue(isinstance(res['obj_prop'], dict))
         self.assertTrue('i8_prop' in res['obj_prop'])
-        self.assertEquals(100, res['obj_prop']['i8_prop'])
+        self.assertEqual(100, res['obj_prop']['i8_prop'])
     
     def test_array_of_basics_property(self):
         res = self.obj.to_dict()
         self.assertTrue('ab_prop' in res)
         self.assertTrue(isinstance(res['ab_prop'], list))
-        self.assertEquals(4, len(res['ab_prop']))
-        self.assertEquals([1, 2, 3, 4], res['ab_prop'])
+        self.assertEqual(4, len(res['ab_prop']))
+        self.assertEqual([1, 2, 3, 4], res['ab_prop'])
     
     def test_array_of_objects_property(self):
         res = self.obj.to_dict()
         self.assertTrue('ao_prop' in res)
         self.assertTrue(isinstance(res['ao_prop'], list))
-        self.assertEquals(2, len(res['ao_prop']))
+        self.assertEqual(2, len(res['ao_prop']))
         self.assertTrue( all([isinstance(i, dict) for i in res['ao_prop']]) )
-        self.assertEquals(1, res['ao_prop'][0]['i8_prop'])
-        self.assertEquals(2, res['ao_prop'][1]['i8_prop'])
+        self.assertEqual(1, res['ao_prop'][0]['i8_prop'])
+        self.assertEqual(2, res['ao_prop'][1]['i8_prop'])
     
     def test_array_of_array_of_basics_property(self):
         res = self.obj.to_dict()
         self.assertTrue('aa_prop' in res)
         self.assertTrue(isinstance(res['aa_prop'], list))
-        self.assertEquals(1, res['aa_prop'][0][0])
-        self.assertEquals(2, res['aa_prop'][0][1])
-        self.assertEquals(3, res['aa_prop'][1][0])
-        self.assertEquals(4, res['aa_prop'][1][1])
+        self.assertEqual(1, res['aa_prop'][0][0])
+        self.assertEqual(2, res['aa_prop'][0][1])
+        self.assertEqual(3, res['aa_prop'][1][0])
+        self.assertEqual(4, res['aa_prop'][1][1])
 
 
 class UpdateableTest(unittest.TestCase) :
@@ -470,44 +470,44 @@ class UpdateableTest(unittest.TestCase) :
                     'property4': [ {'element':2}, {'element':1}, {'element':0}],
                     'property5': [ [1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 2, 1], [3, 1, 2] ] })
         #
-        self.assertEquals(123, obj.property1)
+        self.assertEqual(123, obj.property1)
         self.assertTrue(hasattr(obj, 'property2'))
         self.assertTrue(isinstance(obj.property2, UpdateableTest._Test._SubTest))
-        self.assertEquals(321, obj.property2.sub_property)
+        self.assertEqual(321, obj.property2.sub_property)
         #
         self.assertTrue(hasattr(obj, 'property3'))
-        self.assertEquals([1,2,3], obj.property3)
+        self.assertEqual([1,2,3], obj.property3)
         #
         self.assertTrue(hasattr(obj, 'property4'))
-        self.assertEquals(3, len(obj.property4))
+        self.assertEqual(3, len(obj.property4))
         self.assertTrue( all([isinstance(o, UpdateableTest._Test._Element) for o in obj.property4]) )
-        self.assertEquals(2, obj.property4[0].element)
-        self.assertEquals(1, obj.property4[1].element)
-        self.assertEquals(0, obj.property4[2].element)
+        self.assertEqual(2, obj.property4[0].element)
+        self.assertEqual(1, obj.property4[1].element)
+        self.assertEqual(0, obj.property4[2].element)
         #
         self.assertTrue(hasattr(obj, 'property5'))
-        self.assertEquals(6, len(obj.property5))
+        self.assertEqual(6, len(obj.property5))
         self.assertTrue( all([isinstance(o, ArrayContainer) for o in obj.property5]) )
         self.assertTrue( all([o.array.qualifier.data_type == DATA_TYPE_WORD for o in obj.property5]) )
         self.assertTrue( all([3 == len(o) for o in obj.property5]) )
-        self.assertEquals(1, obj.property5[0][0])
-        self.assertEquals(2, obj.property5[0][1])
-        self.assertEquals(3, obj.property5[0][2])
-        self.assertEquals(1, obj.property5[1][0])
-        self.assertEquals(3, obj.property5[1][1])
-        self.assertEquals(2, obj.property5[1][2])
-        self.assertEquals(2, obj.property5[2][0])
-        self.assertEquals(1, obj.property5[2][1])
-        self.assertEquals(3, obj.property5[2][2])
-        self.assertEquals(2, obj.property5[3][0])
-        self.assertEquals(3, obj.property5[3][1])
-        self.assertEquals(1, obj.property5[3][2])
-        self.assertEquals(3, obj.property5[4][0])
-        self.assertEquals(2, obj.property5[4][1])
-        self.assertEquals(1, obj.property5[4][2])
-        self.assertEquals(3, obj.property5[5][0])
-        self.assertEquals(1, obj.property5[5][1])
-        self.assertEquals(2, obj.property5[5][2])
+        self.assertEqual(1, obj.property5[0][0])
+        self.assertEqual(2, obj.property5[0][1])
+        self.assertEqual(3, obj.property5[0][2])
+        self.assertEqual(1, obj.property5[1][0])
+        self.assertEqual(3, obj.property5[1][1])
+        self.assertEqual(2, obj.property5[1][2])
+        self.assertEqual(2, obj.property5[2][0])
+        self.assertEqual(1, obj.property5[2][1])
+        self.assertEqual(3, obj.property5[2][2])
+        self.assertEqual(2, obj.property5[3][0])
+        self.assertEqual(3, obj.property5[3][1])
+        self.assertEqual(1, obj.property5[3][2])
+        self.assertEqual(3, obj.property5[4][0])
+        self.assertEqual(2, obj.property5[4][1])
+        self.assertEqual(1, obj.property5[4][2])
+        self.assertEqual(3, obj.property5[5][0])
+        self.assertEqual(1, obj.property5[5][1])
+        self.assertEqual(2, obj.property5[5][2])
     
     def test_array_updateable(self):
         class _ArrayElement(Updateable):
@@ -515,9 +515,9 @@ class UpdateableTest(unittest.TestCase) :
             __binary_struct__ = (top_level,)
         obj = _ArrayElement()
         obj.update([1, 2, 3])
-        self.assertEquals(1, obj.top_level[0])
-        self.assertEquals(2, obj.top_level[1])
-        self.assertEquals(3, obj.top_level[2])
+        self.assertEqual(1, obj.top_level[0])
+        self.assertEqual(2, obj.top_level[1])
+        self.assertEqual(3, obj.top_level[2])
     
     def test_scalar_updateable(self):
         class _ScalarElement(Updateable) :
@@ -525,9 +525,9 @@ class UpdateableTest(unittest.TestCase) :
             __binary_struct__ = (top_level,)
         obj = _ScalarElement()
         obj.update(12)
-        self.assertEquals(12, obj.top_level)
+        self.assertEqual(12, obj.top_level)
         obj.update(230)
-        self.assertEquals(230, obj.top_level)
+        self.assertEqual(230, obj.top_level)
 
 
 class BinaryFactoryTests(unittest.TestCase):
@@ -567,10 +567,10 @@ class BinaryFactoryTests(unittest.TestCase):
         # makeConnection
         bindata = transport.value()
         pkt = Packet.from_binary(bindata)
-        self.assertEquals(PACKET_SIGNATURE, pkt.signature)
-        self.assertEquals(1, pkt.version)
-        self.assertEquals(SYS_INTENT_REQUEST_REGISTRATION, pkt.intent)
-        self.assertEquals(0, len(pkt.data))
+        self.assertEqual(PACKET_SIGNATURE, pkt.signature)
+        self.assertEqual(1, pkt.version)
+        self.assertEqual(SYS_INTENT_REQUEST_REGISTRATION, pkt.intent)
+        self.assertEqual(0, len(pkt.data))
     
     def test_registration(self):
         # dataReceived registration from device
@@ -578,33 +578,33 @@ class BinaryFactoryTests(unittest.TestCase):
         protocol = binfactory.buildProtocol(None)
         protocol.dataReceived(self.device_reg_pkt.to_binary())
         self.assertTrue(self.gateway.reg_has_been_received)
-        self.assertNotEquals(None, self.gateway.device_info)
-        self.assertEquals(str(self.device_id), self.gateway.device_info.id)
-        self.assertEquals('test-device-key', self.gateway.device_info.key)
-        self.assertEquals('test-device-name', self.gateway.device_info.name)
-        self.assertEquals('test-device-class-name', self.gateway.device_info.device_class.name)
-        self.assertEquals('test-device-class-version', self.gateway.device_info.device_class.version)
-        self.assertEquals(1, len(self.gateway.device_info.equipment))
+        self.assertNotEqual(None, self.gateway.device_info)
+        self.assertEqual(str(self.device_id), self.gateway.device_info.id)
+        self.assertEqual('test-device-key', self.gateway.device_info.key)
+        self.assertEqual('test-device-name', self.gateway.device_info.name)
+        self.assertEqual('test-device-class-name', self.gateway.device_info.device_class.name)
+        self.assertEqual('test-device-class-version', self.gateway.device_info.device_class.version)
+        self.assertEqual(1, len(self.gateway.device_info.equipment))
         eq = self.gateway.device_info.equipment[0]
-        self.assertEquals('eq-1-name', eq.name)
-        self.assertEquals('eq-1-code', eq.code)
-        self.assertEquals('eq-1-typecode', eq.type)
+        self.assertEqual('eq-1-name', eq.name)
+        self.assertEqual('eq-1-code', eq.code)
+        self.assertEqual('eq-1-typecode', eq.type)
         # test notification_descriptors
-        self.assertEquals(1, len(binfactory.notification_descriptors[self.device_id]))
+        self.assertEqual(1, len(binfactory.notification_descriptors[self.device_id]))
         self.assertTrue(300 in binfactory.notification_descriptors[self.device_id])
         notif = binfactory.notification_descriptors[self.device_id][300]
-        self.assertEquals(300, notif.intent)
-        self.assertNotEquals(None, notif.cls)
+        self.assertEqual(300, notif.intent)
+        self.assertNotEqual(None, notif.cls)
         self.assertTrue(hasattr(notif.cls, 'word_param'))
         self.assertTrue(hasattr(notif.cls, 'byte_param'))
         self.assertTrue(DATA_TYPE_WORD, notif.cls.word_param.type)
         self.assertTrue(DATA_TYPE_BYTE, notif.cls.byte_param.type)
         # test command_descriptors
-        self.assertEquals(1, len(binfactory.command_descriptors[self.device_id]))
+        self.assertEqual(1, len(binfactory.command_descriptors[self.device_id]))
         self.assertTrue(301 in binfactory.command_descriptors[self.device_id])
         cmd = binfactory.command_descriptors[self.device_id][301]
-        self.assertEquals(301, cmd.intent)
-        self.assertNotEquals(None, cmd.cls)
+        self.assertEqual(301, cmd.intent)
+        self.assertNotEqual(None, cmd.cls)
         self.assertTrue(hasattr(cmd.cls, 'sword_param'))
         self.assertTrue(DATA_TYPE_SWORD, cmd.cls.sword_param.type)
     
@@ -623,7 +623,7 @@ class BinaryFactoryTests(unittest.TestCase):
                                '{"intent":270,"name":"SetTempInterval","params":{"equipment":"str","interval":"u16"}}' + \
                                ']}'
         obj = BinaryFormatter.deserialize_register2(json_str)
-        self.assertEquals(5, len(obj.commands))
+        self.assertEqual(5, len(obj.commands))
         self.assertTrue(all([isinstance(x, Command) for x in obj.commands]))
         # object top level value
         cmd0 = obj.commands[0]
@@ -639,42 +639,42 @@ class BinaryFactoryTests(unittest.TestCase):
         descr1 = cmd1.descriptor()
         self.assertTrue(hasattr(descr1, 'top_level'))
         self.assertTrue(isinstance(getattr(descr1, 'top_level'), AbstractBinaryProperty))
-        self.assertEquals(DATA_TYPE_STRING, getattr(descr1, 'top_level').type)
+        self.assertEqual(DATA_TYPE_STRING, getattr(descr1, 'top_level').type)
         # array top level value
         cmd2 = obj.commands[2]
         descr2 = cmd2.descriptor()
         self.assertTrue(hasattr(descr2, 'top_level'))
         self.assertTrue(isinstance(getattr(descr2, 'top_level'), array_binary_property))
-        self.assertEquals(DATA_TYPE_STRING, getattr(descr2, 'top_level').qualifier.data_type)
+        self.assertEqual(DATA_TYPE_STRING, getattr(descr2, 'top_level').qualifier.data_type)
         # empty parameters
         cmd3 = obj.commands[3]
         descr3 = cmd3.descriptor()
         self.assertFalse(hasattr(descr3, 'top_level'))
         self.assertTrue(hasattr(descr3, '__binary_struct__'))
-        self.assertEquals(0, len(descr3.__binary_struct__))
+        self.assertEqual(0, len(descr3.__binary_struct__))
         # update tests
         o0 = descr0()
         o0.update({'e1': 'test0', 'state': True})
-        self.assertEquals('test0', o0.e1)
-        self.assertEquals(True, o0.state)
+        self.assertEqual('test0', o0.e1)
+        self.assertEqual(True, o0.state)
         # descr1
         o1 = descr1()
         o1.update('test1')
-        self.assertEquals('test1', o1.top_level)
+        self.assertEqual('test1', o1.top_level)
         # descr2
         o2 = descr2()
         o2.update(['test2.1', 'test2.2', 'test2.3'])
-        self.assertEquals(3, len(o2.top_level))
-        self.assertEquals('test2.1', o2.top_level[0])
-        self.assertEquals('test2.2', o2.top_level[1])
-        self.assertEquals('test2.3', o2.top_level[2])
+        self.assertEqual(3, len(o2.top_level))
+        self.assertEqual('test2.1', o2.top_level[0])
+        self.assertEqual('test2.2', o2.top_level[1])
+        self.assertEqual('test2.3', o2.top_level[2])
         o2.update(('test2.1.1', 'test2.1.2'))
-        self.assertEquals(2, len(o2.top_level))
-        self.assertEquals('test2.1.1', o2.top_level[0])
-        self.assertEquals('test2.1.2', o2.top_level[1])
+        self.assertEqual(2, len(o2.top_level))
+        self.assertEqual('test2.1.1', o2.top_level[0])
+        self.assertEqual('test2.1.2', o2.top_level[1])
         # fail tests o2
         o2.update({'test3': 'test3', 'test4': 4})
-        self.assertEquals(['test2.1.1', 'test2.1.2'], o2.top_level, 'Invalid update parameter should not updates values.')
+        self.assertEqual(['test2.1.1', 'test2.1.2'], o2.top_level, 'Invalid update parameter should not updates values.')
         # descr3
         o3 = descr3()
         o3.update(None)
@@ -692,9 +692,9 @@ class BinaryFactoryTests(unittest.TestCase):
 
 class BinaryFormatterErrorTests(unittest.TestCase):
     def test_base_class(self):
-        self.assertNotEquals(None, BinaryFormatterError("description")) 
-        self.assertNotEquals(None, BinarySerializationError("description"))
-        self.assertNotEquals(None, BinaryDeserializationError("description"))
+        self.assertNotEqual(None, BinaryFormatterError("description")) 
+        self.assertNotEqual(None, BinarySerializationError("description"))
+        self.assertNotEqual(None, BinaryDeserializationError("description"))
 
 
 class AbstractBinaryPropertyTests(unittest.TestCase):
@@ -707,8 +707,8 @@ class AbstractBinaryPropertyTests(unittest.TestCase):
         self.assertTrue(hasattr(_Test, 'prop2'))
         t.prop1 = 12
         t.prop2 = 13
-        self.assertEquals(12, t.prop1)
-        self.assertEquals(13, t.prop2)
+        self.assertEqual(12, t.prop1)
+        self.assertEqual(13, t.prop2)
 
 
 if __name__ == '__main__':

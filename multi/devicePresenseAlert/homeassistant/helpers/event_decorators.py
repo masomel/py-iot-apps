@@ -2,7 +2,7 @@
 import functools
 
 # pylint: disable=unused-import
-from typing import Optional  # NOQA
+from .typing import Optional  # NOQA
 
 from homeassistant.core import HomeAssistant  # NOQA
 from homeassistant.helpers import event

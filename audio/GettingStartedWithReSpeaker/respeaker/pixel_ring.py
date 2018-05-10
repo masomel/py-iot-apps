@@ -15,8 +15,8 @@
  limitations under the License.
 """
 
-import usb_hid
-from spi import spi
+from . import usb_hid
+from .spi import spi
 
 
 class PixelRing:
@@ -73,7 +73,7 @@ class PixelRing:
         if self.hid:
             packet = bytearray([address & 0xFF, (address >> 8) & 0xFF, length & 0xFF, (length >> 8) & 0xFF]) + data
             self.hid.write(packet)
-            print packet
+            print(packet)
         spi.write(address=address, data=data)
 
     def close(self):

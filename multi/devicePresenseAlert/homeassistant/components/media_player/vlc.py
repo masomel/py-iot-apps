@@ -40,7 +40,7 @@ class VlcDevice(MediaPlayerDevice):
 
     def __init__(self, name):
         """Initialize the vlc device."""
-        import vlc
+        from . import vlc
         self._instance = vlc.Instance()
         self._vlc = self._instance.media_player_new()
         self._name = name
@@ -53,7 +53,7 @@ class VlcDevice(MediaPlayerDevice):
 
     def update(self):
         """Get the latest details from the device."""
-        import vlc
+        from . import vlc
         status = self._vlc.get_state()
         if status == vlc.State.Playing:
             self._state = STATE_PLAYING

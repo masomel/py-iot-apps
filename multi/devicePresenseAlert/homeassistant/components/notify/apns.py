@@ -149,12 +149,12 @@ class ApnsNotificationService(BaseNotificationService):
                     value.get('disabled', False)
                 )
                 for (key, value) in
-                load_yaml_config_file(self.yaml_path).items()
+                list(load_yaml_config_file(self.yaml_path).items())
             }
 
         tracking_ids = [
             device.full_tracking_device_id
-            for (key, device) in self.devices.items()
+            for (key, device) in list(self.devices.items())
             if device.tracking_device_id is not None
         ]
         track_state_change(
@@ -196,7 +196,7 @@ class ApnsNotificationService(BaseNotificationService):
     def write_devices(self):
         """Write all known devices to file."""
         with open(self.yaml_path, 'w+') as out:
-            for _, device in self.devices.items():
+            for _, device in list(self.devices.items()):
                 ApnsNotificationService.write_device(out, device)
 
     def register(self, call):
@@ -261,7 +261,7 @@ class ApnsNotificationService(BaseNotificationService):
 
         device_update = False
 
-        for push_id, device in self.devices.items():
+        for push_id, device in list(self.devices.items()):
             if not device.disabled:
                 state = None
                 if device.tracking_device_id is not None:

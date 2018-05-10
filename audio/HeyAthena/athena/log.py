@@ -17,19 +17,19 @@ logger.addHandler(fh)
 def debug(msg):
     """ Logs a debug message to the logger """
     if logger.level <= logging.DEBUG:
-        print('\n~ ' + msg)
+        print(('\n~ ' + msg))
     logger.debug(msg)
 
 
 def info(msg):
     """ Logs an info message to the logger """
     if logger.level <= logging.INFO:
-        print('\n~ ' + msg)
+        print(('\n~ ' + msg))
     logger.info(msg)
 
 
 def error(msg):
     """ Logs an error message to the logger """
     if logger.level <= logging.ERROR:
-        print('\n~ ' + msg)
+        print(('\n~ ' + msg))
     logger.info(msg)

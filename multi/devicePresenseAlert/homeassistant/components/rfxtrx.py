@@ -53,10 +53,10 @@ RFXOBJECT = None
 def _valid_device(value, device_type):
     """Validate a dictionary of devices definitions."""
     config = OrderedDict()
-    for key, device in value.items():
+    for key, device in list(value.items()):
 
         # Still accept old configuration
-        if 'packetid' in device.keys():
+        if 'packetid' in list(device.keys()):
             msg = 'You are using an outdated configuration of the rfxtrx ' +\
                   'device, {}.'.format(key) +\
                   ' Your new config should be:\n    {}: \n        name: {}'\
@@ -104,7 +104,7 @@ DEVICE_SCHEMA_SENSOR = vol.Schema({
     vol.Optional(ATTR_NAME, default=None): cv.string,
     vol.Optional(ATTR_FIREEVENT, default=False): cv.boolean,
     vol.Optional(ATTR_DATA_TYPE, default=[]):
-        vol.All(cv.ensure_list, [vol.In(DATA_TYPES.keys())]),
+        vol.All(cv.ensure_list, [vol.In(list(DATA_TYPES.keys()))]),
 })
 
 DEFAULT_SCHEMA = vol.Schema({
@@ -195,7 +195,7 @@ def get_devices_from_config(config, device):
     signal_repetitions = config[CONF_SIGNAL_REPETITIONS]
 
     devices = []
-    for packet_id, entity_info in config[CONF_DEVICES].items():
+    for packet_id, entity_info in list(config[CONF_DEVICES].items()):
         event = get_rfx_object(packet_id)
         device_id = slugify(event.device.id_string.lower())
         if device_id in RFX_DEVICES:

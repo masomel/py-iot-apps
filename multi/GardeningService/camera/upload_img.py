@@ -11,10 +11,10 @@ import time
 import datetime
 
 # this handles reading in the twitter.config file with the secret keys
-import ConfigParser
+import configparser
 
 # read in the configuration file for AWS credentials
-configParser = ConfigParser.RawConfigParser()
+configParser = configparser.RawConfigParser()
 configFilePath = r'aws.config'
 configParser.read(configFilePath)
 
@@ -25,7 +25,7 @@ AWS_SECRET_ACCESS_KEY = configParser.get('My Secret Data', 'secret_access_key')
 # get the current date and time
 curr_dt_tm = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-print curr_dt_tm
+print(curr_dt_tm)
 
 # create an instance of the camera
 

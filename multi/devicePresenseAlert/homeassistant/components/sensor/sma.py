@@ -36,7 +36,7 @@ def _check_sensor_schema(conf):
     """Check sensors and attributes are valid."""
     valid = list(conf[CONF_CUSTOM].keys())
     valid.extend(SENSOR_OPTIONS)
-    for sensor, attrs in conf[CONF_SENSORS].items():
+    for sensor, attrs in list(conf[CONF_SENSORS].items()):
         if sensor not in valid:
             raise vol.Invalid("{} does not exist".format(sensor))
         for attr in attrs:
@@ -64,12 +64,12 @@ def async_setup_platform(hass, config, add_devices, discovery_info=None):
     import pysma
 
     # Combine sensor_defs from the library and custom config
-    sensor_defs = dict(zip(SENSOR_OPTIONS, [
+    sensor_defs = dict(list(zip(SENSOR_OPTIONS, [
         (pysma.KEY_CURRENT_CONSUMPTION_W, 'W'),
         (pysma.KEY_CURRENT_POWER_W, 'W'),
         (pysma.KEY_TOTAL_CONSUMPTION_KWH, 'kW/h'),
-        (pysma.KEY_TOTAL_YIELD_KWH, 'kW/h')]))
-    for name, prop in config[CONF_CUSTOM].items():
+        (pysma.KEY_TOTAL_YIELD_KWH, 'kW/h')])))
+    for name, prop in list(config[CONF_CUSTOM].items()):
         if name in sensor_defs:
             _LOGGER.warning("Custom sensor %s replace built-in sensor", name)
         sensor_defs[name] = (prop['key'], prop['unit'])
@@ -77,13 +77,13 @@ def async_setup_platform(hass, config, add_devices, discovery_info=None):
     # Prepare all HASS sensor entities
     hass_sensors = []
     used_sensors = []
-    for name, attr in config[CONF_SENSORS].items():
+    for name, attr in list(config[CONF_SENSORS].items()):
         hass_sensors.append(SMAsensor(name, attr, sensor_defs))
         used_sensors.append(name)
         used_sensors.extend(attr)
 
     # Remove sensor_defs not in use
-    sensor_defs = {name: val for name, val in sensor_defs.items()
+    sensor_defs = {name: val for name, val in list(sensor_defs.items())
                    if name in used_sensors}
 
     yield from add_devices(hass_sensors)
@@ -121,7 +121,7 @@ def async_setup_platform(hass, config, add_devices, discovery_info=None):
         if values is None:
             backoff = 3
             return
-        res = dict(zip(names_to_query, values))
+        res = dict(list(zip(names_to_query, values)))
         _LOGGER.debug("Update sensors %s %s %s", keys_to_query, values, res)
         tasks = []
         for sensor in hass_sensors:
@@ -175,7 +175,7 @@ class SMAsensor(Entity):
         """Update this sensor using the data."""
         update = False
 
-        for key, val in self._attr.items():
+        for key, val in list(self._attr.items()):
             if val.partition(' ')[0] != key_values[key]:
                 update = True
                 self._attr[key] = '{} {}'.format(key_values[key],

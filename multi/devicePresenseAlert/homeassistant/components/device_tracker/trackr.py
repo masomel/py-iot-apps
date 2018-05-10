@@ -43,7 +43,7 @@ class TrackRDeviceScanner(object):
         self._update_info()
 
         track_utc_time_change(self.hass, self._update_info,
-                              second=range(0, 60, 30))
+                              second=list(range(0, 60, 30)))
 
     def _update_info(self, now=None) -> None:
         """Update the device info."""

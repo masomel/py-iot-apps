@@ -48,7 +48,7 @@ CONFIG_SCHEMA = vol.Schema({
 
 def setup(hass, config):
     """Setup the InfluxDB component."""
-    from influxdb import InfluxDBClient, exceptions
+    from .influxdb import InfluxDBClient, exceptions
 
     conf = config[DOMAIN]
 
@@ -121,7 +121,7 @@ def setup(hass, config):
         if isinstance(_state, (int, float)):
             state_fields['value'] = float(_state)
 
-        for key, value in state.attributes.items():
+        for key, value in list(state.attributes.items()):
             if isinstance(value, (int, float)):
                 state_fields[key] = float(value)
 

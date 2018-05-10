@@ -120,4 +120,4 @@ class Configure():
 if __name__ == '__main__':
     i = Configure()
     w = i.read_server()
-    print w
+    print(w)

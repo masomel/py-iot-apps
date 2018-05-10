@@ -30,7 +30,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     password = config.get(CONF_PASSWORD)
     host = config.get(CONF_HOST)
 
-    import proliphix
+    from . import proliphix
 
     pdp = proliphix.PDP(host, username, password)
 

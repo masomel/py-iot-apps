@@ -47,19 +47,19 @@ def ReceiveUntil(ser, success, failure, timeOut):
 	if success in currentMsg :
 		return currentMsg
 	elif failure in currentMsg :
-		print 'Failure (' + currentMsg.replace('\r\n', '') + ')'
+		print('Failure (' + currentMsg.replace('\r\n', '') + ')')
 	else :
-		print 'Receive timeout (' + currentMsg.replace('\r\n', '') + ')'
+		print('Receive timeout (' + currentMsg.replace('\r\n', '') + ')')
 	return ''
 
-print 'Sending SigFox Message...'
+print('Sending SigFox Message...')
 
 # allow serial port choice from parameter - default is /dev/ttyAMA0
 portName = '/dev/ttyAMA0'
 if len(sys.argv) == 3:
     portName = sys.argv[2]
 
-print 'Serial port : ' + portName
+print('Serial port : ' + portName)
 
 ser = serial.Serial(
 	port=portName,
@@ -118,6 +118,6 @@ else:
 	ser.close()
 	exit()
 
-print re.sub(r'\+RX=([0-9af ]{2,})\+RX END', r'\1', rxData.replace('\r\n', ''))
+print(re.sub(r'\+RX=([0-9af ]{2,})\+RX END', r'\1', rxData.replace('\r\n', '')))
 
 ser.close()

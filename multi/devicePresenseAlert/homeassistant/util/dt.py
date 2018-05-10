@@ -136,7 +136,7 @@ def parse_datetime(dt_str: str) -> dt.datetime:
         tzinfo = dt.timezone(offset)
     else:
         tzinfo = None
-    kws = {k: int(v) for k, v in kws.items() if v is not None}
+    kws = {k: int(v) for k, v in list(kws.items()) if v is not None}
     kws['tzinfo'] = tzinfo
     return dt.datetime(**kws)
 

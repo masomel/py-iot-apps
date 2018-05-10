@@ -58,7 +58,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     switches = config.get(CONF_SWITCHES)
     devices = []
 
-    for dev_name, properties in switches.items():
+    for dev_name, properties in list(switches.items()):
         devices.append(
             PilightSwitch(
                 hass,
@@ -116,13 +116,13 @@ class PilightSwitch(SwitchDevice):
         # - Call turn on/off only once, even if more than one code is received
         if any(self._code_on_receive):
             for on_code in self._code_on_receive:
-                if on_code.items() <= call.data.items():
+                if list(on_code.items()) <= list(call.data.items()):
                     self.turn_on()
                     break
 
         if any(self._code_off_receive):
             for off_code in self._code_off_receive:
-                if off_code.items() <= call.data.items():
+                if list(off_code.items()) <= list(call.data.items()):
                     self.turn_off()
                     break
 

@@ -144,7 +144,7 @@ def async_reproduce_state(hass, states, blocking=False):
         domain_services = hass.services.async_services()[service_domain]
 
         service = None
-        for _service in domain_services.keys():
+        for _service in list(domain_services.keys()):
             if (_service in SERVICE_ATTRIBUTES and
                     all(attr in state.attributes
                         for attr in SERVICE_ATTRIBUTES[_service]) or
@@ -167,7 +167,7 @@ def async_reproduce_state(hass, states, blocking=False):
         to_call[key].append(state.entity_id)
 
     domain_tasks = {}
-    for (service_domain, service, service_data), entity_ids in to_call.items():
+    for (service_domain, service, service_data), entity_ids in list(to_call.items()):
         data = json.loads(service_data)
         data[ATTR_ENTITY_ID] = entity_ids
 
@@ -185,7 +185,7 @@ def async_reproduce_state(hass, states, blocking=False):
             yield from coro
 
     execute_tasks = [async_handle_service_calls(coro_list)
-                     for coro_list in domain_tasks.values()]
+                     for coro_list in list(domain_tasks.values())]
     if execute_tasks:
         yield from asyncio.wait(execute_tasks, loop=hass.loop)
 

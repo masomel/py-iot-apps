@@ -160,10 +160,10 @@ class ThermostatData(object):
         self.update()
         if not self.device:
             for device in self.thermostatdata.modules:
-                for module in self.thermostatdata.modules[device].values():
+                for module in list(self.thermostatdata.modules[device].values()):
                     self.module_names.append(module['module_name'])
         else:
-            for module in self.thermostatdata.modules[self.device].values():
+            for module in list(self.thermostatdata.modules[self.device].values()):
                 self.module_names.append(module['module_name'])
         return self.module_names
 

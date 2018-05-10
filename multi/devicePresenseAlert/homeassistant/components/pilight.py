@@ -56,7 +56,7 @@ CONFIG_SCHEMA = vol.Schema({
 
 def setup(hass, config):
     """Setup the Pilight component."""
-    from pilight import pilight
+    from .pilight import pilight
 
     host = config[DOMAIN][CONF_HOST]
     port = config[DOMAIN][CONF_PORT]

@@ -46,7 +46,7 @@ class SimpliSafeAlarm(alarm.AlarmControlPanel):
 
     def __init__(self, name, username, password, code):
         """Initialize the SimpliSafe alarm."""
-        from simplisafe import SimpliSafe
+        from .simplisafe import SimpliSafe
         self.simplisafe = SimpliSafe(username, password)
         self._name = name
         self._code = str(code) if code else None

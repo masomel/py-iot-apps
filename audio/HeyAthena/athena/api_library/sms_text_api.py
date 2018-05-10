@@ -23,7 +23,7 @@ class SmsTextApi(Api):
             else:
                 print('\n~ I could not find a default phone number.\n')
                 return
-        print('\n~ Sending text to '+str(number)+'...\n')
+        print(('\n~ Sending text to '+str(number)+'...\n'))
         params = {'number': number, 'message': text}
         resp = requests.post(URL, params)
-        print('~ SMS Text success? '+str(resp)+'\n')
+        print(('~ SMS Text success? '+str(resp)+'\n'))

@@ -39,7 +39,7 @@ class SendgridNotificationService(BaseNotificationService):
 
     def __init__(self, api_key, sender, recipient):
         """Initialize the service."""
-        from sendgrid import SendGridAPIClient
+        from .sendgrid import SendGridAPIClient
 
         self.api_key = api_key
         self.sender = sender

@@ -1,16 +1,14 @@
-from __future__ import print_function
+
 import time
 import os
 from abc import ABCMeta
 
-from baseplatform import BasePlatform
+from .baseplatform import BasePlatform
 import alexapi.bcolors as bcolors
 
 GPIO = None
 
-class RPiLikePlatform(BasePlatform):
-	__metaclass__ = ABCMeta
-
+class RPiLikePlatform(BasePlatform, metaclass=ABCMeta):
 	def __init__(self, config, platform_name, p_GPIO):
 
 		global GPIO

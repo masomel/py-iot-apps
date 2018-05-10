@@ -26,7 +26,7 @@ class SendTweetTask(ActiveTask):
 
     def action(self, text):
         self.tweet += ' - from Athena'
-        print('\n~ Tweet: '+self.tweet)
+        print(('\n~ Tweet: '+self.tweet))
         self.speak('Sending tweet... ', show_text=True)
         ifttt.trigger('voice_tweet', self.tweet)
 

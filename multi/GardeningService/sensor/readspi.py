@@ -56,8 +56,8 @@ def StoreReading(channel,plant_id):
   data['plant_id'] = plant_id
 
   # Print out results
-  print "--------------------------"
-  print("Plant Id: {} Moisture: {} percent (absolute {})".format(plant_id, moisture_relative, moisture_level))
+  print("--------------------------")
+  print(("Plant Id: {} Moisture: {} percent (absolute {})".format(plant_id, moisture_relative, moisture_level)))
 
   # convert to json format
   json_data = json.dumps(data)

@@ -8,8 +8,8 @@ WyoLum.com
 ## imports
 from tkkb import Tkkb
 import time
-from Tkinter import *
-import tkMessageBox
+from tkinter import *
+import tkinter.messagebox
 import ImageTk
 from mailfile import *
 import custom
@@ -86,7 +86,7 @@ def kill_tkkb():
 
 def interrupted(signum, frame):
     "called when serial read times out"
-    print 'interrupted!'
+    print('interrupted!')
     signal.signal(signal.SIGALRM, interrupted)
 
 def display_image(im=None):
@@ -124,9 +124,9 @@ def timelapse_due():
 def refresh_oauth2_credentials():
     if custom.SIGN_ME_IN:
         if setup_google():
-            print 'refreshed!', custom.oauth2_refresh_period
+            print('refreshed!', custom.oauth2_refresh_period)
         else:
-            print 'refresh failed'
+            print('refresh failed')
         root.after(custom.oauth2_refresh_period, refresh_oauth2_credentials)
     
 def check_and_snap(force=False, countdown1=None):
@@ -181,7 +181,7 @@ def check_and_snap(force=False, countdown1=None):
                 if custom.albumID == 'None':
                     global albumID_informed
                     if not albumID_informed:
-                        tkMessageBox.showinfo(
+                        tkinter.messagebox.showinfo(
                             'Album ID not set',
                             'Click Customize to select albumID',
                             parent=root
@@ -190,8 +190,8 @@ def check_and_snap(force=False, countdown1=None):
                 else:
                     try:
                         googleUpload(custom.PROC_FILENAME)
-                    except Exception, e:
-                        tkMessageBox.showinfo("Upload Error", str(e) +
+                    except Exception as e:
+                        tkinter.messagebox.showinfo("Upload Error", str(e) +
                                               '\nUpload Failed:%s' % e)
                     
                     # signed_in = False
@@ -201,7 +201,7 @@ def check_and_snap(force=False, countdown1=None):
     else:
         ### what command did we get?
         if command.strip():
-            print command
+            print(command)
     if not force:
         ## call this function again in 100 ms
         root.after_id = root.after(100, check_and_snap)
@@ -232,7 +232,7 @@ def force_snap(countdown1=None):
 #if they enter an email address send photo. add error checking
 def sendPic(*args):
     if signed_in:
-        print 'sending photo by email to %s' % email_addr.get()
+        print('sending photo by email to %s' % email_addr.get())
         try:
             sendMail(email_addr.get().strip(),
                      custom.emailSubject,
@@ -241,8 +241,8 @@ def sendPic(*args):
             etext.delete(0, END)
             etext.focus_set()
             kill_tkkb()
-        except Exception, e:
-            print 'Send Failed::', e
+        except Exception as e:
+            print('Send Failed::', e)
             can.delete("all")
             can.create_text(WIDTH/2, HEIGHT - STATUS_H_OFFSET, text="Send Failed", font=custom.CANVAS_FONT, tags="text")
             can.update()
@@ -253,7 +253,7 @@ def sendPic(*args):
             can.create_text(WIDTH/2, HEIGHT - STATUS_H_OFFSET, text="Press button when ready", font=custom.CANVAS_FONT, tags="text")
             can.update()
     else:
-        print 'Not signed in'
+        print('Not signed in')
 
 #ser = findser()
 

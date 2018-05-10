@@ -23,49 +23,49 @@ GPIO.output(bathLightPin, GPIO.LOW)
 client = mqtt.Client()
 
 def on_connect(client, userdata, flags, rc):
-    print("Connected with result code "+str(rc))
+    print(("Connected with result code "+str(rc)))
     client.subscribe("taifur/test/pi/voice")
 
 def on_message(client, userdata, msg):
     
      if str(msg.payload) == 'Kitchenlighton':
         print("Kitchen light on command received ")
-        print(str(msg.payload))
+        print((str(msg.payload)))
         GPIO.output(kitchenLightPin, GPIO.HIGH)  # gpio pin high
         
      if str(msg.payload) == 'Kitchenlightoff':
         print("Kitchen light off command received ")
-        print(str(msg.payload))
+        print((str(msg.payload)))
         GPIO.output(kitchenLightPin, GPIO.LOW)
 
      if str(msg.payload) == 'Bedlighton':
         print("Bedroom light on command received ")
-        print(str(msg.payload))
+        print((str(msg.payload)))
         GPIO.output(bedLightPin, GPIO.HIGH)  # gpio pin high
         
      if str(msg.payload) == 'Bedlightoff':
         print("Bedroom light off command received ")
-        print(str(msg.payload))
+        print((str(msg.payload)))
         GPIO.output(bedLightPin, GPIO.LOW)
 
      if str(msg.payload) == 'Bedroomfanon':
         print("Bedroom fan on command received ")
-        print(str(msg.payload))
+        print((str(msg.payload)))
         GPIO.output(bedFanPin, GPIO.HIGH)  # gpio pin high
         
      if str(msg.payload) == 'Bedroomfanoff':
         print("Bedroom fan off command received ")
-        print(str(msg.payload))
+        print((str(msg.payload)))
         GPIO.output(bedFanPin, GPIO.LOW)
 
      if str(msg.payload) == 'Bathroomlighton':
         print("Bathroom light on command received ")
-        print(str(msg.payload))
+        print((str(msg.payload)))
         GPIO.output(bathLightPin, GPIO.HIGH)  # gpio pin high
         
      if str(msg.payload) == 'Bathroomlightoff':
         print("Bathroom light off command received ")
-        print(str(msg.payload))
+        print((str(msg.payload)))
         GPIO.output(bathLightPin, GPIO.LOW)
        
         

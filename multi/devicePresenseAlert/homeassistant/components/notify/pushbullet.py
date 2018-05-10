@@ -27,8 +27,8 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 # pylint: disable=unused-argument
 def get_service(hass, config):
     """Get the PushBullet notification service."""
-    from pushbullet import PushBullet
-    from pushbullet import InvalidKeyError
+    from .pushbullet import PushBullet
+    from .pushbullet import InvalidKeyError
 
     try:
         pushbullet = PushBullet(config[CONF_API_KEY])

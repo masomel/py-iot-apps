@@ -26,21 +26,21 @@ class ClientWsFactoryClientUrl(TestCase):
 
     def test_undefined_url(self):
         self.factory.url = None
-        self.assertEquals('/client', self.factory.get_client_url())
+        self.assertEqual('/client', self.factory.get_client_url())
 
     def test_root_url(self):
         self.factory.url = 'ws://localhost'
-        self.assertEquals('/client', self.factory.get_client_url())
+        self.assertEqual('/client', self.factory.get_client_url())
 
     def test_root_url_ends_with_slash(self):
         self.factory.url = 'ws://localhost/'
-        self.assertEquals('/client', self.factory.get_client_url())
+        self.assertEqual('/client', self.factory.get_client_url())
 
     def test_non_root_url(self):
         self.factory.url = 'ws://localhost/test/websocket'
-        self.assertEquals('/test/websocket/client', self.factory.get_client_url())
+        self.assertEqual('/test/websocket/client', self.factory.get_client_url())
 
     def test_non_root_ends_with_slash_url(self):
         self.factory.url = 'ws://localhost/test/websocket/'
-        self.assertEquals('/test/websocket/client', self.factory.get_client_url())
+        self.assertEqual('/test/websocket/client', self.factory.get_client_url())
 

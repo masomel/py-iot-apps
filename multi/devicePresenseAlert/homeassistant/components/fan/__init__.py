@@ -231,7 +231,7 @@ class FanEntity(ToggleEntity):
         """Return optional state attributes."""
         data = {}  # type: dict
 
-        for prop, attr in PROP_TO_ATTR.items():
+        for prop, attr in list(PROP_TO_ATTR.items()):
             if not hasattr(self, prop):
                 continue
 

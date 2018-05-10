@@ -64,7 +64,7 @@ def SendEmail():
     #**********************************************************
 
     smtpserver = "smtp.gmail.com"
-    print "Attempting to send email and SMS from", fromemail, "to", toemail, "and", toSMS
+    print("Attempting to send email and SMS from", fromemail, "to", toemail, "and", toSMS)
 
     body = 'Detected smartphone at the house as of %s' % (str(time.asctime(time.localtime(time.time()))))
 
@@ -73,30 +73,30 @@ def SendEmail():
     msg['From'] = fromemail
     msg['Subject'] = 'Raspberry PI detected activity'
 
-    print "Setting up the SMTP server"
+    print("Setting up the SMTP server")
 
     s = smtplib.SMTP(smtpserver, 587)
     s.set_debuglevel(True)
 
-    print "Start transport layer security"
+    print("Start transport layer security")
 
     s.ehlo()
     s.starttls()
     s.ehlo()
 
-    print "Logging in...."
+    print("Logging in....")
 
     s.login(fromemail, emailpassword)
 
-    print "Sending the email"
+    print("Sending the email")
 
     s.sendmail(fromemail, toemail, msg.as_string())
 
-    print "Sending the SMS"
+    print("Sending the SMS")
 
     s.sendmail(fromemail, toSMS, msg.as_string())
 
-    print "Done with email/SMS sending..."
+    print("Done with email/SMS sending...")
 
     s.quit()
 
@@ -115,9 +115,9 @@ try:
 
     LastSMSSentAt = lineList[len(lineList)-1]
 
-except IOError, inst:
+except IOError as inst:
 
-    print "Couldn't find an existing SMS log file, creating a new one and setting the initial timestamp"
+    print("Couldn't find an existing SMS log file, creating a new one and setting the initial timestamp")
 
     SMSlogfile = open('iphonescanSMSlog.txt', 'w+')
 
@@ -130,25 +130,25 @@ except IOError, inst:
 
 #Display the settings to the screen.  The curly braces aren't needed, they just make the output line up better
 
-print "************************************************"
+print("************************************************")
 
-print "Running program with the following settings:"
+print("Running program with the following settings:")
 
-print " -{0:40} {1:20}".format("Detecting smartphone MAC address:", IphoneMac)
+print(" -{0:40} {1:20}".format("Detecting smartphone MAC address:", IphoneMac))
 
-print " -{0:40} {1:20}".format("Send email alerts to:", toemail)
+print(" -{0:40} {1:20}".format("Send email alerts to:", toemail))
 
-print " -{0:40} {1:20}".format("Send text message alerts to:", toSMS)
+print(" -{0:40} {1:20}".format("Send text message alerts to:", toSMS))
 
-print " -{0:40} {1:20}".format("Send alerts from:", fromemail)
+print(" -{0:40} {1:20}".format("Send alerts from:", fromemail))
 
-print "************************************************"
+print("************************************************")
 
 #Start the endless loop where the program perpetually searches for your smartphone's MAC address
 
 while 1==1:
 
-        print "\nSearching network for MAC address", IphoneMac
+        print("\nSearching network for MAC address", IphoneMac)
 
         response = os.popen("sudo nmap -sP 192.168.2.1/24 | grep " + IphoneMac + " | awk '{print$3}' ","r").readline()
 
@@ -157,7 +157,7 @@ while 1==1:
         response = response.rstrip('\n')
 
         if response == IphoneMac:
-            print "The MAC address", response, "is on the network"
+            print("The MAC address", response, "is on the network")
 
             #Get the current time
 
@@ -179,12 +179,12 @@ while 1==1:
                 SMSlogfile.write(str(LastSMSSentAt))
                 SMSlogfile.close()
 
-                print "Updating the log file with a new timestamp because you sent an email/SMS"
+                print("Updating the log file with a new timestamp because you sent an email/SMS")
 
             else:
-                print "An email/SMS was sent within the last 12 hours or it's not Mon-Fri 4-9PM, not sending an alert..."
+                print("An email/SMS was sent within the last 12 hours or it's not Mon-Fri 4-9PM, not sending an alert...")
 
                 if LastSMSSentAt != 0:
-                    print "--Last alert sent:", time.strftime("%H Hours, %M Minutes, %S Seconds ago", time.gmtime(CurrentTime-LastSMSSentAt))
+                    print("--Last alert sent:", time.strftime("%H Hours, %M Minutes, %S Seconds ago", time.gmtime(CurrentTime-LastSMSSentAt)))
         else:
-                print "Didn't detect MAC address", IphoneMac, "on the network "
+                print("Didn't detect MAC address", IphoneMac, "on the network ")

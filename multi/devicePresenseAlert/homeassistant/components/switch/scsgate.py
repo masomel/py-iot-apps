@@ -46,7 +46,7 @@ def _setup_traditional_switches(logger, config, add_devices_callback):
     switches = []
 
     if traditional:
-        for _, entity_info in traditional.items():
+        for _, entity_info in list(traditional.items()):
             if entity_info[scsgate.CONF_SCS_ID] in scsgate.SCSGATE.devices:
                 continue
 
@@ -67,7 +67,7 @@ def _setup_scenario_switches(logger, config, hass):
     scenario = config.get(CONF_SCENARIO)
 
     if scenario:
-        for _, entity_info in scenario.items():
+        for _, entity_info in list(scenario.items()):
             if entity_info[scsgate.CONF_SCS_ID] in scsgate.SCSGATE.devices:
                 continue
 
@@ -113,7 +113,7 @@ class SCSGateSwitch(SwitchDevice):
 
     def turn_on(self, **kwargs):
         """Turn the device on."""
-        from scsgate.tasks import ToggleStatusTask
+        from .scsgate.tasks import ToggleStatusTask
 
         scsgate.SCSGATE.append_task(
             ToggleStatusTask(target=self._scs_id, toggled=True))
@@ -123,7 +123,7 @@ class SCSGateSwitch(SwitchDevice):
 
     def turn_off(self, **kwargs):
         """Turn the device off."""
-        from scsgate.tasks import ToggleStatusTask
+        from .scsgate.tasks import ToggleStatusTask
 
         scsgate.SCSGATE.append_task(
             ToggleStatusTask(target=self._scs_id, toggled=False))
@@ -180,7 +180,7 @@ class SCSGateScenarioSwitch(object):
 
     def process_event(self, message):
         """Handle a SCSGate message related with this switch."""
-        from scsgate.messages import StateMessage, ScenarioTriggeredMessage
+        from .scsgate.messages import StateMessage, ScenarioTriggeredMessage
 
         if isinstance(message, StateMessage):
             scenario_id = message.bytes[4]

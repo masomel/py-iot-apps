@@ -42,7 +42,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     octoprint = get_component('octoprint')
     name = config.get(CONF_NAME)
     monitored_conditions = config.get(CONF_MONITORED_CONDITIONS,
-                                      SENSOR_TYPES.keys())
+                                      list(SENSOR_TYPES.keys()))
 
     devices = []
     for octo_type in monitored_conditions:

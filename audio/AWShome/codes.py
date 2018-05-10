@@ -11,5 +11,5 @@ while True:
         if receiver.available():
             received_value = receiver.getReceivedValue()
             if received_value:
-                print('Received code %i' % received_value)
+                print(('Received code %i' % received_value))
             receiver.resetAvailable()

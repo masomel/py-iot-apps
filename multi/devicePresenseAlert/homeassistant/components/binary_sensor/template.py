@@ -40,7 +40,7 @@ def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
     """Setup template binary sensors."""
     sensors = []
 
-    for device, device_config in config[CONF_SENSORS].items():
+    for device, device_config in list(config[CONF_SENSORS].items()):
         value_template = device_config[CONF_VALUE_TEMPLATE]
         entity_ids = (device_config.get(ATTR_ENTITY_ID) or
                       value_template.extract_entities())

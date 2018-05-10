@@ -72,7 +72,7 @@ class NAD(MediaPlayerDevice):
         self._max_volume = max_volume
         self._source_dict = source_dict
         self._reverse_mapping = {value: key for key, value in
-                                 self._source_dict.items()}
+                                 list(self._source_dict.items())}
 
         self._volume = None
         self._state = None

@@ -88,7 +88,7 @@ class ArubaDeviceScanner(DeviceScanner):
             if not data:
                 return False
 
-            self.last_results = data.values()
+            self.last_results = list(data.values())
             return True
 
     def get_aruba_data(self):

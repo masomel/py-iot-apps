@@ -1,4 +1,4 @@
-import StringIO
+import io
 import os.path
 import pycurl
 
@@ -12,7 +12,7 @@ url = 'https://www.google.com/speech-api/v2/recognize?output=json&lang=en-us&key
 c = pycurl.Curl()
 c.setopt(pycurl.VERBOSE, 0)
 c.setopt(pycurl.URL, url)
-fout = StringIO.StringIO()
+fout = io.StringIO()
 c.setopt(pycurl.WRITEFUNCTION, fout.write)
 
 c.setopt(pycurl.POST, 1)
@@ -37,7 +37,7 @@ final_result = tempstr[:end_loc]
 c.close()
 
 
-print "You Said:" + final_result
+print("You Said:" + final_result)
 
 #part 2
 os.system("python PiTranslate.py -o en -d es -t '" + final_result + "'")

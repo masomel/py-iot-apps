@@ -72,7 +72,7 @@ class ActiveTask(Task):
             m = p.match(text)
             if m is not None:
                 self.case = case
-                for group_num, attribute_name in group_key_dict.items():
+                for group_num, attribute_name in list(group_key_dict.items()):
                     setattr(self, attribute_name, m.group(group_num).strip())
                 return True
         return False

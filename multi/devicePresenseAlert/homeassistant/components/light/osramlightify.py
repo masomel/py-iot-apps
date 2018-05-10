@@ -69,7 +69,7 @@ def setup_bridge(bridge, add_devices_callback):
 
         new_lights = []
 
-        for (light_id, light) in bridge.lights().items():
+        for (light_id, light) in list(bridge.lights().items()):
             if light_id not in lights:
                 osram_light = OsramLightifyLight(light_id, light,
                                                  update_lights)

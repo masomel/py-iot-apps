@@ -43,7 +43,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Setup the departure sensor."""
-    from vasttrafik import JournyPlanner
+    from .vasttrafik import JournyPlanner
     planner = JournyPlanner(
         config.get(CONF_KEY),
         config.get(CONF_SECRET))
@@ -95,7 +95,7 @@ class VasttrafikDepartureSensor(Entity):
             'Direction': departure.get('direction', None),
             'Accessibility': departure.get('accessibility', None)
             }
-        return {k: v for k, v in params.items() if v}
+        return {k: v for k, v in list(params.items()) if v}
 
     @property
     def state(self):

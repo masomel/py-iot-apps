@@ -6,7 +6,7 @@ import datetime
 
 curr_dt_tm = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-print curr_dt_tm
+print(curr_dt_tm)
 
 # create an instance of the camera
 

@@ -16,27 +16,27 @@ class WsCommandTests(unittest.TestCase):
     
     def test_create(self):
         ci = dws.WsCommand.create(self.msg)
-        self.assertEquals(1, ci.id)
-        self.assertEquals(2, ci.user_id)
-        self.assertEquals(0, ci.flags)
-        self.assertEquals('test status', ci.status)
+        self.assertEqual(1, ci.id)
+        self.assertEqual(2, ci.user_id)
+        self.assertEqual(0, ci.flags)
+        self.assertEqual('test status', ci.status)
     
     def test_to_dict(self):
         ci = dws.WsCommand.create(self.msg)
         d  = ci.to_dict()
         
-        self.assertEquals(1, d['id'])
-        self.assertEquals('cmd_name', d['command'])
-        self.assertEquals(2, d['userId'])
-        self.assertEquals([], d['parameters'])
-        self.assertEquals(0, d['flags'])
-        self.assertEquals('test status', d['status'])
+        self.assertEqual(1, d['id'])
+        self.assertEqual('cmd_name', d['command'])
+        self.assertEqual(2, d['userId'])
+        self.assertEqual([], d['parameters'])
+        self.assertEqual(0, d['flags'])
+        self.assertEqual('test status', d['status'])
         self.assertFalse('result' in d)
     
     def test__getter(self):
         ci = dws.WsCommand.create(self.msg)
-        self.assertEquals('cmd_name', ci['command'])
-        self.assertEquals([], ci['parameters']) 
+        self.assertEqual('cmd_name', ci['command'])
+        self.assertEqual([], ci['parameters']) 
         try :
             tmp = ci[123]
             self.fail('should raise TypeError')
@@ -55,8 +55,8 @@ class PollCommand(unittest.TestCase):
     
     def test_getter(self):
         ci = poll.PollCommand.create(self.message)
-        self.assertEquals('cmdtest', ci['command'])
-        self.assertEquals([], ci['parameters'])
+        self.assertEqual('cmdtest', ci['command'])
+        self.assertEqual([], ci['parameters'])
         try :
             tmp = ci[123]
             self.fail('should raise TypeError')
@@ -70,14 +70,14 @@ class PollCommand(unittest.TestCase):
     
     def test_to_dict(self):
         ci = poll.PollCommand.create(self.message)
-        self.assertEquals(1, ci.id)
-        self.assertEquals(2, ci.user_id)
-        self.assertEquals('cmdtest', ci.command)
-        self.assertEquals([], ci.parameters)
-        self.assertEquals(123, ci.lifetime)
-        self.assertEquals(4, ci.flags)
-        self.assertEquals('status', ci.status)
-        self.assertEquals('result', ci.result)
+        self.assertEqual(1, ci.id)
+        self.assertEqual(2, ci.user_id)
+        self.assertEqual('cmdtest', ci.command)
+        self.assertEqual([], ci.parameters)
+        self.assertEqual(123, ci.lifetime)
+        self.assertEqual(4, ci.flags)
+        self.assertEqual('status', ci.status)
+        self.assertEqual('result', ci.result)
 
 
 if __name__ == '__main__':

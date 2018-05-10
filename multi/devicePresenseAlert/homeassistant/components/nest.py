@@ -98,7 +98,7 @@ def setup_nest(hass, nest, config, pin=None):
 
 def setup(hass, config):
     """Setup the Nest thermostat component."""
-    import nest
+    from . import nest
 
     if 'nest' in _CONFIGURING:
         return

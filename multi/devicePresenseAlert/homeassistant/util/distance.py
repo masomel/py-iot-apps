@@ -1,6 +1,6 @@
 """Distance util functions."""
 
-import logging
+from . import logging
 from numbers import Number
 
 from homeassistant.const import (

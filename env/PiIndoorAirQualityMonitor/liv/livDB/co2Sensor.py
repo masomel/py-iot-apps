@@ -23,11 +23,11 @@ class  co2Sensor:
 
 if __name__ == "__main__":
 
-  print 'testing CO2 Sensor'
+  print('testing CO2 Sensor')
 
   co2Sensor = co2Sensor()
   co2 = co2Sensor.readCO2Level()
 
 
-  print 'co2 level is ' + str(co2)
+  print('co2 level is ' + str(co2))
 

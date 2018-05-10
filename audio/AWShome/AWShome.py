@@ -19,7 +19,7 @@ class OnOff:
 
     def set(self, state):
         code = self.onCode if state else self.offCode
-        print('Turning %s %s using code %i' % (self.name, 'ON' if state else 'OFF', code))
+        print(('Turning %s %s using code %i' % (self.name, 'ON' if state else 'OFF', code)))
         self.rf.sendDecimal(code, 24)
         self.shadow.shadowUpdate(json.dumps({
             'state': {

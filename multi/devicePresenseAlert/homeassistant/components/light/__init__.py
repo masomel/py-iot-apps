@@ -354,7 +354,7 @@ class Light(ToggleEntity):
         data = {}
 
         if self.is_on:
-            for prop, attr in PROP_TO_ATTR.items():
+            for prop, attr in list(PROP_TO_ATTR.items()):
                 value = getattr(self, prop)
                 if value is not None:
                     data[attr] = value

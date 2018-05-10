@@ -104,6 +104,6 @@ draw.text((0,4*9), '0123456789', font=font1)
 disp.image(image)
 disp.display()
 
-print 'Press Ctrl-C to quit.'
+print('Press Ctrl-C to quit.')
 while True:
 	time.sleep(1.0)

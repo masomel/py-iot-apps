@@ -75,7 +75,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
         if CONF_MODULES in config:
             # Iterate each module
             for module_name, monitored_conditions in\
-                    config[CONF_MODULES].items():
+                    list(config[CONF_MODULES].items()):
                 # Test if module exist """
                 if module_name not in data.get_module_names():
                     _LOGGER.error('Module name: "%s" not found', module_name)
@@ -293,7 +293,7 @@ class NetAtmoData(object):
     def get_module_names(self):
         """Return all module available on the API as a list."""
         self.update()
-        return self.data.keys()
+        return list(self.data.keys())
 
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):

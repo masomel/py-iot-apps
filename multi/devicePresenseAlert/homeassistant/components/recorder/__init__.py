@@ -25,6 +25,7 @@ import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.event import track_point_in_utc_time
 from homeassistant.helpers.typing import ConfigType, QueryType
 import homeassistant.util.dt as dt_util
+import collections
 
 DOMAIN = 'recorder'
 
@@ -381,7 +382,7 @@ class Recorder(threading.Thread):
         session = Session()
         for _ in range(0, RETRIES):
             try:
-                if callable(work):
+                if isinstance(work, collections.Callable):
                     work(session)
                 else:
                     session.add(work)

@@ -49,7 +49,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     # Default needed in case of discovery
     sensors = config.get(CONF_MONITORED_CONDITIONS, SENSOR_TYPES)
 
-    for device in bloomsky.BLOOMSKY.devices.values():
+    for device in list(bloomsky.BLOOMSKY.devices.values()):
         for variable in sensors:
             add_devices([BloomSkySensor(bloomsky.BLOOMSKY, device, variable)])
 

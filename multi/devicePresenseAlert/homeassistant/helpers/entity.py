@@ -4,7 +4,7 @@ import logging
 import functools as ft
 from timeit import default_timer as timer
 
-from typing import Any, Optional, List, Dict
+from .typing import Any, Optional, List, Dict
 
 from homeassistant.const import (
     ATTR_ASSUMED_STATE, ATTR_FRIENDLY_NAME, ATTR_HIDDEN, ATTR_ICON,
@@ -64,7 +64,7 @@ def set_customize(customize: Dict[str, Any]) -> None:
     """
     global _OVERWRITE
 
-    _OVERWRITE = {key.lower(): val for key, val in customize.items()}
+    _OVERWRITE = {key.lower(): val for key, val in list(customize.items())}
 
 
 class Entity(object):

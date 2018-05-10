@@ -40,7 +40,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Setup the Denon platform."""
-    import denonavr
+    from . import denonavr
 
     # Initialize list with receivers to be started
     receivers = []

@@ -20,7 +20,7 @@ class Receive():
         self.total_sms = self.total_sms.split(',')
         self.total_sms = self.total_sms[1]
         self.total_sms = int(self.total_sms)
-        print 'TOTAL SMS: ', str(self.total_sms)
+        print('TOTAL SMS: ', str(self.total_sms))
 
         #Colors
         self.WHITE = (255,255,255)
@@ -56,7 +56,7 @@ class Receive():
                 num_sms = num_sms[1]
                 num_sms = int(num_sms)
                 if num_sms > self.total_sms: #If there is more messages than before, a SMS has arrived. otherwise a call is coming
-                    print 'New Message!'
+                    print('New Message!')
                     self.total_sms = num_sms
                 else:
                     self.call_coming = True
@@ -78,11 +78,11 @@ class Receive():
             self.pressed = False
             
             if self.mode == 1:
-                print 'picking up...'
+                print('picking up...')
                 self.fona.transmit('ATA')
                 self.blit['surfaces'][0] = self.hangup_image
             if self.mode == 2:
-                print 'hanging up'
+                print('hanging up')
                 self.fona.transmit('ATH')
                 self.blit['surfaces'][0] = self.call_image
                 self.call_coming = False

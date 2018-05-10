@@ -73,7 +73,7 @@ def test_connect():
 
 @socketio.on('disconnect', namespace='/test')
 def test_disconnect():
-    print('Client disconnected', request.sid)
+    print(('Client disconnected', request.sid))
 
 
 

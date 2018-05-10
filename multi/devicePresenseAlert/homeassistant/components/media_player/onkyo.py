@@ -79,7 +79,7 @@ class OnkyoDevice(MediaPlayerDevice):
         self._current_source = None
         self._source_list = list(sources.values())
         self._source_mapping = sources
-        self._reverse_mapping = {value: key for key, value in sources.items()}
+        self._reverse_mapping = {value: key for key, value in list(sources.items())}
         self.update()
 
     def command(self, command):

@@ -46,7 +46,7 @@ def main():
         except:
              label = "No response."
         
-        print label
+        print(label)
 
 if __name__ == '__main__':
     main()

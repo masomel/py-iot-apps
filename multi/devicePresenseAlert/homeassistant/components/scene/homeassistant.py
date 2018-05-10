@@ -7,11 +7,11 @@ https://home-assistant.io/components/scene/
 import asyncio
 from collections import namedtuple
 
-from homeassistant.components.scene import Scene
-from homeassistant.const import (
+from .homeassistant.components.scene import Scene
+from .homeassistant.const import (
     ATTR_ENTITY_ID, STATE_OFF, STATE_ON)
-from homeassistant.core import State
-from homeassistant.helpers.state import async_reproduce_state
+from .homeassistant.core import State
+from .homeassistant.helpers.state import async_reproduce_state
 
 DEPENDENCIES = ['group']
 STATE = 'scening'
@@ -89,4 +89,4 @@ class HomeAssistantScene(Scene):
     def async_activate(self):
         """Activate scene. Try to get entities into requested state."""
         yield from async_reproduce_state(
-            self.hass, self.scene_config.states.values(), True)
+            self.hass, list(self.scene_config.states.values()), True)

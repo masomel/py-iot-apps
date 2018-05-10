@@ -48,7 +48,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     """Setup the trend sensors."""
     sensors = []
 
-    for device, device_config in config[CONF_SENSORS].items():
+    for device, device_config in list(config[CONF_SENSORS].items()):
         entity_id = device_config[ATTR_ENTITY_ID]
         attribute = device_config.get(CONF_ATTRIBUTE)
         friendly_name = device_config.get(ATTR_FRIENDLY_NAME, device)

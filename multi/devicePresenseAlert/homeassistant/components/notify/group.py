@@ -29,7 +29,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 def update(input_dict, update_source):
     """Deep update a dictionary."""
-    for key, val in update_source.items():
+    for key, val in list(update_source.items()):
         if isinstance(val, collections.Mapping):
             recurse = update(input_dict.get(key, {}), val)
             input_dict[key] = recurse
@@ -54,7 +54,7 @@ class GroupNotifyPlatform(BaseNotificationService):
     def send_message(self, message="", **kwargs):
         """Send message to all entities in the group."""
         payload = {ATTR_MESSAGE: message}
-        payload.update({key: val for key, val in kwargs.items() if val})
+        payload.update({key: val for key, val in list(kwargs.items()) if val})
 
         for entity in self.entities:
             sending_payload = deepcopy(payload.copy())

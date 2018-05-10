@@ -6,7 +6,7 @@ from cherrypy.process import servers
 import requests
 import json
 from creds import *
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 class Start(object):
 	def index(self):
@@ -26,7 +26,7 @@ class Start(object):
 		p = req.prepare()
 		raise cherrypy.HTTPRedirect(p.url)
 	def code(self, var=None, **params):
-		code = urllib.quote(cherrypy.request.params['code'])
+		code = urllib.parse.quote(cherrypy.request.params['code'])
 		callback = cherrypy.url()
 		payload = {"client_id" : Client_ID, "client_secret" : Client_Secret, "code" : code, "grant_type" : "authorization_code", "redirect_uri" : callback }
 		url = "https://api.amazon.com/auth/o2/token"

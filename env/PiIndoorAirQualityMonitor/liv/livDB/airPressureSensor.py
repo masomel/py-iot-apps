@@ -29,16 +29,16 @@ class  airPressureSensor:
 #use default address 0x77, port 1 is default in Adafruit
 if __name__ == "__main__":
 
-  print 'testing BMP085 / BMP180 air pressure Sensor'
+  print('testing BMP085 / BMP180 air pressure Sensor')
 
   apSensor = airPressureSensor(3, 0x77)
   t = apSensor.readTemperature()
   a = apSensor.readAltitude()
   ap = apSensor.readAirPressure()
 
-  print 'air pressure is ' + str(ap)
-  print 'temperature is  ' + str(t)
-  print 'altitude is     ' + str(a)
+  print('air pressure is ' + str(ap))
+  print('temperature is  ' + str(t))
+  print('altitude is     ' + str(a))
 
 
     #except:

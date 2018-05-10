@@ -202,7 +202,7 @@ def _save_config(filename, config):
 def devices_with_push():
     """Return a dictionary of push enabled targets."""
     targets = {}
-    for device_name, device in CONFIG_FILE[ATTR_DEVICES].items():
+    for device_name, device in list(CONFIG_FILE[ATTR_DEVICES].items()):
         if device.get(ATTR_PUSH_ID) is not None:
             targets[device_name] = device.get(ATTR_PUSH_ID)
     return targets
@@ -212,7 +212,7 @@ def enabled_push_ids():
     """Return a list of push enabled target push IDs."""
     push_ids = list()
     # pylint: disable=unused-variable
-    for device_name, device in CONFIG_FILE[ATTR_DEVICES].items():
+    for device_name, device in list(CONFIG_FILE[ATTR_DEVICES].items()):
         if device.get(ATTR_PUSH_ID) is not None:
             push_ids.append(device.get(ATTR_PUSH_ID))
     return push_ids
@@ -225,7 +225,7 @@ def devices():
 
 def device_name_for_push_id(push_id):
     """Return the device name for the push ID."""
-    for device_name, device in CONFIG_FILE[ATTR_DEVICES].items():
+    for device_name, device in list(CONFIG_FILE[ATTR_DEVICES].items()):
         if device.get(ATTR_PUSH_ID) is push_id:
             return device_name
     return None

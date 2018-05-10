@@ -133,7 +133,7 @@ class NmapDeviceScanner(DeviceScanner):
             return False
 
         now = dt_util.now()
-        for ipv4, info in result['scan'].items():
+        for ipv4, info in list(result['scan'].items()):
             if info['status']['state'] != 'up':
                 continue
             name = info['hostnames'][0]['name'] if info['hostnames'] else ipv4

@@ -44,7 +44,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
                   'ipaddr': discovery_info['host']}
         lights.append(YeelightLight(device))
     else:
-        for ipaddr, device_config in config[CONF_DEVICES].items():
+        for ipaddr, device_config in list(config[CONF_DEVICES].items()):
             device = {'name': device_config[CONF_NAME], 'ipaddr': ipaddr}
             lights.append(YeelightLight(device))
 

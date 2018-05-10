@@ -101,7 +101,7 @@ class Tplink2DeviceScanner(TplinkDeviceScanner):
     def scan_devices(self):
         """Scan for new devices and return a list with found device IDs."""
         self._update_info()
-        return self.last_results.keys()
+        return list(self.last_results.keys())
 
     # pylint: disable=no-self-use
     def get_device_name(self, device):
@@ -162,7 +162,7 @@ class Tplink3DeviceScanner(TplinkDeviceScanner):
     def scan_devices(self):
         """Scan for new devices and return a list with found device IDs."""
         self._update_info()
-        return self.last_results.keys()
+        return list(self.last_results.keys())
 
     # pylint: disable=no-self-use
     def get_device_name(self, device):

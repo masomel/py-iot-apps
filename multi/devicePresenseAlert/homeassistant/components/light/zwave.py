@@ -218,14 +218,14 @@ class ZwaveColorLight(ZwaveDimmer):
         _LOGGER.debug("Searching for zwave color values")
         # Currently zwave nodes only exist with one color element per node.
         if self._value_color is None:
-            for value_color in self._value.node.get_rgbbulbs().values():
+            for value_color in list(self._value.node.get_rgbbulbs().values()):
                 self._value_color = value_color
 
         if self._value_color_channels is None:
-            for value_color_channels in self._value.node.get_values(
+            for value_color_channels in list(self._value.node.get_values(
                     class_id=zwave.const.COMMAND_CLASS_SWITCH_COLOR,
                     genre=zwave.const.GENRE_SYSTEM,
-                    type=zwave.const.TYPE_INT).values():
+                    type=zwave.const.TYPE_INT).values()):
                 self._value_color_channels = value_color_channels
 
         if self._value_color and self._value_color_channels:

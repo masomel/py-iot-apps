@@ -92,7 +92,7 @@ def async_setup(hass, config):
 
     scripts = []
 
-    for object_id, cfg in config[DOMAIN].items():
+    for object_id, cfg in list(config[DOMAIN].items()):
         alias = cfg.get(CONF_ALIAS, object_id)
         script = ScriptEntity(hass, object_id, alias, cfg[CONF_SEQUENCE])
         scripts.append(script)

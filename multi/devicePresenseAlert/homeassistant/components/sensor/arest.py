@@ -83,7 +83,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     dev = []
 
     if var_conf is not None:
-        for variable, var_data in var_conf.items():
+        for variable, var_data in list(var_conf.items()):
             if variable not in response['variables']:
                 _LOGGER.error("Variable: '%s' does not exist", variable)
                 continue
@@ -96,7 +96,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
                 renderer=renderer))
 
     if pins is not None:
-        for pinnum, pin in pins.items():
+        for pinnum, pin in list(pins.items()):
             renderer = make_renderer(pin.get(CONF_VALUE_TEMPLATE))
             dev.append(ArestSensor(
                 ArestData(resource, pinnum), resource,

@@ -15,7 +15,7 @@ def runMain():
     
         # Exit when control-c is pressed
         except (KeyboardInterrupt, SystemExit):
-            print 'People sometimes make mistakes, Goodbye.'
+            print('People sometimes make mistakes, Goodbye.')
             sys.exit()    
     
 if __name__ == '__main__':

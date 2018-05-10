@@ -46,16 +46,16 @@ def sonar(trigger, echo):
 try:
 	while True:
 		distance1 = sonar(TRIG1, ECHO1)
-		print "Distance1:",distance1,"cm"
+		print("Distance1:",distance1,"cm")
 		if (distance1 < threshold):
-			print "You just took a break at " + current.strftime("%Y-%m-%d %H:%M") + " good for health"
+			print("You just took a break at " + current.strftime("%Y-%m-%d %H:%M") + " good for health")
 			GPIO.output(Rasptrigger, True)
 			time.sleep(1)
 		else:		
 			GPIO.output(Rasptrigger, False)
 			time.sleep(0.1)
 except:	
-	print "Live Strong"
+	print("Live Strong")
 
 finally:
 	GPIO.cleanup()

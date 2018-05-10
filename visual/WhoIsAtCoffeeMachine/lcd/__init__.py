@@ -1,3 +1,3 @@
-import backlight
-import screen
-import display
+from . import backlight
+from . import screen
+from . import display

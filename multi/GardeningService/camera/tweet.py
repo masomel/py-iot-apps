@@ -7,7 +7,7 @@
 from twitter import *
 
 # this handles reading in the twitter.config file with the secret keys
-import ConfigParser
+import configparser
 
 # this handles the API calls back to AWS
 import requests
@@ -15,7 +15,7 @@ import requests
 import json
 
 # read in the configuration file
-configParser = ConfigParser.RawConfigParser()
+configParser = configparser.RawConfigParser()
 configFilePath = r'twitter.config'
 configParser.read(configFilePath)
 

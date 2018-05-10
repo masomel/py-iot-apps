@@ -17,9 +17,9 @@
 
 import os
 import logging
-from hidapi_backend import HidApiUSB
-from pyusb_backend import PyUSB
-from pywinusb_backend import PyWinUSB
+from .hidapi_backend import HidApiUSB
+from .pyusb_backend import PyUSB
+from .pywinusb_backend import PyWinUSB
 
 INTERFACE = {
              'hidapiusb': HidApiUSB,
@@ -31,7 +31,7 @@ INTERFACE = {
 usb_backend = os.getenv('PYOCD_USB_BACKEND', "")
 
 # Check validity of backend env var.
-if usb_backend and ((usb_backend not in INTERFACE.keys()) or (not INTERFACE[usb_backend].isAvailable)):
+if usb_backend and ((usb_backend not in list(INTERFACE.keys())) or (not INTERFACE[usb_backend].isAvailable)):
     logging.error("Invalid USB backend specified in PYOCD_USB_BACKEND: " + usb_backend)
     usb_backend = ""
 

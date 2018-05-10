@@ -29,15 +29,15 @@ path = os.path.realpath(__file__).rstrip(os.path.basename(__file__))
 
 
 def internet_on():
-    print "Checking Internet Connection"
+    print("Checking Internet Connection")
     try:
         r =requests.get('https://api.amazon.com/auth/o2/token')
-	print "Connection OK"
+	print("Connection OK")
         return True
 
 
     except:
-	print "Connection Failed"
+	print("Connection Failed")
     	return False
 		
 
@@ -151,7 +151,7 @@ if __name__ == "__main__":
 	GPIO.setup(lights, GPIO.OUT)
 	GPIO.output(lights, GPIO.LOW)
 	while internet_on() == False:
-		print "."
+		print(".")
 	token = gettoken()
 	os.system('mpg123 -q {}1sec.mp3 {}hello.mp3'.format(path, path))
 	for x in range(0, 3):
@@ -162,5 +162,5 @@ if __name__ == "__main__":
 	start()
   except KeyboardInterrupt:
         GPIO.cleanup()
-        print " clean program exit."   
+        print(" clean program exit.")   
         pass

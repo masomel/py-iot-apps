@@ -44,14 +44,14 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 # pylint: disable=unused-argument, import-error
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Find and return switches controlled by a generic RF device via GPIO."""
-    import rpi_rf
+    from . import rpi_rf
 
     gpio = config.get(CONF_GPIO)
     rfdevice = rpi_rf.RFDevice(gpio)
     switches = config.get(CONF_SWITCHES)
 
     devices = []
-    for dev_name, properties in switches.items():
+    for dev_name, properties in list(switches.items()):
         devices.append(
             RPiRFSwitch(
                 hass,

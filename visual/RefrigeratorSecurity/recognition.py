@@ -24,15 +24,15 @@ def addFacesToPerson(folderWithImages, personID, personGroupID):
         img_addr = folderWithImages + files[i]
         result = Person.addPersonFace(personGroupID, personID, img_addr)
         if "error" in result:
-            print(json.dumps(result, indent=2))
+            print((json.dumps(result, indent=2)))
         else:
-            print("Added " + str(i+1) + " faces... ")
+            print(("Added " + str(i+1) + " faces... "))
     print("Done adding faces!")
     return
 
 # Function prints out json in readable format        
 def printResJson(result):
-    print(json.dumps(result, indent=2))
+    print((json.dumps(result, indent=2)))
     return
 
 # using module 'Face' and function 'detect' print out result of detecting faces on
@@ -43,7 +43,7 @@ def detectFaceOnImages(path):
         img_addr = path + files[i]
         result = Face.detect(img_addr)
         print("*************")
-        print("image: " + img_addr)
+        print(("image: " + img_addr))
         printResJson(result)
     return
 

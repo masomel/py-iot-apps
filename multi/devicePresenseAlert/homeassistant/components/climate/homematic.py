@@ -54,7 +54,7 @@ class HMThermostat(HMDevice, ClimateDevice):
             return None
 
         # read state and search
-        for mode, state in HM_STATE_MAP.items():
+        for mode, state in list(HM_STATE_MAP.items()):
             code = getattr(self._hmdevice, mode, 0)
             if self._data.get('CONTROL_MODE') == code:
                 return state
@@ -104,7 +104,7 @@ class HMThermostat(HMDevice, ClimateDevice):
 
     def set_operation_mode(self, operation_mode):
         """Set new target operation mode."""
-        for mode, state in HM_STATE_MAP.items():
+        for mode, state in list(HM_STATE_MAP.items()):
             if state == operation_mode:
                 code = getattr(self._hmdevice, mode, 0)
                 self._hmdevice.MODE = code

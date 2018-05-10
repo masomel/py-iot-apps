@@ -34,7 +34,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 # pylint: disable=unused-argument
 def setup_platform(hass, config, add_devices_callback, discovery_info=None):
     """Setup S20 switches."""
-    from orvibo.s20 import discover, S20, S20Exception
+    from .orvibo.s20 import discover, S20, S20Exception
 
     switch_data = {}
     switches = []
@@ -47,7 +47,7 @@ def setup_platform(hass, config, add_devices_callback, discovery_info=None):
     for switch in switch_conf:
         switch_data[switch.get(CONF_HOST)] = switch
 
-    for host, data in switch_data.items():
+    for host, data in list(switch_data.items()):
         try:
             switches.append(S20Switch(data.get(CONF_NAME),
                                       S20(host, mac=data.get(CONF_MAC))))
@@ -63,7 +63,7 @@ class S20Switch(SwitchDevice):
 
     def __init__(self, name, s20):
         """Initialize the S20 device."""
-        from orvibo.s20 import S20Exception
+        from .orvibo.s20 import S20Exception
 
         self._name = name
         self._s20 = s20

@@ -33,7 +33,7 @@ CONFIG_SCHEMA = vol.Schema({
 
 def setup(hass, config):
     """Setup LIRC capability."""
-    import lirc
+    from . import lirc
 
     # blocking=True gives unexpected behavior (multiple responses for 1 press)
     # also by not blocking, we allow hass to shut down the thread gracefully
@@ -71,7 +71,7 @@ class LircInterface(threading.Thread):
 
     def run(self):
         """Main loop of LIRC interface thread."""
-        import lirc
+        from . import lirc
         _LOGGER.debug("LIRC interface thread started")
         while not self.stopped.isSet():
             try:

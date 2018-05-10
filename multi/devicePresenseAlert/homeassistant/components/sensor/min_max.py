@@ -46,7 +46,7 @@ SENSOR_TYPES = {
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_TYPE, default=SENSOR_TYPES[ATTR_MAX_VALUE]):
-        vol.All(cv.string, vol.In(SENSOR_TYPES.values())),
+        vol.All(cv.string, vol.In(list(SENSOR_TYPES.values()))),
     vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
     vol.Required(CONF_ENTITY_IDS): cv.entity_ids,
     vol.Optional(CONF_ROUND_DIGITS, default=2): vol.Coerce(int),
@@ -77,7 +77,7 @@ class MinMaxSensor(Entity):
         self._sensor_type = sensor_type
         self._round_digits = round_digits
         self._name = '{} {}'.format(
-            name, next(v for k, v in SENSOR_TYPES.items()
+            name, next(v for k, v in list(SENSOR_TYPES.items())
                        if self._sensor_type == v))
         self._unit_of_measurement = None
         self.min_value = self.max_value = self.mean = STATE_UNKNOWN
@@ -119,7 +119,7 @@ class MinMaxSensor(Entity):
     def state(self):
         """Return the state of the sensor."""
         return getattr(self, next(
-            k for k, v in SENSOR_TYPES.items() if self._sensor_type == v))
+            k for k, v in list(SENSOR_TYPES.items()) if self._sensor_type == v))
 
     @property
     def unit_of_measurement(self):

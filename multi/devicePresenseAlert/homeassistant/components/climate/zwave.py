@@ -96,8 +96,8 @@ class ZWaveClimate(ZWaveDeviceEntity, ClimateDevice):
     def update_properties(self):
         """Callback on data change for the registered node/value pair."""
         # Operation Mode
-        for value in self._node.get_values(
-                class_id=zwave.const.COMMAND_CLASS_THERMOSTAT_MODE).values():
+        for value in list(self._node.get_values(
+                class_id=zwave.const.COMMAND_CLASS_THERMOSTAT_MODE).values()):
             self._current_operation = value.data
             self._operation_list = list(value.data_items)
             _LOGGER.debug("self._operation_list=%s", self._operation_list)
@@ -105,17 +105,15 @@ class ZWaveClimate(ZWaveDeviceEntity, ClimateDevice):
                           self._current_operation)
         # Current Temp
         for value in (
-                self._node.get_values(
-                    class_id=zwave.const.COMMAND_CLASS_SENSOR_MULTILEVEL)
-                .values()):
+                list(self._node.get_values(
+                    class_id=zwave.const.COMMAND_CLASS_SENSOR_MULTILEVEL).values())):
             if value.label == 'Temperature':
                 self._current_temperature = round((float(value.data)), 1)
                 self._unit = value.units
         # Fan Mode
         for value in (
-                self._node.get_values(
-                    class_id=zwave.const.COMMAND_CLASS_THERMOSTAT_FAN_MODE)
-                .values()):
+                list(self._node.get_values(
+                    class_id=zwave.const.COMMAND_CLASS_THERMOSTAT_FAN_MODE).values())):
             self._current_fan_mode = value.data
             self._fan_list = list(value.data_items)
             _LOGGER.debug("self._fan_list=%s", self._fan_list)
@@ -124,9 +122,8 @@ class ZWaveClimate(ZWaveDeviceEntity, ClimateDevice):
         # Swing mode
         if self._zxt_120 == 1:
             for value in (
-                    self._node.get_values(
-                        class_id=zwave.const.COMMAND_CLASS_CONFIGURATION)
-                    .values()):
+                    list(self._node.get_values(
+                        class_id=zwave.const.COMMAND_CLASS_CONFIGURATION).values())):
                 if value.command_class == \
                    zwave.const.COMMAND_CLASS_CONFIGURATION and \
                    value.index == 33:
@@ -138,9 +135,8 @@ class ZWaveClimate(ZWaveDeviceEntity, ClimateDevice):
         # Set point
         temps = []
         for value in (
-                self._node.get_values(
-                    class_id=zwave.const.COMMAND_CLASS_THERMOSTAT_SETPOINT)
-                .values()):
+                list(self._node.get_values(
+                    class_id=zwave.const.COMMAND_CLASS_THERMOSTAT_SETPOINT).values())):
             temps.append((round(float(value.data)), 1))
             if value.index == self._index:
                 if value.data == 0:
@@ -154,16 +150,15 @@ class ZWaveClimate(ZWaveDeviceEntity, ClimateDevice):
                     self._target_temperature = round((float(value.data)), 1)
         # Operating state
         for value in (
-                self._node.get_values(
+                list(self._node.get_values(
                     class_id=zwave.const
-                    .COMMAND_CLASS_THERMOSTAT_OPERATING_STATE).values()):
+                    .COMMAND_CLASS_THERMOSTAT_OPERATING_STATE).values())):
             self._operating_state = value.data
 
         # Fan operating state
         for value in (
-                self._node.get_values(
-                    class_id=zwave.const.COMMAND_CLASS_THERMOSTAT_FAN_STATE)
-                .values()):
+                list(self._node.get_values(
+                    class_id=zwave.const.COMMAND_CLASS_THERMOSTAT_FAN_STATE).values())):
             self._fan_state = value.data
 
     @property
@@ -228,9 +223,8 @@ class ZWaveClimate(ZWaveDeviceEntity, ClimateDevice):
         else:
             return
 
-        for value in (self._node.get_values(
-                class_id=zwave.const.COMMAND_CLASS_THERMOSTAT_SETPOINT)
-                      .values()):
+        for value in (list(self._node.get_values(
+                class_id=zwave.const.COMMAND_CLASS_THERMOSTAT_SETPOINT).values())):
             if value.index == self._index:
                 if self._zxt_120:
                     # ZXT-120 responds only to whole int
@@ -244,9 +238,9 @@ class ZWaveClimate(ZWaveDeviceEntity, ClimateDevice):
 
     def set_fan_mode(self, fan):
         """Set new target fan mode."""
-        for value in (self._node.get_values(
+        for value in (list(self._node.get_values(
                 class_id=zwave.const.COMMAND_CLASS_THERMOSTAT_FAN_MODE).
-                      values()):
+                      values())):
             if value.command_class == \
                zwave.const.COMMAND_CLASS_THERMOSTAT_FAN_MODE and \
                value.index == 0:
@@ -255,8 +249,8 @@ class ZWaveClimate(ZWaveDeviceEntity, ClimateDevice):
 
     def set_operation_mode(self, operation_mode):
         """Set new target operation mode."""
-        for value in self._node.get_values(
-                class_id=zwave.const.COMMAND_CLASS_THERMOSTAT_MODE).values():
+        for value in list(self._node.get_values(
+                class_id=zwave.const.COMMAND_CLASS_THERMOSTAT_MODE).values()):
             if value.command_class == \
                zwave.const.COMMAND_CLASS_THERMOSTAT_MODE and value.index == 0:
                 value.data = bytes(operation_mode, 'utf-8')
@@ -265,8 +259,8 @@ class ZWaveClimate(ZWaveDeviceEntity, ClimateDevice):
     def set_swing_mode(self, swing_mode):
         """Set new target swing mode."""
         if self._zxt_120 == 1:
-            for value in self._node.get_values(
-                    class_id=zwave.const.COMMAND_CLASS_CONFIGURATION).values():
+            for value in list(self._node.get_values(
+                    class_id=zwave.const.COMMAND_CLASS_CONFIGURATION).values()):
                 if value.command_class == \
                    zwave.const.COMMAND_CLASS_CONFIGURATION and \
                    value.index == 33:

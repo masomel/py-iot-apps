@@ -146,7 +146,7 @@ class SpeedtestData(object):
 
     def update(self, now):
         """Get the latest data from speedtest.net."""
-        import speedtest
+        from . import speedtest
 
         _LOGGER.info('Executing speedtest...')
         try:

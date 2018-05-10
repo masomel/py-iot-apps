@@ -123,7 +123,7 @@ class AlexaIntentsView(HomeAssistantView):
         intents = copy.deepcopy(intents)
         template.attach(hass, intents)
 
-        for name, intent in intents.items():
+        for name, intent in list(intents.items()):
             if CONF_ACTION in intent:
                 intent[CONF_ACTION] = script.Script(
                     hass, intent[CONF_ACTION], "Alexa intent {}".format(name))
@@ -205,7 +205,7 @@ class AlexaResponse(object):
         self.should_end_session = True
         self.variables = {}
         if intent is not None and 'slots' in intent:
-            for key, value in intent['slots'].items():
+            for key, value in list(intent['slots'].items()):
                 if 'value' in value:
                     underscored_key = key.replace('.', '_')
                     self.variables[underscored_key] = value['value']

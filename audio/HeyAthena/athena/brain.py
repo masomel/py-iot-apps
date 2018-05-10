@@ -2,7 +2,7 @@
 The "Brain" class handles most of Hey Athena's processing.
 To listen for input, use ``brain.inst.run()``
 """
-from __future__ import print_function
+
 
 import traceback
 import os
@@ -87,7 +87,7 @@ class Brain():
         print('~ Users: ', str(self.users)[1:-1])
         username = ''
         while username not in self.users:
-            username = input('\n~ Username: ')
+            username = eval(input('\n~ Username: '))
             if username not in self.users:
                 print('\n~ Please enter a valid username')
                 continue
@@ -157,7 +157,7 @@ class Brain():
         """ Prompt user to specify which module to use to respond """
         print('\n~ Which module (greedy) would you like me to use to respond?')
         print('~ Choices: '+str([mod.name for mod in mods])[1:-1]+'\n')
-        mod_select = input('> ')
+        mod_select = eval(input('> '))
 
         for mod in mods:
             if re.search('^.*\\b'+mod.name+'\\b.*$',  mod_select, re.IGNORECASE):
@@ -203,7 +203,7 @@ class Brain():
     def error(self):
         """ Inform the user that an error occurred """
         tts.speak(settings.ERROR)
-        text = input('Continue? (Y/N) ')
+        text = eval(input('Continue? (Y/N) '))
         # response = stt.active_listen()
         if 'y' in text.lower():
             log.error(traceback.format_exc())
@@ -221,7 +221,7 @@ class Brain():
                     stt.listen_keyword()
                     text = stt.active_listen()
                 else:
-                    text = input('> ')
+                    text = eval(input('> '))
                 if not text:
                     log.info('No text input received.')
                     continue

@@ -1,6 +1,6 @@
 """Unit system helper class and methods."""
 
-import logging
+from . import logging
 from numbers import Number
 from homeassistant.const import (
     TEMP_CELSIUS, TEMP_FAHRENHEIT, LENGTH_CENTIMETERS, LENGTH_METERS,

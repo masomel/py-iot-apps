@@ -146,7 +146,7 @@ class SwitchDevice(ToggleEntity):
         """Return the optional state attributes."""
         data = {}
 
-        for prop, attr in PROP_TO_ATTR.items():
+        for prop, attr in list(PROP_TO_ATTR.items()):
             value = getattr(self, prop)
             if value:
                 data[attr] = value

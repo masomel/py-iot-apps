@@ -1,1 +1,1 @@
-import sendsigfox
+from . import sendsigfox

@@ -71,7 +71,7 @@ def UploadFile(imgFileNm,url):
     textData = {'caption': imgFileNm, 'accessKey': gAccessKey, 'imgCount':gImgCount}
     resp = requests.post(url = url, files =  {'file':f}, data = textData)
     if(gDebugMode==1):
-        print resp.text
+        print(resp.text)
     return resp.status_code
 
 # ---- function to write to a local log file  ----
@@ -131,13 +131,13 @@ def main():
             if(gDebugMode==1):
                 imgFileNm="sample_image.jpg"
             else:
-                print("picam will capture an image named {0}".format(imgFileNm))
+                print(("picam will capture an image named {0}".format(imgFileNm)))
                 camera.capture(imgFileNm)
         else:
             #   last upload failed | read image name from file | a file with this name should exist when it was captured last time
             imgFileNm=ReadLog(gLogFile)
             if(gDebugMode==1):
-                print("name of image captured last time is {0}".format(imgFileNm))
+                print(("name of image captured last time is {0}".format(imgFileNm)))
 
 
         #   check internet connection before attempting upload

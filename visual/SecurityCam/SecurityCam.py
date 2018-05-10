@@ -5,7 +5,7 @@ import RPi.GPIO as GPIO
 import time
 import picamera
 import sys, os
-import json,httplib
+import json,http.client
 import base64
 import threading
 
@@ -17,7 +17,7 @@ GPIO.setup(sensor, GPIO.IN, GPIO.PUD_DOWN)
 previous_state = False
 current_state = False
 
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = http.client.HTTPSConnection('api.parse.com', 443)
 connection.connect()
 
 
@@ -46,13 +46,13 @@ def _kill(m, n):
 def is_person(image):
     det = Detector(image)
     faces = len(det.face())
-    print "FACE: ", det.drawColors[det.drawn-1 % len(det.drawColors)], faces
+    print("FACE: ", det.drawColors[det.drawn-1 % len(det.drawColors)], faces)
     uppers = len(det.upper_body())
-    print "UPPR: ", det.drawColors[det.drawn-1 % len(det.drawColors)], uppers
+    print("UPPR: ", det.drawColors[det.drawn-1 % len(det.drawColors)], uppers)
     fulls = len(det.full_body())
-    print "FULL: ", det.drawColors[det.drawn-1 % len(det.drawColors)], fulls
+    print("FULL: ", det.drawColors[det.drawn-1 % len(det.drawColors)], fulls)
     peds = len(det.pedestrian())
-    print "PEDS: ", det.drawColors[det.drawn-1 % len(det.drawColors)], peds
+    print("PEDS: ", det.drawColors[det.drawn-1 % len(det.drawColors)], peds)
     det.draw()
     det.overlay()
    
@@ -62,7 +62,7 @@ def is_person(image):
 def processImage(imgFile):
     global connection
     if is_person(imgFile):
-        print "True"
+        print("True")
         with open(imgFile, "rb") as image_file:
             encoded_string = base64.b64encode(image_file.read())
         lock.acquire()
@@ -76,16 +76,16 @@ def processImage(imgFile):
                 "Content-Type": "application/json"
             })
             result = json.loads(connection.getresponse().read())
-            print "Photo Uploaded!"
+            print("Photo Uploaded!")
         except:
             connection.close()
-            connection = httplib.HTTPSConnection('api.parse.com', 443)
+            connection = http.client.HTTPSConnection('api.parse.com', 443)
             connection.connect()
-            print "Error Uploading."
+            print("Error Uploading.")
         pubnub.publish(channel, imgFile)
         lock.release()
     else:   # Not a person
-        print "False"
+        print("False")
     os.remove(imgFile)
     sys.exit(0) 
 

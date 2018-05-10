@@ -21,7 +21,7 @@ while(1):
 
     humval = int(hum.read())
     humval = str(humval)
-    print "Temperature : "+humval
+    print("Temperature : "+humval)
     sendis = "Temperature/"+humval
     bytes = str.encode(sendis)
     s.send(bytes)
@@ -31,7 +31,7 @@ while(1):
     s.connect((TCP_IP, TCP_PORT))
     ligval = int(lig.read())
     ligval = str(ligval)
-    print "Light : "+ligval
+    print("Light : "+ligval)
     sendis = "Light/"+ligval
     bytes = str.encode(sendis)
     s.send(bytes)

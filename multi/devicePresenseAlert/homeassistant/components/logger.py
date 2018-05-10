@@ -74,12 +74,12 @@ def setup(hass, config=None):
 
     # Compute log severity for components
     if LOGGER_LOGS in config.get(DOMAIN):
-        for key, value in config.get(DOMAIN)[LOGGER_LOGS].items():
+        for key, value in list(config.get(DOMAIN)[LOGGER_LOGS].items()):
             config.get(DOMAIN)[LOGGER_LOGS][key] = LOGSEVERITY[value]
 
         logs = OrderedDict(
             sorted(
-                config.get(DOMAIN)[LOGGER_LOGS].items(),
+                list(config.get(DOMAIN)[LOGGER_LOGS].items()),
                 key=lambda t: len(t[0]),
                 reverse=True
             )

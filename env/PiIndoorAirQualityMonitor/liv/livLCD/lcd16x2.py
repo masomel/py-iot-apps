@@ -74,5 +74,5 @@ if __name__ == "__main__":
     time.sleep(5)
     lcd.cleanFirstLine()
     lcd.cleanSecondLine()
-    print 'testing LCD display. please check display'
+    print('testing LCD display. please check display')
       

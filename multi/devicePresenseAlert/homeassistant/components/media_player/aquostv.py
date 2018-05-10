@@ -252,6 +252,6 @@ class SharpAquosTVDevice(MediaPlayerDevice):
 
     def select_source(self, source):
         """Set the input source."""
-        for key, value in SOURCES.items():
+        for key, value in list(SOURCES.items()):
             if source == value:
                 self._remote.input(key)

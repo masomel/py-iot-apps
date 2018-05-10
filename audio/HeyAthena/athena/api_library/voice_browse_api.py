@@ -4,7 +4,7 @@ Tools to automate browsing (requires Firefox)
 try:
     from urllib.parse import quote_plus  # Python 3
 except ImportError:
-    from urllib import quote_plus        # Python 2
+    from urllib.parse import quote_plus        # Python 2
 
 import os
 import traceback
@@ -41,7 +41,7 @@ class VoiceBrowseApi(Api):
                     raise Exception
                 self.driver = webdriver.Chrome(settings.CHROME_DRIVER)
             except:
-                print(traceback.format_exc())
+                print((traceback.format_exc()))
                 self.driver = webdriver.Firefox()
         else:
             if new_tab:

@@ -1,11 +1,11 @@
-from __future__ import unicode_literals
 
-import ConfigParser as configparser
+
+import configparser as configparser
 
 import logging
 import re
 import time
-import urlparse
+import urllib.parse
 
 from collections import OrderedDict
 from contextlib import closing
@@ -13,9 +13,9 @@ from contextlib import closing
 import requests
 
 try:
-    import cStringIO as StringIO
+    import io as StringIO
 except ImportError:
-    import StringIO as StringIO
+    import io as StringIO
 try:
     import xml.etree.cElementTree as elementtree
 except ImportError:
@@ -86,7 +86,7 @@ def parse_pls(data):
     for section in cp.sections():
         if section.lower() != 'playlist':
             continue
-        for i in xrange(cp.getint(section, 'numberofentries')):
+        for i in range(cp.getint(section, 'numberofentries')):
             try:
                 # TODO: Remove this horrible hack to avoid adverts
                 if cp.has_option(section, 'length%d' % (i + 1)):
@@ -298,7 +298,7 @@ class TuneIn(object):
 
     def parse_stream_url(self, url):
         logger.debug('Extracting URIs from %s', url)
-        extension = urlparse.urlparse(url).path[-4:]
+        extension = urllib.parse.urlparse(url).path[-4:]
         if extension in ['.mp3', '.wma']:
             logger.debug('Got %s', url)
             return [url]  # Catch these easy ones

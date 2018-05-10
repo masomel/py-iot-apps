@@ -18,7 +18,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from pylab import *
 from optparse import OptionParser
-import StringIO
+import io
 
 
 app = Flask(__name__, instance_path='/home/pi/liv/livAPIs')
@@ -123,7 +123,7 @@ def liv():
 
 @app.route('/getAllSensorData')
 def getAllSensorDataFromMostRecentReading():
-    print "start getAllSensorData"
+    print("start getAllSensorData")
     records = getData(1)
     c = records[0]
     t = c["Temperature"]
@@ -164,7 +164,7 @@ def CO2Fig(numberRecords):
     plt.xlabel('Number of measurement points ')
     ax.plot(x, m, color='#009900')
     
-    img = StringIO.StringIO()
+    img = io.StringIO()
     # plt.savefig('co2.png')
     plt.savefig(img)
     img.seek(0)
@@ -187,7 +187,7 @@ def tFig(numberRecords):
     plt.xlabel('Number of measurement points ')
     ax.plot(x, m, color='#009900')
     
-    img = StringIO.StringIO()
+    img = io.StringIO()
     plt.savefig(img)
     img.seek(0)
     return send_file(img, mimetype='image/png')
@@ -209,7 +209,7 @@ def hFig(numberRecords):
     plt.xlabel('Number of measurement points ')
     ax.plot(x, m, color='#009900')
     
-    img = StringIO.StringIO()
+    img = io.StringIO()
     plt.savefig(img)
     img.seek(0)
     return send_file(img, mimetype='image/png')
@@ -234,7 +234,7 @@ def apFig(numberRecords):
     plt.xlabel('Number of measurement points ')
     ax.plot(x, m, color='#009900')
     
-    img = StringIO.StringIO()
+    img = io.StringIO()
     plt.savefig(img)
     img.seek(0)
     return send_file(img, mimetype='image/png')

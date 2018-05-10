@@ -8,8 +8,8 @@ import sys,os,xmpp,time
 import threading
 import httplib2 as http
 import json
-from urlparse import urlparse
-import ConfigParser
+from urllib.parse import urlparse
+import configparser
 import logging
 import logging.config
 
@@ -107,7 +107,7 @@ if __name__ == '__main__':
   logger = logging.getLogger(__name__)  
   
   
-  config = ConfigParser.ConfigParser()
+  config = configparser.ConfigParser()
   config.read("./livXMPP.config")
   xmppFrom = config.get('XMPP', 'from')
   xmppFromPassword = config.get('XMPP', 'fromPassword')

@@ -1,6 +1,6 @@
 """Location helpers for Home Assistant."""
 
-from typing import Sequence
+from .typing import Sequence
 
 from homeassistant.const import ATTR_LATITUDE, ATTR_LONGITUDE
 from homeassistant.core import State

@@ -330,7 +330,7 @@ class ActiveConnection:
         finally:
             unsub_stop()
 
-            for unsub in self.event_listeners.values():
+            for unsub in list(self.event_listeners.values()):
                 unsub()
 
             yield from wsock.close()

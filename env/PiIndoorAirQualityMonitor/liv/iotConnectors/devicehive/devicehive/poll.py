@@ -11,7 +11,7 @@ from twisted.internet.defer import Deferred, succeed, fail
 from twisted.web.iweb import IBodyProducer
 from twisted.web.client import HTTP11ClientProtocol, Request
 from twisted.web.http_headers import Headers
-from utils import parse_url, parse_date, url_path
+from .utils import parse_url, parse_date, url_path
 from devicehive import DhError, CommandResult, BaseCommand
 from devicehive.interfaces import IProtoFactory, IProtoHandler
 from devicehive.utils import TextDataConsumer, JsonDataConsumer
@@ -65,7 +65,7 @@ class JsonDataProducer(object):
         try:
             self.data = json.dumps(data)
             self.error = None
-        except Exception, error:
+        except Exception as error:
             self.error = error
         self.length = len(self.data)
 
@@ -74,7 +74,7 @@ class JsonDataProducer(object):
             try:
                 consumer.write(self.data)
                 return succeed(None)
-            except Exception, error:
+            except Exception as error:
                 return fail(error)
         else:
             return fail(self.error)
@@ -318,7 +318,7 @@ class CommandPollProtocol(HTTP11ClientProtocol):
             try:
                 LOG_MSG('Executing command {0} handler.'.format(cmd))
                 self.owner.run_command(cmd, defer)
-            except Exception, err:
+            except Exception as err:
                 LOG_ERR('Failed to execute device-delegate on_command. Reason: <{0}>.'.format(err))
                 self.command_failed(cmd, err)
 

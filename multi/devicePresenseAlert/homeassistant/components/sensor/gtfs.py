@@ -253,11 +253,11 @@ class GTFSDepartureSensor(Entity):
             def dict_for_table(resource):
                 """Return a dict for the SQLAlchemy resource given."""
                 return dict((col, getattr(resource, col))
-                            for col in resource.__table__.columns.keys())
+                            for col in list(resource.__table__.columns.keys()))
 
             def append_keys(resource, prefix=None):
                 """Properly format key val pairs to append to attributes."""
-                for key, val in resource.items():
+                for key, val in list(resource.items()):
                     if val == "" or val is None or key == 'feed_id':
                         continue
                     pretty_key = key.replace('_', ' ')

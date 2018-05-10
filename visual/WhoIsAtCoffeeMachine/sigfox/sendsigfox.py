@@ -28,7 +28,7 @@ class Sigfox(object):
         # allow serial port choice from parameter - default is /dev/ttyAMA0
         portName = port
         
-        print 'Serial port : ' + portName
+        print('Serial port : ' + portName)
         self.ser = serial.Serial(
                 port=portName,
                 baudrate=9600,
@@ -60,13 +60,13 @@ class Sigfox(object):
             if success in currentMsg :
                     return currentMsg
             elif failure in currentMsg :
-                    print 'Failure (' + currentMsg.replace('\r\n', '') + ')'
+                    print('Failure (' + currentMsg.replace('\r\n', '') + ')')
             else :
-                    print 'Receive timeout (' + currentMsg.replace('\r\n', '') + ')'
+                    print('Receive timeout (' + currentMsg.replace('\r\n', '') + ')')
             return ''
 
     def sendMessage(self, message):
-        print 'Sending SigFox Message...'
+        print('Sending SigFox Message...')
         
         if(self.ser.isOpen() == True): # on some platforms the serial port needs to be closed first 
             self.ser.close()
@@ -87,7 +87,7 @@ class Sigfox(object):
                         print('OK Message sent')
 
         else:
-                print 'SigFox Modem Error'
+                print('SigFox Modem Error')
 
         self.ser.close()
 

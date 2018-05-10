@@ -24,26 +24,26 @@ if lcdDisplay:
         d.move(0, 0)
         light = backlight.Backlight(SMBus(1), 0x62)
         light.set_color(0, 0, 0)
-        print 'Display ready'
+        print('Display ready')
 else:
-        print 'No display'
+        print('No display')
 
 #init opencv
 faceCascade = cv2.CascadeClassifier("opencv/haarcascade_frontalface_default.xml")
 if lcdDisplay:
         d.write("Loading data")
 else:
-        print 'Loading training data...'
+        print('Loading training data...')
 if lcdDisplay:
         d.write("Setting up")
 else:
-        print "Setting up"
+        print("Setting up")
 model = cv2.createEigenFaceRecognizer()
 model.load("opencv/training.xml")
 if lcdDisplay:
         d.write("Ready")
 else:
-        print "Training data ready"
+        print("Training data ready")
 
 #Init Sigfox
 sgfx = sendsigfox.Sigfox("/dev/ttyAMA0")
@@ -79,7 +79,7 @@ while True:
                 #print 'Predicted {0} face with confidence {1} (lower is more confident).'.format(
                 #        'POSITIVE' if label == config.POSITIVE_LABEL else 'NEGATIVE',
                 #        confidence)
-                print 'Predicted {0} face with confidence {1} (lower is more confident).'.format(label, confidence)
+                print('Predicted {0} face with confidence {1} (lower is more confident).'.format(label, confidence))
                 if label == config.LOUIS_LABEL and confidence < 2500:
                         #print 'Recognized face!'
                         #cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)                        
@@ -88,7 +88,7 @@ while True:
                                 d.move(0, 0)
                                 d.write("Hello Louis".format(label))
                         else:
-                                print "Hello {0} - confidence {1}".format(label, confidence)
+                                print("Hello {0} - confidence {1}".format(label, confidence))
                         if ids.count(label) == 0 and len(ids) < 12:
                                 ids.append(label)
                 elif label == config.ANTHO_LABEL and confidence < 2500:
@@ -99,7 +99,7 @@ while True:
                                 d.move(0, 0)
                                 d.write("Hello Antho".format(label))
                         else:
-                                print "Hello {0} - confidence {1}".format(label, confidence)
+                                print("Hello {0} - confidence {1}".format(label, confidence))
                         if ids.count(label) == 0 and len(ids) < 12:
                                 ids.append(label)
                 elif label == config.NICO_LABEL and confidence < 2500:
@@ -110,7 +110,7 @@ while True:
                                 d.move(0, 0)
                                 d.write("Hello Nico".format(label))
                         else:
-                                print "Hello {0} - confidence {1}".format(label, confidence)
+                                print("Hello {0} - confidence {1}".format(label, confidence))
                         if ids.count(label) == 0 and len(ids) < 12:
                                 ids.append(label)
                 elif label == config.BATISTE_LABEL and confidence < 2200:
@@ -121,7 +121,7 @@ while True:
                                 d.move(0, 0)
                                 d.write("Hello Batiste".format(label))
                         else:
-                                print "Hello {0} - confidence {1}".format(label, confidence)
+                                print("Hello {0} - confidence {1}".format(label, confidence))
                         if ids.count(label) == 0 and len(ids) < 12:
                                 ids.append(label)
 		elif label == config.LOURDES_LABEL and confidence < 2800:
@@ -132,7 +132,7 @@ while True:
                                 d.move(0, 0)
                                 d.write("Hola Lourdes".format(label))
                         else:
-                                print "Hello {0} - confidence {1}".format(label, confidence)
+                                print("Hello {0} - confidence {1}".format(label, confidence))
                         if ids.count(label) == 0 and len(ids) < 12:
                                 ids.append(label)
 		elif label == config.NADINE_LABEL and confidence < 2500:
@@ -143,7 +143,7 @@ while True:
                                 d.move(0, 0)
                                 d.write("Hi Nadine".format(label))
                         else:
-                                print "Hello {0} - confidence {1}".format(label, confidence)
+                                print("Hello {0} - confidence {1}".format(label, confidence))
                         if ids.count(label) == 0 and len(ids) < 12:
                                 ids.append(label)
 		elif label == config.ANAMARIA_LABEL and confidence < 2800:
@@ -154,7 +154,7 @@ while True:
                                 d.move(0, 0)
                                 d.write("Hi Ana Maria".format(label))
                         else:
-                                print "Hello {0} - confidence {1}".format(label, confidence)
+                                print("Hello {0} - confidence {1}".format(label, confidence))
                         if ids.count(label) == 0 and len(ids) < 12:
                                 ids.append(label)
 
@@ -166,7 +166,7 @@ while True:
                                 d.move(0, 0)
                                 d.write("Hi handsome")
                         else:
-                                print "Hello {0} - confidence {1}".format(label, confidence)
+                                print("Hello {0} - confidence {1}".format(label, confidence))
                         if ids.count(label) == 0 and len(ids) < 12:
                                 if confidence < 2000:
                                         ids.append(label)

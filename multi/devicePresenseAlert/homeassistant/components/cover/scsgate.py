@@ -29,7 +29,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     logger = logging.getLogger(__name__)
 
     if devices:
-        for _, entity_info in devices.items():
+        for _, entity_info in list(devices.items()):
             if entity_info[scsgate.CONF_SCS_ID] in scsgate.SCSGATE.devices:
                 continue
 
@@ -76,21 +76,21 @@ class SCSGateCover(CoverDevice):
 
     def open_cover(self, **kwargs):
         """Move the cover."""
-        from scsgate.tasks import RaiseRollerShutterTask
+        from .scsgate.tasks import RaiseRollerShutterTask
 
         scsgate.SCSGATE.append_task(
             RaiseRollerShutterTask(target=self._scs_id))
 
     def close_cover(self, **kwargs):
         """Move the cover down."""
-        from scsgate.tasks import LowerRollerShutterTask
+        from .scsgate.tasks import LowerRollerShutterTask
 
         scsgate.SCSGATE.append_task(
             LowerRollerShutterTask(target=self._scs_id))
 
     def stop_cover(self, **kwargs):
         """Stop the cover."""
-        from scsgate.tasks import HaltRollerShutterTask
+        from .scsgate.tasks import HaltRollerShutterTask
 
         scsgate.SCSGATE.append_task(HaltRollerShutterTask(target=self._scs_id))
 

@@ -14,7 +14,7 @@ import os
 import sqlite3
 import logging
 import logging.config
-import ConfigParser
+import configparser
 import smbus
 import RPi.GPIO as GPIO
 from Adafruit_Python_BMP.Adafruit_BMP import BMP085
@@ -24,7 +24,7 @@ from temperatureHumiditySensor import temperatureHumiditySensor
 
 
 # Read parameters from configuration file
-config = ConfigParser.ConfigParser()
+config = configparser.ConfigParser()
 config.read('./livDB.config')
 
 thSensorOn = config.getboolean('ON_BOARD_SENSORS', 'temp_humidity_sensor')

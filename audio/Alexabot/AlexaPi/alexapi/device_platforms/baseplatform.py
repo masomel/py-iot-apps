@@ -1,9 +1,7 @@
 from abc import ABCMeta, abstractmethod
 
 
-class BasePlatform:
-	__metaclass__ = ABCMeta
-
+class BasePlatform(metaclass=ABCMeta):
 	def __init__(self, config, platform_name):
 		self._config = config
 		self._pconfig = config['platforms']['common']

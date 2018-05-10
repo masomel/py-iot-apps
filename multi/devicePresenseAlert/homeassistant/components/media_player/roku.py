@@ -66,7 +66,7 @@ class RokuDevice(MediaPlayerDevice):
 
     def __init__(self, host):
         """Initialize the Roku device."""
-        from roku import Roku
+        from .roku import Roku
 
         self.roku = Roku(host)
         self.roku_name = None

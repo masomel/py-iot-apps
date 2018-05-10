@@ -248,7 +248,7 @@ class MySensorsLight(mysensors.MySensorsDeviceEntity, Light):
         """Update the controller with the latest value from a sensor."""
         node = self.gateway.sensors[self.node_id]
         child = node.children[self.child_id]
-        for value_type, value in child.values.items():
+        for value_type, value in list(child.values.items()):
             _LOGGER.debug(
                 '%s: value_type %s, value = %s', self._name, value_type, value)
             self._values[value_type] = value

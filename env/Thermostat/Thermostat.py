@@ -7,7 +7,7 @@ from Adafruit_CharLCDPlate import Adafruit_CharLCDPlate
 from datetime              import datetime  
 from subprocess            import *  
 from time                  import sleep, strftime  
-from Queue                 import Queue  
+from queue                 import Queue  
 from threading             import Thread  
 from random import *
 import RPi.GPIO as GPIO
@@ -88,7 +88,7 @@ def logTemp(temp, humidity, chauffmarcel,tempneed):
 	try:
 		conn=sqlite3.connect('/home/pi/temperature/temperature.db')
 		curs=conn.cursor()
-		print "INSERT INTO temperature values(datetime('now'),(?),(?),(?),(?))"
+		print("INSERT INTO temperature values(datetime('now'),(?),(?),(?),(?))")
 		curs.execute("INSERT INTO temperature values(datetime('now','localtime'),(?),(?),(?),(?))",(temp,humidity,chauffmarcel,tempneed))
 		conn.commit()
 		conn.close()
@@ -222,12 +222,12 @@ def getTemperature():
 	try:
 		humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.AM2302,4)
 	except:
-		print 'Failed to get reading. Try again!'
+		print('Failed to get reading. Try again!')
 	if humidity is not None and temperature is not None:
-        	print 'Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity)
+        	print('Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
 		return '{0:0.1f}'.format(temperature)
 	else:
-	        print 'Failed to get reading. Try again!' 
+	        print('Failed to get reading. Try again!') 
 	return choice(c) 
 
 def getTempNeeded():

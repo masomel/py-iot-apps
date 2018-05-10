@@ -95,7 +95,7 @@ class CupsSensor(Entity):
         """Return the state of the sensor."""
         if self._printer is not None:
             try:
-                return next(v for k, v in PRINTER_STATES.items()
+                return next(v for k, v in list(PRINTER_STATES.items())
                             if self._printer['printer-state'] == k)
             except StopIteration:
                 return self._printer['printer-state']
@@ -143,7 +143,7 @@ class CupsData(object):
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):
         """Get the latest data from CUPS."""
-        from cups import Connection
+        from .cups import Connection
 
         conn = Connection(host=self._host, port=self._port)
         self.printers = conn.getPrinters()

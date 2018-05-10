@@ -41,7 +41,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Set up the Yahoo Finance sensor."""
-    from yahoo_finance import Share
+    from .yahoo_finance import Share
 
     symbols = config.get(CONF_SYMBOLS)
 
@@ -111,7 +111,7 @@ class YahooFinanceData(object):
 
     def __init__(self, symbol):
         """Initialize the data object."""
-        from yahoo_finance import Share
+        from .yahoo_finance import Share
 
         self._symbol = symbol
         self.state = None

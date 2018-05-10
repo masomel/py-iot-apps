@@ -70,7 +70,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
 
     add_devices(MfiSensor(port, hass)
                 for device in client.get_devices()
-                for port in device.ports.values()
+                for port in list(device.ports.values())
                 if port.model in SENSOR_MODELS)
 
 

@@ -85,8 +85,8 @@ class ZwaveRollershutter(zwave.ZWaveDeviceEntity, CoverDevice):
     def update_properties(self):
         """Callback on data change for the registered node/value pair."""
         # Position value
-        for value in self._node.get_values(
-                class_id=zwave.const.COMMAND_CLASS_SWITCH_MULTILEVEL).values():
+        for value in list(self._node.get_values(
+                class_id=zwave.const.COMMAND_CLASS_SWITCH_MULTILEVEL).values()):
             if value.command_class == \
                zwave.const.COMMAND_CLASS_SWITCH_MULTILEVEL and \
                value.label == 'Level':
@@ -116,8 +116,8 @@ class ZwaveRollershutter(zwave.ZWaveDeviceEntity, CoverDevice):
 
     def open_cover(self, **kwargs):
         """Move the roller shutter up."""
-        for value in self._node.get_values(
-                class_id=zwave.const.COMMAND_CLASS_SWITCH_MULTILEVEL).values():
+        for value in list(self._node.get_values(
+                class_id=zwave.const.COMMAND_CLASS_SWITCH_MULTILEVEL).values()):
             if value.command_class == \
                zwave.const.COMMAND_CLASS_SWITCH_MULTILEVEL and value.label == \
                'Open' or value.command_class == \
@@ -128,8 +128,8 @@ class ZwaveRollershutter(zwave.ZWaveDeviceEntity, CoverDevice):
 
     def close_cover(self, **kwargs):
         """Move the roller shutter down."""
-        for value in self._node.get_values(
-                class_id=zwave.const.COMMAND_CLASS_SWITCH_MULTILEVEL).values():
+        for value in list(self._node.get_values(
+                class_id=zwave.const.COMMAND_CLASS_SWITCH_MULTILEVEL).values()):
             if value.command_class == \
                zwave.const.COMMAND_CLASS_SWITCH_MULTILEVEL and value.label == \
                'Down' or value.command_class == \
@@ -144,8 +144,8 @@ class ZwaveRollershutter(zwave.ZWaveDeviceEntity, CoverDevice):
 
     def stop_cover(self, **kwargs):
         """Stop the roller shutter."""
-        for value in self._node.get_values(
-                class_id=zwave.const.COMMAND_CLASS_SWITCH_MULTILEVEL).values():
+        for value in list(self._node.get_values(
+                class_id=zwave.const.COMMAND_CLASS_SWITCH_MULTILEVEL).values()):
             if value.command_class == \
                zwave.const.COMMAND_CLASS_SWITCH_MULTILEVEL and value.label == \
                'Open' or value.command_class == \

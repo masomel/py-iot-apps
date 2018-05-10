@@ -1,4 +1,4 @@
-from thread import *
+from _thread import *
 from flask import *
 import json
 import string
@@ -245,15 +245,15 @@ def login():
 		hashfailed = True
 	if not hashfailed and user and user.hash == hashalgorithm.hexdigest():
 		login_user(user, remember = True)
-		print('login successful (' + user.name + ')')
+		print(('login successful (' + user.name + ')'))
 		return 'ok'
 	else:
-		print('login failed (' + request.values.get('username') + ')')
+		print(('login failed (' + request.values.get('username') + ')'))
 		return 'Login failed', 401
 
 @app.route("/api/logout", methods=['POST'])
 @login_required
 def logout():
-	print('user logged out (' + current_user.name + ')')
+	print(('user logged out (' + current_user.name + ')'))
 	logout_user()
 	return redirect('/');

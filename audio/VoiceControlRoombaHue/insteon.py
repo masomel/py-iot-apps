@@ -16,7 +16,7 @@ import gevent
 
 
 def printStatus(response, **kwargs):
-    print "Insteon response was {}".format(response.status_code)
+    print("Insteon response was {}".format(response.status_code))
 
 # The following allows us to specify the IP address, username and password in a more friendly JSON configuration file rather than 
 # hardcoding the values in the Python source.

@@ -74,7 +74,7 @@ def active_listen():
     except speech_recognition.UnknownValueError:
         print("Google Speech Recognition could not understand audio")
     except speech_recognition.RequestError as e:
-        print("Could not request results from Google STT; {0}".format(e))
+        print(("Could not request results from Google STT; {0}".format(e)))
     except:
         print("Unknown exception occurred!")
     finally:

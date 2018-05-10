@@ -33,7 +33,7 @@ def create(name, personGroupID):
         conn.close()
         return data
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print(("[Errno {0}] {1}".format(e.errno, e.strerror)))
 
 
 def getPersonGroup(groupID):
@@ -56,7 +56,7 @@ def getPersonGroup(groupID):
         data = json.loads(data)
         return data
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print(("[Errno {0}] {1}".format(e.errno, e.strerror)))
 
 
 def listPersonGroup():
@@ -83,7 +83,7 @@ def listPersonGroup():
         data = json.loads(data)
         return data
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print(("[Errno {0}] {1}".format(e.errno, e.strerror)))
 
 		
 # !!! If succsessfull - return empty object
@@ -106,7 +106,7 @@ def trainPersonGroup(personGroupID):
         conn.close()
         return data
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print(("[Errno {0}] {1}".format(e.errno, e.strerror)))
 
 
 def getPersonGroupTrainingStatus(personGroupID):
@@ -130,7 +130,7 @@ def getPersonGroupTrainingStatus(personGroupID):
         data = json.loads(data)
         return data
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print(("[Errno {0}] {1}".format(e.errno, e.strerror)))
         return
 
 

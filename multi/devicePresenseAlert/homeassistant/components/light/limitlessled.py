@@ -91,7 +91,7 @@ def rewrite_legacy(config):
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Setup the LimitlessLED lights."""
-    from limitlessled.bridge import Bridge
+    from .limitlessled.bridge import Bridge
 
     # Two legacy configuration formats are supported to maintain backwards
     # compatibility.
@@ -122,7 +122,7 @@ def state(new_state):
         # pylint: disable=no-member,protected-access
         def wrapper(self, **kwargs):
             """Wrap a group state change."""
-            from limitlessled.pipeline import Pipeline
+            from .limitlessled.pipeline import Pipeline
             pipeline = Pipeline()
             transition_time = DEFAULT_TRANSITION
             # Stop any repeating pipeline.
@@ -158,8 +158,8 @@ class LimitlessLEDGroup(Light):
     @staticmethod
     def factory(group):
         """Produce LimitlessLEDGroup objects."""
-        from limitlessled.group.rgbw import RgbwGroup
-        from limitlessled.group.white import WhiteGroup
+        from .limitlessled.group.rgbw import RgbwGroup
+        from .limitlessled.group.white import WhiteGroup
         if isinstance(group, WhiteGroup):
             return LimitlessLEDWhiteGroup(group)
         elif isinstance(group, RgbwGroup):
@@ -259,7 +259,7 @@ class LimitlessLEDRGBWGroup(LimitlessLEDGroup):
     @state(True)
     def turn_on(self, transition_time, pipeline, **kwargs):
         """Turn on (or adjust property of) a group."""
-        from limitlessled.presets import COLORLOOP
+        from .limitlessled.presets import COLORLOOP
         # Check arguments.
         if ATTR_BRIGHTNESS in kwargs:
             self._brightness = kwargs[ATTR_BRIGHTNESS]
@@ -313,7 +313,7 @@ def _to_hass_brightness(brightness):
 
 def _from_hass_color(color):
     """Convert Home Assistant RGB list to Color tuple."""
-    from limitlessled import Color
+    from .limitlessled import Color
     return Color(*tuple(color))
 
 

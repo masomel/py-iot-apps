@@ -52,7 +52,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     timeandpriceest = UberEstimate(
         session, config[CONF_START_LATITUDE], config[CONF_START_LONGITUDE],
         config.get(CONF_END_LATITUDE), config.get(CONF_END_LONGITUDE))
-    for product_id, product in timeandpriceest.products.items():
+    for product_id, product in list(timeandpriceest.products.items()):
         if (wanted_product_ids is not None) and \
            (product_id not in wanted_product_ids):
             continue
@@ -146,7 +146,7 @@ class UberSensor(Entity):
 
         params[distance_key] = distance_val
 
-        return {k: v for k, v in params.items() if v is not None}
+        return {k: v for k, v in list(params.items()) if v is not None}
 
     @property
     def icon(self):

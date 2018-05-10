@@ -26,11 +26,11 @@ class tyos():
         for arg in sys.argv:
             if arg == '--power':
                 self.POWER_FONA = True
-                print 'Powering FONA on...'
+                print('Powering FONA on...')
             else:
                 self.POWER_FONA = False
             if arg == '--version':
-                print 'TYOS VERSION ' + VERSION
+                print('TYOS VERSION ' + VERSION)
                 sys.exit()
 
         self.VERSION = VERSION
@@ -241,8 +241,8 @@ try:
     phone.home() #E.T Reference
 
 except KeyboardInterrupt:
-    print
-    print 'Closing TYOS ' + phone.VERSION
+    print()
+    print('Closing TYOS ' + phone.VERSION)
     if phone.POWER_FONA:
         power.Power().toggle()
     pygame.quit()
@@ -250,10 +250,10 @@ except KeyboardInterrupt:
 except SystemExit:
     pass
 except:
-    print '******************************************'
-    print 'An Error Occured'
-    print 'Writing to log /home/pi/tyos/logs/tyos.log'
-    print '******************************************'
+    print('******************************************')
+    print('An Error Occured')
+    print('Writing to log /home/pi/tyos/logs/tyos.log')
+    print('******************************************')
     #If error occurs, save it to file
     error = traceback.format_exc()
     error_log = open('/home/pi/tyos/logs/tyos.log', 'w')

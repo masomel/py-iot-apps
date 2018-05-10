@@ -129,10 +129,7 @@ class SonarrSensor(Entity):
                     # Sonarr API returns an empty array if start and end dates
                     # are the same, so we need to filter to just today
                     self.data = list(
-                        filter(
-                            lambda x: x['airDate'] == str(start),
-                            res.json()
-                        )
+                        [x for x in res.json() if x['airDate'] == str(start)]
                     )
                 else:
                     self.data = res.json()
@@ -153,10 +150,7 @@ class SonarrSensor(Entity):
                 else:
                     # Filter to only show lists that are included
                     self.data = list(
-                        filter(
-                            lambda x: x['path'] in self.included,
-                            res.json()
-                        )
+                        [x for x in res.json() if x['path'] in self.included]
                     )
                 self._state = '{:.2f}'.format(
                     to_unit(

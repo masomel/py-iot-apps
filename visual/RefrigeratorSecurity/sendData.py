@@ -29,7 +29,7 @@ def toNodeRed(data):
         #return data
         print(data)
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print(("[Errno {0}] {1}".format(e.errno, e.strerror)))
     return
 
 

@@ -133,7 +133,7 @@ class BingSpeechAPI:
     def synthesize(self, text, language="en-US", gender="Female", stream=None, chunk_size=4096):
         self.authenticate()
 
-        if language not in self.locales.keys():
+        if language not in list(self.locales.keys()):
             raise ValueError("language is not supported.")
 
         lang = self.locales.get(language)
@@ -142,7 +142,7 @@ class BingSpeechAPI:
             gender = "Female"
 
         if len(lang) == 1:
-            gender = lang.keys()[0]
+            gender = list(lang.keys())[0]
 
         service_name = lang[gender]
 
@@ -209,13 +209,13 @@ def main():
 
     def test(text, stream=None):
         try:
-            print('TTS:{}'.format(text))
+            print(('TTS:{}'.format(text)))
             speech = bing.synthesize(text, stream=stream)
             text = bing.recognize(speech, language='en-US')
-            print('STT:{}'.format(text.encode('utf-8')))
-            print('Stream mode:{}'.format('yes' if stream else 'no'))
+            print(('STT:{}'.format(text.encode('utf-8'))))
+            print(('Stream mode:{}'.format('yes' if stream else 'no')))
         except RequestError as e:
-            print("Could not request results from Microsoft Bing Voice Recognition service; {0}".format(e))
+            print(("Could not request results from Microsoft Bing Voice Recognition service; {0}".format(e)))
 
     texts = [
         'Your beliefs become your thoughts',
@@ -227,8 +227,8 @@ def main():
     ]
 
     for n, text in enumerate(texts):
-        print('No.{} try'.format(n))
-        print(timeit.timeit(lambda: test(text, n & 1), number=1))
+        print(('No.{} try'.format(n)))
+        print((timeit.timeit(lambda: test(text, n & 1), number=1)))
 
 if __name__ == '__main__':
     main()

@@ -243,7 +243,7 @@ def setup(hass, config):
     # create hosts list for pyhomematic
     remotes = {}
     hosts = {}
-    for rname, rconfig in config[DOMAIN][CONF_HOSTS].items():
+    for rname, rconfig in list(config[DOMAIN][CONF_HOSTS].items()):
         server = rconfig.get(CONF_IP)
 
         remotes[rname] = {}
@@ -280,7 +280,7 @@ def setup(hass, config):
 
     # init homematic hubs
     hub_entities = []
-    for _, hub_data in hosts.items():
+    for _, hub_data in list(hosts.items()):
         hub_entities.append(HMHub(hass, component, hub_data[CONF_NAME],
                                   hub_data[CONF_VARIABLES]))
     component.add_entities(hub_entities)
@@ -453,7 +453,7 @@ def _get_devices(hass, device_type, keys, proxy):
 
         if metadata:
             # Generate options for 1...n elements with 1...n params
-            for param, channels in metadata.items():
+            for param, channels in list(metadata.items()):
                 if param in HM_IGNORE_DISCOVERY_NODE:
                     continue
 
@@ -570,7 +570,7 @@ def _device_from_servicecall(hass, service):
     if proxy:
         return hass.data[DATA_HOMEMATIC].devices[proxy].get(address)
 
-    for _, devices in hass.data[DATA_HOMEMATIC].devices.items():
+    for _, devices in list(hass.data[DATA_HOMEMATIC].devices.items()):
         if address in devices:
             return devices[address]
 
@@ -633,7 +633,7 @@ class HMHub(Entity):
         if variables is None:
             return
 
-        for key, value in variables.items():
+        for key, value in list(variables.items()):
             if key in self._store:
                 self._store.get(key).hm_update(value)
 
@@ -647,7 +647,7 @@ class HMHub(Entity):
             return
 
         entities = []
-        for key, value in variables.items():
+        for key, value in list(variables.items()):
             entities.append(HMVariable(self.hass, self._name, key, value))
         self._component.add_entities(entities)
 
@@ -759,7 +759,7 @@ class HMDevice(Entity):
             return attr
 
         # Generate an attributes list
-        for node, data in HM_ATTRIBUTE_SUPPORT.items():
+        for node, data in list(HM_ATTRIBUTE_SUPPORT.items()):
             # Is an attributes and exists for this object
             if node in self._data:
                 value = data[1].get(self._data[node], self._data[node])
@@ -836,7 +836,7 @@ class HMDevice(Entity):
                          self._hmdevice.ATTRIBUTENODE,
                          self._hmdevice.WRITENODE, self._hmdevice.EVENTNODE,
                          self._hmdevice.ACTIONNODE):
-            for node, channels in metadata.items():
+            for node, channels in list(metadata.items()):
                 # Data is needed for this instance
                 if node in self._data:
                     # chan is current channel

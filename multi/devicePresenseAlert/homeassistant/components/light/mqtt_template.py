@@ -101,7 +101,7 @@ class MqttTemplate(Light):
         self._effect_list = effect_list
         self._topics = topics
         self._templates = templates
-        for tpl in self._templates.values():
+        for tpl in list(self._templates.values()):
             if tpl is not None:
                 tpl.hass = hass
         self._optimistic = optimistic or topics[CONF_STATE_TOPIC] is None \

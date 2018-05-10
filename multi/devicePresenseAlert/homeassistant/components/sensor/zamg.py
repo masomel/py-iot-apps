@@ -127,7 +127,7 @@ class ZamgData(object):
     API_URL = 'http://www.zamg.ac.at/ogd/'
     API_FIELDS = {
         v[2]: (k, v[3])
-        for k, v in SENSOR_TYPES.items()
+        for k, v in list(SENSOR_TYPES.items())
     }
     API_HEADERS = {
         'User-Agent': '{} {}'.format('home-assistant.zamg/', __version__),
@@ -168,7 +168,7 @@ class ZamgData(object):
                 self.data = {
                     self.API_FIELDS.get(k)[0]:
                         self.API_FIELDS.get(k)[1](v.replace(',', '.'))
-                    for k, v in row.items()
+                    for k, v in list(row.items())
                     if v and k in self.API_FIELDS
                 }
                 break

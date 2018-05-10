@@ -74,7 +74,7 @@ class LuciDeviceScanner(DeviceScanner):
                 result = _req_json_rpc(url, 'get_all', 'dhcp',
                                        params={'auth': self.token})
                 if result:
-                    hosts = [x for x in result.values()
+                    hosts = [x for x in list(result.values())
                              if x['.type'] == 'host' and
                              'mac' in x and 'name' in x]
                     mac2name_list = [

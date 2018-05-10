@@ -71,7 +71,7 @@ class App():
         order = order_file.readlines()
 
         if len(order) < 4:
-            print 'Not enough apps in storage!'
+            print('Not enough apps in storage!')
             pygame.quit()
             sys.exit()
         for i in range(0, len(order)):

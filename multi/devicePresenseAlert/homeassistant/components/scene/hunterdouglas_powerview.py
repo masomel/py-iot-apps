@@ -6,8 +6,8 @@ https://home-assistant.io/components/scene.hunterdouglas_powerview/
 """
 import logging
 
-from homeassistant.components.scene import Scene, DOMAIN
-from homeassistant.helpers.entity import generate_entity_id
+from .homeassistant.components.scene import Scene, DOMAIN
+from .homeassistant.helpers.entity import generate_entity_id
 
 _LOGGER = logging.getLogger(__name__)
 REQUIREMENTS = [

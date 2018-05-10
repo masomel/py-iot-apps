@@ -19,7 +19,7 @@
 import os
 import wave
 import types
-import Queue
+import queue
 import collections
 import random
 import string
@@ -28,8 +28,8 @@ from threading import Thread, Event
 
 import pyaudio
 
-from pixel_ring import pixel_ring
-from vad import vad
+from .pixel_ring import pixel_ring
+from .vad import vad
 
 
 logger = logger = logging.getLogger('mic')
@@ -91,8 +91,8 @@ class Microphone:
 
         self.quit_event = quit_event if quit_event else Event()
 
-        self.listen_queue = Queue.Queue()
-        self.detect_queue = Queue.Queue()
+        self.listen_queue = queue.Queue()
+        self.detect_queue = queue.Queue()
 
         self.decoder = self.create_decoder()
         self.decoder.start_utt()
@@ -216,7 +216,7 @@ class Microphone:
                 while data and not self.quit_event.is_set():
                     yield data
                     data = self.listen_queue.get(timeout=timeout)
-            except Queue.Empty:
+            except queue.Empty:
                 pass
 
             self.stop()
@@ -302,7 +302,7 @@ def task(quit_event):
             text = mic.recognize(data)
             if text:
                 time.sleep(3)
-                print('Recognized %s' % text)
+                print(('Recognized %s' % text))
 
 
 def main():

@@ -89,7 +89,7 @@ class OpenWeatherMapWeather(WeatherEntity):
     def condition(self):
         """Return the current condition."""
         try:
-            return [k for k, v in CONDITION_CLASSES.items() if
+            return [k for k, v in list(CONDITION_CLASSES.items()) if
                     self.data.get_weather_code() in v][0]
         except IndexError:
             return STATE_UNKNOWN

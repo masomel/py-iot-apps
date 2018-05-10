@@ -65,7 +65,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
         sources.append(source['name'])
 
     if russ.is_connected():
-        for zone_id, extra in config[CONF_ZONES].items():
+        for zone_id, extra in list(config[CONF_ZONES].items()):
             add_devices([RussoundRNETDevice(
                 hass, russ, sources, zone_id, extra)])
     else:

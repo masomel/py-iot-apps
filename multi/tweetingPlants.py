@@ -40,7 +40,7 @@ def TweetText(texttotweet, medialoc):
         #this actually tweets the text
         api.update_with_media(medialoc, status=texttotweet)
         #tells us what it's tweeted
-        print" \" %s \" tweeted!" % (texttotweet)
+        print(" \" %s \" tweeted!" % (texttotweet))
         return True
 
 def TweetConditions(addlmessage):
@@ -95,7 +95,7 @@ SetupTweepy()
 while True:
     #if it's at one of the 15 minute intervals:
     if mins == "00" or mins == "15" or mins == "30" or mins == "45":
-        print("Reached an interval:, ", mins)
+        print(("Reached an interval:, ", mins))
         #if it has been moved, add that to the tweet and send it
         if motiondetected:
             TweetConditions("Ow! Someone moved me! ")

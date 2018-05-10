@@ -12,7 +12,7 @@ class Credential:
             self.key = f.readline().strip()
             self.value = f.readline().strip()
         else:
-            self.key = raw_input('Google Username:')
+            self.key = input('Google Username:')
             self.value = getpass.getpass('App Specific Password')
             f = open(self.filename, 'w')
             f.write(self.key + '\n')

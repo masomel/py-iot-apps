@@ -432,10 +432,10 @@ class APITemplateView(HomeAssistantView):
 def async_services_json(hass):
     """Generate services data to JSONify."""
     return [{"domain": key, "services": value}
-            for key, value in hass.services.async_services().items()]
+            for key, value in list(hass.services.async_services().items())]
 
 
 def async_events_json(hass):
     """Generate event data to JSONify."""
     return [{"event": key, "listener_count": value}
-            for key, value in hass.bus.async_listeners().items()]
+            for key, value in list(hass.bus.async_listeners().items())]

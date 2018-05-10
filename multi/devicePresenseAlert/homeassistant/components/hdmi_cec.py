@@ -41,7 +41,7 @@ def parse_mapping(mapping, parents=None):
     """Parse configuration device mapping."""
     if parents is None:
         parents = []
-    for addr, val in mapping.items():
+    for addr, val in list(mapping.items()):
         cur = parents + [str(addr)]
         if isinstance(val, dict):
             yield from parse_mapping(val, cur)

@@ -50,7 +50,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
 
     try:
         response = requests.get(DEVICE_LIST_URL.format(host, port)).json()
-        if device_id in response[CONF_DEVICES].keys():
+        if device_id in list(response[CONF_DEVICES].keys()):
             add_devices([FireTVDevice(host, port, device_id, name)])
             _LOGGER.info('Device %s accessible and ready for control',
                          device_id)

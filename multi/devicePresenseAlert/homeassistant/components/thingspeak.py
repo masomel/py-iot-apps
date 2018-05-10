@@ -34,7 +34,7 @@ CONFIG_SCHEMA = vol.Schema({
 
 def setup(hass, config):
     """Set up the Thingspeak environment."""
-    import thingspeak
+    from . import thingspeak
 
     conf = config[DOMAIN]
     api_key = conf.get(CONF_API_KEY)

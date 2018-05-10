@@ -1,5 +1,5 @@
 import subprocess
-from Tkinter import *
+from tkinter import *
 
 matchbox = None
 def launch_matchbox():

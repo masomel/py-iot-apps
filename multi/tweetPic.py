@@ -2,7 +2,7 @@
 
 import tweepy
 import cv2
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import time
 import mraa
 
@@ -18,18 +18,18 @@ chk_old=0
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
-imag = urllib.URLopener()
+imag = urllib.request.URLopener()
 light = mraa.Aio(0)
 
 tweet = tweepy.Cursor(api.search, q = your_handle , lang = 'en')
 count = 0
-for tweet in tweet.items():
-	print (tweet.text, tweet.author.screen_name,tweet.id)
+for tweet in list(tweet.items()):
+	print((tweet.text, tweet.author.screen_name,tweet.id))
 	txt = tweet.text
 	hand = tweet.author.screen_name
 	chk = tweet.id
 	cond = chk_old!=chk
-	print cond
+	print(cond)
 	break
 if txt== your_handle + ' Start!':
 	print('Security System Started!')
@@ -37,7 +37,7 @@ if txt== your_handle + ' Start!':
 		tweet = tweepy.Cursor(api.search, q = '@satyasiot', lang = 'en')
 		count = 2
 		val = float(light.read())
-		print val
+		print(val)
 		if val > 500:  
 			if cond:
 				imag.retrieve('http://'+camip+':8080/shot.jpg','shot.jpg')
@@ -47,10 +47,10 @@ if txt== your_handle + ' Start!':
 				psts = '@satyasiot Intruder Alert!'
 				api.update_with_media(filename=this, in_reply_to_status_id=chk, status=psts)
 				chk_old = chk
-				print chk_old
-				print 'done'
+				print(chk_old)
+				print('done')
 		time.sleep(11)
-		for tweet in tweet.items():
+		for tweet in list(tweet.items()):
 			txt = tweet.text
 			hand = tweet.author.screen_name
 			chk = tweet.id

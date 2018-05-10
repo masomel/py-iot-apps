@@ -1,6 +1,6 @@
 import json
 import requests
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import subprocess
 import argparse
 
@@ -11,9 +11,9 @@ parser.add_argument('-t','--text_to_translate', help='Text to Translate', requir
 args = parser.parse_args()
 
 ## show values ##
-print ("Origin: %s" % args.origin_language )
-print ("Destination: %s" % args.destination_language )
-print ("Text: %s" % args.text_to_translate )
+print(("Origin: %s" % args.origin_language ))
+print(("Destination: %s" % args.destination_language ))
+print(("Text: %s" % args.text_to_translate ))
 
 text = args.text_to_translate
 origin_language=args.origin_language
@@ -26,7 +26,7 @@ def speakOriginText(phrase):
 
 def speakDestinationText(phrase):
     googleSpeechURL = "http://translate.google.com/translate_tts?tl=" + destination_language +"&q=" + phrase
-    print googleSpeechURL
+    print(googleSpeechURL)
     subprocess.call(["mplayer",googleSpeechURL], shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 args = {
@@ -37,7 +37,7 @@ args = {
     }
 
 oauth_url = 'https://datamarket.accesscontrol.windows.net/v2/OAuth2-13'
-oauth_junk = json.loads(requests.post(oauth_url,data=urllib.urlencode(args)).content)
+oauth_junk = json.loads(requests.post(oauth_url,data=urllib.parse.urlencode(args)).content)
 translation_args = {
         'text': text,
         'to': destination_language,
@@ -46,7 +46,7 @@ translation_args = {
 
 headers={'Authorization': 'Bearer '+oauth_junk['access_token']}
 translation_url = 'http://api.microsofttranslator.com/V2/Ajax.svc/Translate?'
-translation_result = requests.get(translation_url+urllib.urlencode(translation_args),headers=headers)
+translation_result = requests.get(translation_url+urllib.parse.urlencode(translation_args),headers=headers)
 translation=translation_result.text[2:-1]
 
 speakOriginText('Translating ' + translation_args["text"])

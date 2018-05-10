@@ -16,7 +16,7 @@ import RPi.GPIO as GPIO
 from functools import partial
 
 ppth = os.path.abspath(__file__)
-print ppth
+print(ppth)
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
@@ -45,9 +45,9 @@ def msg_cb(success, msg):
 HISTORY_QUERY_SIZE = 100
 
 def history_cb(msg_list, peer, success, msgs):
-	print(len(msgs))
+	print((len(msgs)))
 	msg_list.extend(msgs)
-	print(len(msg_list))
+	print((len(msg_list)))
 	if len(msgs) == HISTORY_QUERY_SIZE:
 		tgl.get_history(peer, len(msg_list), HISTORY_QUERY_SIZE, partial(history_cb, msg_list, peer));
 

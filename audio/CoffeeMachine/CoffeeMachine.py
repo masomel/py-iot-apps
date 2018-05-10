@@ -99,7 +99,7 @@ def IoT_to_Raspberry_Change_CoffeeChoice(ShadowPayload):
     global CoffeeChoice_Selected, RegularStrength_Selected
     # Desired = COFFEE CHOICE change
     CoffeeChoice_Selected_LED() #Double check LED status
-    if (ShadowPayload <> "" and CoffeeChoice[CoffeeChoice_Selected] <> "" and Power_Status[Power_StatusSelected] == "ON"): #check if status or desired is not an empty value
+    if (ShadowPayload != "" and CoffeeChoice[CoffeeChoice_Selected] != "" and Power_Status[Power_StatusSelected] == "ON"): #check if status or desired is not an empty value
         while (CoffeeChoice.index(ShadowPayload.upper()) > CoffeeChoice_Selected): #current setting does not match desired (needs to tab down)
             GPIO.output(CoffeeChoice_BUT_Down, True) #Button press imitation send to the optocoupler
             time.sleep(0.1)
@@ -131,7 +131,7 @@ def IoT_to_Raspberry_Change_RegularStrength(ShadowPayload):
     CoffeeChoice_Selected_LED() #Double check LED status
     RegularStrength_Selected_LED() #Double check LED status
 
-    if (ShadowPayload <> "" and RegularStrength[RegularStrength_Selected] <> "" and Power_Status[Power_StatusSelected] == "ON"): #check if status or desired is not an empty value
+    if (ShadowPayload != "" and RegularStrength[RegularStrength_Selected] != "" and Power_Status[Power_StatusSelected] == "ON"): #check if status or desired is not an empty value
         if (CoffeeChoice.index("REGULAR") == CoffeeChoice_Selected): # Only possible if current selection is Regular
             while (RegularStrength.index(ShadowPayload.upper()) > RegularStrength_Selected): #current setting does not match desired (needs to tab down)
                 GPIO.output(RegularStrength_BUT_Down, True) #Button press imitation send to the optocoupler
@@ -177,12 +177,12 @@ def IoT_to_Raspberry_Change_Start(ShadowPayload):
     # Desired = Start
     if (ShadowPayload == "YES"):
         time.sleep (5)
-        while (Base_LED_Power_Status[Base_LED_Power_StatusSelected] <> "READY"): #Only goes through if the machine is in READY state, otherwise it loops waiting for becoming ready
+        while (Base_LED_Power_Status[Base_LED_Power_StatusSelected] != "READY"): #Only goes through if the machine is in READY state, otherwise it loops waiting for becoming ready
             time.sleep (1)
         else:
             time.sleep (1)
             if (NumberOfCups[NumberOfCups_Selected] == "ONE" and Base_LED_One_Status[Base_LED_One_StatusSelected] == "READY"): #Only goes trhough if the machine is in READY state for 1 cup
-                print "Ready for one cup"
+                print("Ready for one cup")
                 GPIO.output(Base_BUT_One, True) #Button press imitation send to the optocoupler
                 time.sleep(0.1)
                 GPIO.output(Base_BUT_One, False)
@@ -195,7 +195,7 @@ def IoT_to_Raspberry_Change_Start(ShadowPayload):
                             '}'
                 myDeviceShadow.shadowUpdate(JSONPayload, IoTShadowCallback_Update, 5) #Send the new status as REPORTED values
             elif (NumberOfCups[NumberOfCups_Selected] == "TWO" and Base_LED_Two_Status[Base_LED_Two_StatusSelected] == "READY"): #Only goes trhough if the machine is in READY state for 2 cups
-                print "Ready for two cups"
+                print("Ready for two cups")
                 GPIO.output(Base_BUT_Two, True) #Button press imitation send to the optocoupler
                 time.sleep(0.1)
                 GPIO.output(Base_BUT_Two, False)
@@ -243,31 +243,31 @@ def IoTShadowCallback_Delta(payload, responseStatus, token):
 #    global Power_StatusSelected, CoffeeChoice_Selected, RegularStrength_Selected, NumberOfCups_Selected
     print(responseStatus)
     payloadDict = json.loads(payload)
-    print("++DELTA++ version: " + str(payloadDict["version"]))
+    print(("++DELTA++ version: " + str(payloadDict["version"])))
 
     # Desired = POWER change
     if ("Power" in payloadDict["state"]):
-        print("Power: " + str(payloadDict["state"]["Power"]))
+        print(("Power: " + str(payloadDict["state"]["Power"])))
         IoT_to_Raspberry_Change_Power(str(payloadDict["state"]["Power"]))
 
     # Desired = COFFEE CHOICE change
     if ("CoffeeChoice" in payloadDict["state"]):
-        print("CoffeeChoice: " + str(payloadDict["state"]["CoffeeChoice"]))
+        print(("CoffeeChoice: " + str(payloadDict["state"]["CoffeeChoice"])))
         IoT_to_Raspberry_Change_CoffeeChoice(str(payloadDict["state"]["CoffeeChoice"]))
 
     # Desired = REGULAR STRENGTH change
     if ("RegularStrength" in payloadDict["state"]):
-        print("RegularStrength: " + str(payloadDict["state"]["RegularStrength"]))
+        print(("RegularStrength: " + str(payloadDict["state"]["RegularStrength"])))
         IoT_to_Raspberry_Change_RegularStrength(str(payloadDict["state"]["RegularStrength"]))
 
     # Desired = number of cups selecction
     if ("NumberOfCups" in payloadDict["state"]):
-        print("NumberOfCups: " + str(payloadDict["state"]["NumberOfCups"]))
+        print(("NumberOfCups: " + str(payloadDict["state"]["NumberOfCups"])))
         IoT_to_Raspberry_Change_NumberOfCups(str(payloadDict["state"]["NumberOfCups"]))
 
     # Desired = Start
     if ("Start" in payloadDict["state"]):
-        print("Start: " + str(payloadDict["state"]["Start"]))
+        print(("Start: " + str(payloadDict["state"]["Start"])))
         IoT_to_Raspberry_Change_Start(str(payloadDict["state"]["Start"]))
             
 
@@ -277,30 +277,30 @@ def IoTShadowCallback_Delta(payload, responseStatus, token):
 def IoTShadowCallback_Get(payload, responseStatus, token):
     print(responseStatus)
     payloadDict = json.loads(payload)
-    print("++GET++ version: " + str(payloadDict["version"]))
+    print(("++GET++ version: " + str(payloadDict["version"])))
     if ("Power" in payloadDict["state"]["desired"]):
-        if(str(payloadDict["state"]["reported"]["Power"]).upper() <> str(payloadDict["state"]["desired"]["Power"]).upper()):
-            print("Power: " + str(payloadDict["state"]["desired"]["Power"]))
+        if(str(payloadDict["state"]["reported"]["Power"]).upper() != str(payloadDict["state"]["desired"]["Power"]).upper()):
+            print(("Power: " + str(payloadDict["state"]["desired"]["Power"])))
             IoT_to_Raspberry_Change_Power(str(payloadDict["state"]["desired"]["Power"]))
             
     if ("CoffeeChoice" in payloadDict["state"]["desired"]):
-        if(str(payloadDict["state"]["reported"]["CoffeeChoice"]).upper() <> str(payloadDict["state"]["desired"]["CoffeeChoice"]).upper()):
-            print("CoffeeChoice: " + str(payloadDict["state"]["desired"]["CoffeeChoice"]))
+        if(str(payloadDict["state"]["reported"]["CoffeeChoice"]).upper() != str(payloadDict["state"]["desired"]["CoffeeChoice"]).upper()):
+            print(("CoffeeChoice: " + str(payloadDict["state"]["desired"]["CoffeeChoice"])))
             IoT_to_Raspberry_Change_CoffeeChoice(str(payloadDict["state"]["desired"]["CoffeeChoice"]))
             
     if ("RegularStrength" in payloadDict["state"]["desired"]):
-        if(str(payloadDict["state"]["reported"]["RegularStrength"]).upper() <> str(payloadDict["state"]["desired"]["RegularStrength"]).upper()):
-            print("RegularStrength: " + str(payloadDict["state"]["desired"]["RegularStrength"]))
+        if(str(payloadDict["state"]["reported"]["RegularStrength"]).upper() != str(payloadDict["state"]["desired"]["RegularStrength"]).upper()):
+            print(("RegularStrength: " + str(payloadDict["state"]["desired"]["RegularStrength"])))
             IoT_to_Raspberry_Change_RegularStrength(str(payloadDict["state"]["desired"]["RegularStrength"]))
             
     if ("NumberOfCups" in payloadDict["state"]["desired"]):
-        if(str(payloadDict["state"]["reported"]["NumberOfCups"]).upper() <> str(payloadDict["state"]["desired"]["NumberOfCups"]).upper()):
-            print("NumberOfCups: " + str(payloadDict["state"]["desired"]["NumberOfCups"]))
+        if(str(payloadDict["state"]["reported"]["NumberOfCups"]).upper() != str(payloadDict["state"]["desired"]["NumberOfCups"]).upper()):
+            print(("NumberOfCups: " + str(payloadDict["state"]["desired"]["NumberOfCups"])))
             IoT_to_Raspberry_Change_NumberOfCups(str(payloadDict["state"]["desired"]["NumberOfCups"]))
             
     if ("Start" in payloadDict["state"]["desired"]):
-        if(str(payloadDict["state"]["reported"]["Start"]).upper() <> str(payloadDict["state"]["desired"]["Start"]).upper()):
-            print("Start: " + str(payloadDict["state"]["desired"]["Start"]))
+        if(str(payloadDict["state"]["reported"]["Start"]).upper() != str(payloadDict["state"]["desired"]["Start"]).upper()):
+            print(("Start: " + str(payloadDict["state"]["desired"]["Start"])))
             IoT_to_Raspberry_Change_Start(str(payloadDict["state"]["desired"]["Start"]))
 
 
@@ -309,16 +309,16 @@ def IoTShadowCallback_Get(payload, responseStatus, token):
 # Shadow callback for updating the AWS IoT
 def IoTShadowCallback_Update(payload, responseStatus, token):
     if responseStatus == "timeout":
-        print("++UPDATE++ request " + token + " timed out!")
+        print(("++UPDATE++ request " + token + " timed out!"))
     if responseStatus == "accepted":
         payloadDict = json.loads(payload)
-        print("++UPDATE++ request with token: " + token + " accepted!")
+        print(("++UPDATE++ request with token: " + token + " accepted!"))
         if ("desired" in payloadDict["state"]):
-            print("Desired: " + str(payloadDict["state"]["desired"]))
+            print(("Desired: " + str(payloadDict["state"]["desired"])))
         if ("reported" in payloadDict["state"]):
-            print("Reported: " + str(payloadDict["state"]["reported"]))
+            print(("Reported: " + str(payloadDict["state"]["reported"])))
     if responseStatus == "rejected":
-        print("++UPDATE++ request " + token + " rejected!")
+        print(("++UPDATE++ request " + token + " rejected!"))
 
 
 
@@ -512,7 +512,7 @@ def LedPower_Interrupt(channel):
         elif (Base_LED_Power_flash_sec > 2):
             Base_LED_Power_StatusSelected = Base_LED_Power_Status.index("READY")
             
-        if (Base_LED_Power_StatusSelected <> Base_LED_Power_StatusSelected_last):
+        if (Base_LED_Power_StatusSelected != Base_LED_Power_StatusSelected_last):
             Base_LED_Power_StatusSelected_last = Base_LED_Power_StatusSelected
             JSONPayload = '{ "state" : {'+\
                                 '"reported": {'+\
@@ -598,8 +598,8 @@ def loop():
             Base_LED_Power_StatusSelected = Base_LED_Power_Status.index("OFF")
             Power_StatusSelected = Power_Status.index("OFF")
             
-        if (Base_LED_Power_StatusSelected <> Base_LED_Power_StatusSelected_last):
-            print ("Base_LED_Power_flash_sec: " + str(Base_LED_Power_flash_sec) + " Base_LED_Power_Status: " + Base_LED_Power_Status[Base_LED_Power_StatusSelected])
+        if (Base_LED_Power_StatusSelected != Base_LED_Power_StatusSelected_last):
+            print(("Base_LED_Power_flash_sec: " + str(Base_LED_Power_flash_sec) + " Base_LED_Power_Status: " + Base_LED_Power_Status[Base_LED_Power_StatusSelected]))
             Base_LED_Power_StatusSelected_last = Base_LED_Power_StatusSelected
             Base_LED_Power_flash_last = time.time()
 
@@ -651,7 +651,7 @@ myDeviceShadow.shadowRegisterDeltaCallback(IoTShadowCallback_Delta)
 
 if __name__ == '__main__':
     try:
-        print 'CoffeeMachine started, Press Ctrl-C to quit.'
+        print('CoffeeMachine started, Press Ctrl-C to quit.')
         while True:
             #pass
             loop()
@@ -659,5 +659,5 @@ if __name__ == '__main__':
         GPIO.cleanup()
         myAWSIoTMQTTShadowClient.shadowUnregisterDeltaCallback()
         myAWSIoTMQTTShadowClient.disconnect()
-        print 'CoffeeMachine stopped.'
+        print('CoffeeMachine stopped.')
 

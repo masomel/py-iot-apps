@@ -5,13 +5,13 @@ import time
 import paho.mqtt.client as mqtt #make sure you have installed mqtt client library for python
 import ssl
 import json
-import thread
+import _thread
 
 #Creating a adxl345 object
 adxl345 = ADXL345()
 
 def on_connect(client, userdata, flags, rc):
-    print("Connected with result code "+str(rc))
+    print(("Connected with result code "+str(rc)))
 
 
 client = mqtt.Client()
@@ -27,10 +27,10 @@ def intrusionDetector(Dummy):
         axes = adxl345.getAxes(True)
         #I did few expriment in certain orientation and found that when ever door opens the Z axis value becomes positive.
         if axes['z'] >= 0:
-            print "Intruder Detected"
+            print("Intruder Detected")
             client.publish("home/door", payload="Intruder Detected" , qos=0, retain=False)
         time.sleep(0.5)
 
-thread.start_new_thread(intrusionDetector,("Create intrusion Thread",))
+_thread.start_new_thread(intrusionDetector,("Create intrusion Thread",))
 
 client.loop_forever() #MQTT's will never end

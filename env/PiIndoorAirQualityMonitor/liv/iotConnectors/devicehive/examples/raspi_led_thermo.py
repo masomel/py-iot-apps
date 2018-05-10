@@ -24,7 +24,7 @@ try:
         base_dir = '/sys/bus/w1/devices/'
         device_folder = glob.glob(base_dir + '28*')
         if not device_folder:
-            print 'Make sure that DS18B20 sensor is connected'
+            print('Make sure that DS18B20 sensor is connected')
             exit()
         return device_folder[0] + '/w1_slave'
 except ImportError:
@@ -33,13 +33,13 @@ except ImportError:
         BOARD = 'BOARD'
         BCM = 'BCM'
         def __init__(self):
-            print 'Fake gpio initialized'
+            print('Fake gpio initialized')
         def setmode(self, value):
-            print 'Set mode {0}.'.format(value)
+            print('Set mode {0}.'.format(value))
         def setup(self, io, mode):
-            print 'Set gpio {0}; Mode: {1};'.format(io, mode)
+            print('Set gpio {0}; Mode: {1};'.format(io, mode))
         def output(self, io, vlaue):
-            print 'Set gpio {0}; Value: {1};'.format(io, vlaue)
+            print('Set gpio {0}; Value: {1};'.format(io, vlaue))
     GPIO = FakeGPIO()
 
     def get_i2c_file():

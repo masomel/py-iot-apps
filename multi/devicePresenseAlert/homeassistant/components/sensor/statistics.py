@@ -6,7 +6,7 @@ https://home-assistant.io/components/sensor.statistics/
 """
 import asyncio
 import logging
-import statistics
+from . import statistics
 from collections import deque
 
 import voluptuous as vol

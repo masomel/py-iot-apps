@@ -1,11 +1,11 @@
 import listalbums
-import Tkinter
-import tkFileDialog
-import tkSimpleDialog
+import tkinter
+import tkinter.filedialog
+import tkinter.simpledialog
 import os.path
 import Image
 import ImageTk
-import ConfigParser
+import configparser
 import os.path
 from constants import SCREEN_W, SCREEN_H
 
@@ -38,7 +38,7 @@ oauth2_refresh_period = 1800000
     if not os.path.exists(conf_filename):
         raise ValueError('Configuration file "%s" is missing.' % conf_filename)
 
-    conf = ConfigParser.ConfigParser()
+    conf = configparser.ConfigParser()
     conf.read(conf_filename)
 
     emailSubject = conf.get('main', 'emailSubject') # "Your Postcard from the Wyolum Photobooth"
@@ -80,7 +80,7 @@ EXT = 'jpg'
 RAW_FILENAME = 'image.' + EXT
 PROC_FILENAME = 'photo.' + EXT
 
-class AskBoolean(tkSimpleDialog.Dialog):
+class AskBoolean(tkinter.simpledialog.Dialog):
     def apply(self):
         self.result = True
 
@@ -108,38 +108,38 @@ def display_logo(parent, logopng):
         photo = photo.resize((int(width * scale), int(height * scale)))
         photo_tk = ImageTk.PhotoImage(photo) 
     else:
-        photo_tk = Tkinter.PhotoImage(file=logopng) ## works but not on raspberry pi
+        photo_tk = tkinter.PhotoImage(file=logopng) ## works but not on raspberry pi
     try: ## subsequent calls only need config
         logo_label.config(image=photo_tk)
         logo_label.photo_tk = photo_tk
     except: ## initial call creates a new label
-        logo_label = Tkinter.Label(parent, image=photo_tk)
+        logo_label = tkinter.Label(parent, image=photo_tk)
         logo_label.photo_tk = photo_tk
-        logo_label.pack(side=Tkinter.LEFT)
+        logo_label.pack(side=tkinter.LEFT)
 
 def customize(master):
     global logo_label
-    self = Tkinter.Toplevel(master)
+    self = tkinter.Toplevel(master)
     self.master = master
     def close_master():
         self.master.destroy()
     def string_customizer(label, initial_val, listener):
         label = ' ' * (20 - len(label)) + label
-        frame = Tkinter.Frame(self)
-        var = Tkinter.StringVar()
+        frame = tkinter.Frame(self)
+        var = tkinter.StringVar()
         var.set(initial_val)
-        Tkinter.Label(frame, text=label).pack(side=Tkinter.LEFT)
-        entry = Tkinter.Entry(frame, textvariable=var, width=60)
+        tkinter.Label(frame, text=label).pack(side=tkinter.LEFT)
+        entry = tkinter.Entry(frame, textvariable=var, width=60)
         var.trace('w', lambda *args:listener(var, entry))
-        entry.pack(side=Tkinter.RIGHT)
+        entry.pack(side=tkinter.RIGHT)
         frame.pack()
         return frame, entry
     
     def bool_customizer(label, initial_val, listener):
-        frame = Tkinter.Frame(self)
-        var = Tkinter.BooleanVar()
+        frame = tkinter.Frame(self)
+        var = tkinter.BooleanVar()
         var.set(initial_val)
-        checkbox = Tkinter.Checkbutton(self, text=label, variable=var)
+        checkbox = tkinter.Checkbutton(self, text=label, variable=var)
         var.trace('w', lambda *args:listener(var, checkbox))
         checkbox.pack()
         frame.pack()
@@ -216,14 +216,14 @@ def customize(master):
             lxsize, lysize = logo.size
         else:
             logo = None
-            lxsize = 0l
+            lxsize = 0
             lysize = 0
 
         ## save popup dialog
         # save_dialog = AskBoolean(self, title='Save configuration?')
         # if save_dialog.result:
         if True:
-            conf = ConfigParser.ConfigParser()
+            conf = configparser.ConfigParser()
             conf.add_section('main')
             conf.set('main', 'emailSubject', emailSubject)
             conf.set('main', 'emailMsg', emailMsg)
@@ -239,7 +239,7 @@ def customize(master):
             conf.set('main', 'oauth2_refresh_period', oauth2_refresh_period)
             f = open(conf_filename, 'w')
             conf.write(f)
-            print 'wrote', f.name
+            print('wrote', f.name)
         else:
             restore_conf()
         close()
@@ -255,7 +255,7 @@ def customize(master):
         options['initialfile'] = logo_var.get()
         options['title'] = 'Logo finder'
         options['parent'] = self
-        logo_file = tkFileDialog.askopenfilename(**options)
+        logo_file = tkinter.filedialog.askopenfilename(**options)
         logo_var.set(logo_file)
         logopng = logo_file
 
@@ -264,7 +264,7 @@ def customize(master):
         options['initialdir'] = '/media'
         options['title'] = 'Select Archive Directory'
         options['parent'] = self
-        archive_dir = tkFileDialog.askdirectory(**options)
+        archive_dir = tkinter.filedialog.askdirectory(**options)
         archive_var.set(archive_dir)
     def launch_album_select(*args):
         if not hasattr(self, 'albums'):
@@ -278,7 +278,7 @@ def customize(master):
                                                       albumID,
                                                       update_albumID)
     ### add in Album selector
-    Tkinter.Button(album_frame,
+    tkinter.Button(album_frame,
                    text="Lookup",
                    command=launch_album_select).pack()
     
@@ -286,53 +286,53 @@ def customize(master):
     string_customizer('Countdown2', countdown2, update_countdown2)
     string_customizer('Timelapse', TIMELAPSE, update_timelapse)
     bool_customizer('Sign me in', SIGN_ME_IN, update_sign_me_in)
-    archive_var = Tkinter.StringVar()
+    archive_var = tkinter.StringVar()
     archive_var.set(archive_dir)
-    archive_frame = Tkinter.Frame(self)
-    Tkinter.Label(archive_frame, text='Archive Directory').pack(side=Tkinter.LEFT)
-    archive_entry = Tkinter.Entry(archive_frame, textvariable=archive_var, width=60)
-    archive_entry.pack(side=Tkinter.LEFT)
+    archive_frame = tkinter.Frame(self)
+    tkinter.Label(archive_frame, text='Archive Directory').pack(side=tkinter.LEFT)
+    archive_entry = tkinter.Entry(archive_frame, textvariable=archive_var, width=60)
+    archive_entry.pack(side=tkinter.LEFT)
     archive_var.trace('w', curry(update_archive, archive_entry))
-    Tkinter.Button(archive_frame, text='Browse', command=archive_dialog).pack(side=Tkinter.LEFT)
-    archive_frame.pack(side=Tkinter.TOP)
+    tkinter.Button(archive_frame, text='Browse', command=archive_dialog).pack(side=tkinter.LEFT)
+    archive_frame.pack(side=tkinter.TOP)
 
-    logo_var = Tkinter.StringVar()
+    logo_var = tkinter.StringVar()
     logo_var.set(logopng)
-    logo_frame = Tkinter.Frame(self)
-    Tkinter.Label(logo_frame, text='Logo File').pack(side=Tkinter.LEFT)
-    logo_entry = Tkinter.Entry(logo_frame, textvariable=logo_var, width=60)
-    logo_entry.pack(side=Tkinter.LEFT)
+    logo_frame = tkinter.Frame(self)
+    tkinter.Label(logo_frame, text='Logo File').pack(side=tkinter.LEFT)
+    logo_entry = tkinter.Entry(logo_frame, textvariable=logo_var, width=60)
+    logo_entry.pack(side=tkinter.LEFT)
     logo_var.trace('w', curry(update_logo, logo_entry))
-    Tkinter.Button(logo_frame, text='Browse', command=logo_dialog).pack(side=Tkinter.LEFT)
-    logo_frame.pack(side=Tkinter.TOP)
-    buttonbox = Tkinter.Frame(self)
+    tkinter.Button(logo_frame, text='Browse', command=logo_dialog).pack(side=tkinter.LEFT)
+    logo_frame.pack(side=tkinter.TOP)
+    buttonbox = tkinter.Frame(self)
     ##  Tkinter.Button(buttonbox, text='Cancel', command=self.destroy).pack(side=Tkinter.LEFT) changes are stored when they are made. cancel is harder than this
-    Tkinter.Button(buttonbox, text='Save', command=update_and_close).pack(
-        side=Tkinter.LEFT)
-    Tkinter.Button(buttonbox, text='Cancel', command=close).pack(
-        side=Tkinter.LEFT)
-    Tkinter.Button(buttonbox, text='Quit TouchSelfie', command=quit).pack(
-        side=Tkinter.LEFT)
+    tkinter.Button(buttonbox, text='Save', command=update_and_close).pack(
+        side=tkinter.LEFT)
+    tkinter.Button(buttonbox, text='Cancel', command=close).pack(
+        side=tkinter.LEFT)
+    tkinter.Button(buttonbox, text='Quit TouchSelfie', command=quit).pack(
+        side=tkinter.LEFT)
     buttonbox.pack()
     
     if True: # DISPLAY_LOGO:
         display_logo(self, logopng)
 
 if __name__ == '__main__':
-    import Tkinter
-    r = Tkinter.Tk()
-    b = Tkinter.Button(r, text='help', command=lambda :customize(r))
+    import tkinter
+    r = tkinter.Tk()
+    b = tkinter.Button(r, text='help', command=lambda :customize(r))
     b.pack()
     r.mainloop()
-    print emailSubject
-    print emailMsg
-    print photoCaption
-    print countdown1
-    print countdown2
-    print TIMELAPSE
-    print ARCHIVE
-    print archive_dir
-    print logopng
+    print(emailSubject)
+    print(emailMsg)
+    print(photoCaption)
+    print(countdown1)
+    print(countdown2)
+    print(TIMELAPSE)
+    print(ARCHIVE)
+    print(archive_dir)
+    print(logopng)
     
 
 

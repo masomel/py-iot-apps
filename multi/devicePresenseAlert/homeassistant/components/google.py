@@ -152,7 +152,7 @@ def do_authentication(hass, config):
             title=NOTIFICATION_TITLE, notification_id=NOTIFICATION_ID)
 
     listener = track_time_change(hass, step2_exchange,
-                                 second=range(0, 60, dev_flow.interval))
+                                 second=list(range(0, 60, dev_flow.interval)))
 
     return True
 
@@ -225,7 +225,7 @@ def do_setup(hass, config):
     # Ensure component is loaded
     bootstrap.setup_component(hass, 'calendar', config)
 
-    for calendar in hass.data[DATA_INDEX].values():
+    for calendar in list(hass.data[DATA_INDEX].values()):
         discovery.load_platform(hass, 'calendar', DOMAIN, calendar)
 
     # look for any new calendars

@@ -9,78 +9,78 @@ from devicehive.dhjson import Parser
 class DhJsonTestCase1(unittest.TestCase):
     def test_string(self):
         p = Parser("'hello all'")
-        self.assertEquals('hello all', p.parse())
+        self.assertEqual('hello all', p.parse())
     
     def test_string_dq_and_space(self):
         p = Parser(' "hello all" ')
-        self.assertEquals('hello all', p.parse())
+        self.assertEqual('hello all', p.parse())
     
     def test_parse_number_10(self):
         p = Parser('123')
-        self.assertEquals(123, p.parse())
+        self.assertEqual(123, p.parse())
     
     def test_parse_number_16(self):
         p = Parser('0x123')
-        self.assertEquals(0x123, p.parse())
+        self.assertEqual(0x123, p.parse())
     
     def test_parse_number_8(self):
         p = Parser('012')
-        self.assertEquals(10, p.parse())
+        self.assertEqual(10, p.parse())
     
     def test_parse_number_8(self):
         p = Parser('0')
-        self.assertEquals(0, p.parse())
+        self.assertEqual(0, p.parse())
     
     def test_parse_identifier_1(self):
         p = Parser('test123_321')
-        self.assertEquals('test123_321', p.parse())
+        self.assertEqual('test123_321', p.parse())
 
     def test_parse_identifier_2(self):
         p = Parser('__test123_321')
-        self.assertEquals('__test123_321', p.parse())
+        self.assertEqual('__test123_321', p.parse())
     
     def test_parse_identifier_2(self):
         p = Parser('__test123_321')
-        self.assertEquals('__test123_321', p.parse())
+        self.assertEqual('__test123_321', p.parse())
     
     def test_simple_array_1(self):
         p = Parser('[1,2,3]')
-        self.assertEquals([1, 2, 3, ], p.parse())
+        self.assertEqual([1, 2, 3, ], p.parse())
     
     def test_simple_array_2(self):
         p = Parser('[1 , 2 , 3,4 , 5,6 ]')
-        self.assertEquals([1, 2, 3, 4, 5, 6, ], p.parse())
+        self.assertEqual([1, 2, 3, 4, 5, 6, ], p.parse())
     
     def test_empty_array_1(self):
         p = Parser('[]')
-        self.assertEquals([], p.parse())
+        self.assertEqual([], p.parse())
 
     def test_empty_array_1(self):
         p = Parser('[ ]')
-        self.assertEquals([], p.parse())
+        self.assertEqual([], p.parse())
     
     def test_mixed_array(self):
         p = Parser('["test", 1, hello]')
-        self.assertEquals(['test', 1, 'hello'], p.parse())
+        self.assertEqual(['test', 1, 'hello'], p.parse())
     
     def test_simple_object_1(self):
         p = Parser('{"hello":1}')
-        self.assertEquals({'hello':1}, p.parse())
+        self.assertEqual({'hello':1}, p.parse())
 
     def test_simple_object_2(self):
         p = Parser("""{"hello":1, '123': 0x123 ,_test: "test"}""")
-        self.assertEquals({'hello':1, '123': 0x123, '_test': 'test'}, p.parse())
+        self.assertEqual({'hello':1, '123': 0x123, '_test': 'test'}, p.parse())
     
     def test_simple_complex_1(self):
         p = Parser("""{"arr": [ 1, 2 , 3], 'obj': { prop : 1 }}""")
-        self.assertEquals({'arr':[1,2,3], 'obj': {'prop': 1}}, p.parse())
+        self.assertEqual({'arr':[1,2,3], 'obj': {'prop': 1}}, p.parse())
     
     def test_order_test(self):
         p = Parser("""{"b1": 1, 'a2': 2, 'c3': 3 }""")
         r = [i for i in p.parse()]
-        self.assertEquals('b1', r[0])
-        self.assertEquals('a2', r[1])
-        self.assertEquals('c3', r[2])
+        self.assertEqual('b1', r[0])
+        self.assertEqual('a2', r[1])
+        self.assertEqual('c3', r[2])
     
 
 class EmptyTestCase(unittest.TestCase):
@@ -100,15 +100,15 @@ class EmptyTestCase(unittest.TestCase):
 class EscapeSequenceTestCase(unittest.TestCase):
     def test_esc_1(self):
         p = Parser(r'"\\"')
-        self.assertEquals('\\', p.parse())
+        self.assertEqual('\\', p.parse())
 
     def test_esc_2(self):
         p = Parser(r'"\""')
-        self.assertEquals('"', p.parse())
+        self.assertEqual('"', p.parse())
     
     def test_esc_3(self):
         p = Parser(r'"\\""')
-        self.assertEquals('\\', p.parse())
+        self.assertEqual('\\', p.parse())
 
 
 class DhJsonTestCase2(unittest.TestCase):

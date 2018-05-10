@@ -29,6 +29,7 @@ import logging
 import os
 import select
 from threading import Thread
+import collections
 
 Logger = logging.getLogger(__file__)
 
@@ -211,7 +212,7 @@ class Gpio(object):
         return self._fd.fileno()
 
     def changed(self, state):
-        if callable(self._callback):
+        if isinstance(self._callback, collections.Callable):
             self._callback(self.number, state)
 
     def _run(self):

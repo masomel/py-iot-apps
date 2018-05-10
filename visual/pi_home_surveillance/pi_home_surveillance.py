@@ -31,13 +31,13 @@ client = None
 if conf["use_dropbox"]:
 	# connect to dropbox and start the session authorization process
 	flow = DropboxOAuth2FlowNoRedirect(conf["dropbox_key"], conf["dropbox_secret"])
-	print "[INFO] Authorize this application: {}".format(flow.start())
-	authCode = raw_input("Enter auth code here: ").strip()
+	print("[INFO] Authorize this application: {}".format(flow.start()))
+	authCode = input("Enter auth code here: ").strip()
 
 	# finish the authorization and grab the Dropbox client
 	(accessToken, userID) = flow.finish(authCode)
 	client = DropboxClient(accessToken)
-	print "[SUCCESS] dropbox account linked"
+	print("[SUCCESS] dropbox account linked")
 
 # initialize the camera and grab a reference to the raw camera capture
 camera = PiCamera()
@@ -47,7 +47,7 @@ rawCapture = PiRGBArray(camera, size=tuple(conf["resolution"]))
 
 # allow the camera to warmup, then initialize the average frame, last
 # uploaded timestamp, and frame motion counter
-print "[INFO] warming up..."
+print("[INFO] warming up...")
 time.sleep(conf["camera_warmup_time"])
 avg = None
 lastUploaded = datetime.datetime.now()
@@ -68,7 +68,7 @@ for f in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True
 
 	# if the average frame is None, initialize it
 	if avg is None:
-		print "[INFO] starting background model..."
+		print("[INFO] starting background model...")
 		avg = gray.copy().astype("float")
 		rawCapture.truncate(0)
 		continue
@@ -123,7 +123,7 @@ for f in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True
 					cv2.imwrite(t.path, frame)
 
 					# upload the image to Dropbox and cleanup the tempory image
-					print "[UPLOAD] {}".format(ts)
+					print("[UPLOAD] {}".format(ts))
 					path = "{base_path}/{timestamp}.jpg".format(
 						base_path=conf["dropbox_base_path"], timestamp=ts)
 					client.put_file(path, open(t.path, "rb"))

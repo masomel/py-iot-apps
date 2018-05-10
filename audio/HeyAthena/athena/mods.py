@@ -26,7 +26,7 @@ def find_mods():
                         if 'Module' is parent.__name__:
                             mod_lib.append(obj())
         except Exception as e:
-            print(traceback.format_exc())
+            print((traceback.format_exc()))
             log.error('Error loading \''+name+'\' '+str(e))
     mod_lib.sort(key=lambda mod: mod.priority, reverse=True)
 

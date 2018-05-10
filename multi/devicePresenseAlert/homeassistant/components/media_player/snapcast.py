@@ -35,7 +35,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 # pylint: disable=unused-argument
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Setup the Snapcast platform."""
-    import snapcast.control
+    from . import snapcast.control
     host = config.get(CONF_HOST)
     port = config.get(CONF_PORT, snapcast.control.CONTROL_PORT)
 

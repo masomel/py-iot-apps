@@ -47,9 +47,9 @@ class Toolbar():
         self.rtc_time = self.rtc_time.split('-')
         self.rtc_time = self.rtc_time[0]
 
-        print self.rtc_time
+        print(self.rtc_time)
 
-        print 'RTC TIME:'
+        print('RTC TIME:')
 
         #Set Overall Time
         os.system('sudo date +%T -s "' + self.rtc_time + '"')
@@ -77,7 +77,7 @@ class Toolbar():
             self.reception = int(self.raw_reception)
         except:
             self.reception = 0
-            print 'ERROR'
+            print('ERROR')
 
         #Convert to bars
         if self.reception > 23:
@@ -114,7 +114,7 @@ class Toolbar():
             rects['rects'].append(self.one)
             rects['colors'].append(self.WHITE)
 
-        print 'RECEPTION: ' + str(self.reception) + 'dbm'
+        print('RECEPTION: ' + str(self.reception) + 'dbm')
 
         return rects
     
@@ -126,7 +126,7 @@ class Toolbar():
         self.raw_data = self.raw_data.split(',')
         self.percentage = self.raw_data[1]
 
-        print 'BATTERY LEVEL: ' + self.percentage + '%'
+        print('BATTERY LEVEL: ' + self.percentage + '%')
         if int(self.percentage) < self.DEAD:
             self.dead_bat = True
 
@@ -136,7 +136,7 @@ class Toolbar():
 
     def clock(self, rects, text, update, y):
         if time.time() - self.last_update > self.UPDATE_TIME:
-            print 'UPDATING...'
+            print('UPDATING...')
             self.last_update = time.time()
             
             rects = self.check_reception(rects, y)

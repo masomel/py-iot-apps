@@ -58,9 +58,9 @@ SYSLOG_PRIORITY = {
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_FACILITY, default='syslog'):
-        vol.In(SYSLOG_FACILITY.keys()),
-    vol.Optional(CONF_OPTION, default='pid'): vol.In(SYSLOG_OPTION.keys()),
-    vol.Optional(CONF_PRIORITY, default=-1): vol.In(SYSLOG_PRIORITY.keys()),
+        vol.In(list(SYSLOG_FACILITY.keys())),
+    vol.Optional(CONF_OPTION, default='pid'): vol.In(list(SYSLOG_OPTION.keys())),
+    vol.Optional(CONF_PRIORITY, default=-1): vol.In(list(SYSLOG_PRIORITY.keys())),
 })
 
 
@@ -69,7 +69,7 @@ _LOGGER = logging.getLogger(__name__)
 
 def get_service(hass, config):
     """Get the syslog notification service."""
-    import syslog
+    from . import syslog
 
     facility = getattr(syslog, SYSLOG_FACILITY[config.get(CONF_FACILITY)])
     option = getattr(syslog, SYSLOG_OPTION[config.get(CONF_OPTION)])
@@ -89,7 +89,7 @@ class SyslogNotificationService(BaseNotificationService):
 
     def send_message(self, message="", **kwargs):
         """Send a message to a user."""
-        import syslog
+        from . import syslog
 
         title = kwargs.get(ATTR_TITLE, ATTR_TITLE_DEFAULT)
 

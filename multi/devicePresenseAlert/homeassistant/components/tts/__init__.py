@@ -233,7 +233,7 @@ class SpeechManager(object):
 
         def remove_files():
             """Remove files from filesystem."""
-            for _, filename in self.file_cache.items():
+            for _, filename in list(self.file_cache.items()):
                 try:
                     os.remove(os.path.join(self.cache_dir, filename))
                 except OSError:

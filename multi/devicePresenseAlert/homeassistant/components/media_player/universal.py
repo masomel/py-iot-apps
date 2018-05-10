@@ -124,7 +124,7 @@ def validate_attributes(config):
             config[CONF_NAME])
         config[CONF_ATTRS] = {}
 
-    for key, val in config[CONF_ATTRS].items():
+    for key, val in list(config[CONF_ATTRS].items()):
         attr = val.split('|', 1)
         if len(attr) == 1:
             attr.append(None)
@@ -148,7 +148,7 @@ class UniversalMediaPlayer(MediaPlayerDevice):
             self.update_ha_state(True)
 
         depend = copy(children)
-        for entity in attributes.values():
+        for entity in list(attributes.values()):
             depend.append(entity[0])
 
         track_state_change(hass, depend, on_dependency_update)

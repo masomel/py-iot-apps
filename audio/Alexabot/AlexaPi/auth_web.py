@@ -1,9 +1,9 @@
 #! /usr/bin/env python
 
-from __future__ import print_function
+
 import os
 import json
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import socket
 import yaml
 import cherrypy
@@ -41,7 +41,7 @@ class Start(object):
 		raise cherrypy.HTTPRedirect(prepared_req.url)
 
 	def code(self, var=None, **params):		# pylint: disable=unused-argument
-		code = urllib.quote(cherrypy.request.params['code'])
+		code = urllib.parse.quote(cherrypy.request.params['code'])
 		callback = cherrypy.url()
 		payload = {
 			"client_id": config['alexa']['Client_ID'],

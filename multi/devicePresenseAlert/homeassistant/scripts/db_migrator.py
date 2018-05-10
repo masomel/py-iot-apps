@@ -81,20 +81,20 @@ def run(script_args: List) -> int:
     # Test if configuration directory exists
     if not os.path.isdir(config_dir):
         if config_dir != config_util.get_default_config_dir():
-            print(('Fatal Error: Specified configuration directory does '
-                   'not exist {} ').format(config_dir))
+            print((('Fatal Error: Specified configuration directory does '
+                   'not exist {} ').format(config_dir)))
             return 1
 
     src_db = '{}/home-assistant.db'.format(config_dir)
     dst_db = '{}/home-assistant_v2.db'.format(config_dir)
 
     if not os.path.exists(src_db):
-        print("Fatal Error: Old format database '{}' does not exist".format(
-            src_db))
+        print(("Fatal Error: Old format database '{}' does not exist".format(
+            src_db)))
         return 1
     if not args.uri and (os.path.exists(dst_db) and not args.append):
-        print("Fatal Error: New format database '{}' exists already - "
-              "Remove it or use --append".format(dst_db))
+        print(("Fatal Error: New format database '{}' exists already - "
+              "Remove it or use --append".format(dst_db)))
         print("Note: --append must maintain an ID mapping and is much slower"
               "and requires sufficient memory to track all event IDs")
         return 1
@@ -112,7 +112,7 @@ def run(script_args: List) -> int:
     c = conn.cursor()
     c.execute("SELECT count(*) FROM recorder_runs")
     num_rows = c.fetchone()[0]
-    print("Converting {} recorder_runs".format(num_rows))
+    print(("Converting {} recorder_runs".format(num_rows)))
     c.close()
 
     c = conn.cursor()
@@ -135,7 +135,7 @@ def run(script_args: List) -> int:
     c = conn.cursor()
     c.execute("SELECT count(*) FROM events")
     num_rows = c.fetchone()[0]
-    print("Converting {} events".format(num_rows))
+    print(("Converting {} events".format(num_rows)))
     c.close()
 
     id_mapping = {}
@@ -165,7 +165,7 @@ def run(script_args: List) -> int:
     c = conn.cursor()
     c.execute("SELECT count(*) FROM states")
     num_rows = c.fetchone()[0]
-    print("Converting {} states".format(num_rows))
+    print(("Converting {} states".format(num_rows)))
     c.close()
 
     c = conn.cursor()

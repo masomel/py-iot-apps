@@ -81,7 +81,7 @@ def setup_proximity_component(hass, name, config):
 
 def setup(hass, config):
     """Get the zones and offsets from configuration.yaml."""
-    for zone, proximity_config in config[DOMAIN].items():
+    for zone, proximity_config in list(config[DOMAIN].items()):
         setup_proximity_component(hass, zone, proximity_config)
 
     return True

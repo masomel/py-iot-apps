@@ -72,17 +72,17 @@ class SCSGate(object):
         self._device_being_registered = None
         self._device_being_registered_lock = Lock()
 
-        from scsgate.connection import Connection
+        from .scsgate.connection import Connection
         connection = Connection(device=device, logger=self._logger)
 
-        from scsgate.reactor import Reactor
+        from .scsgate.reactor import Reactor
         self._reactor = Reactor(
             connection=connection, logger=self._logger,
             handle_message=self.handle_message)
 
     def handle_message(self, message):
         """Method called whenever a message is seen on the bus."""
-        from scsgate.messages import StateMessage, ScenarioTriggeredMessage
+        from .scsgate.messages import StateMessage, ScenarioTriggeredMessage
 
         self._logger.debug("Received message {}".format(message))
         if not isinstance(message, StateMessage) and \
@@ -138,7 +138,7 @@ class SCSGate(object):
 
     def _activate_next_device(self):
         """Start the activation of the first device."""
-        from scsgate.tasks import GetStatusTask
+        from .scsgate.tasks import GetStatusTask
 
         with self._devices_to_register_lock:
             while len(self._devices_to_register) != 0:
@@ -150,7 +150,7 @@ class SCSGate(object):
     def is_device_registered(self, device_id):
         """Check whether a device is already registered or not."""
         with self._devices_to_register_lock:
-            if device_id in self._devices_to_register.keys():
+            if device_id in list(self._devices_to_register.keys()):
                 return False
 
         with self._device_being_registered_lock:

@@ -2,9 +2,9 @@
 
 """ Simple http POST example using Python 2.7 and urllib and urllib2."""
 
-import urllib
-import urllib2
-from urlparse import urlparse
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
+from urllib.parse import urlparse
 import httplib2 as http
 import json
 import time
@@ -35,13 +35,13 @@ def main():
 
   h = http.Http()
   response, content = h.request(target.geturl(), method, body, headers)
-  print response
-  print content
+  print(response)
+  print(content)
   m = json.loads(content)
-  print m["AirPressure"]
-  print m["Humidity"]
-  print m["AirPressure"]
-  print m["CO2level"]
+  print(m["AirPressure"])
+  print(m["Humidity"])
+  print(m["AirPressure"])
+  print(m["CO2level"])
 
 
   data = {}
@@ -53,15 +53,15 @@ def main():
 	 'Content-type': 'application/x-www-form-urlencoded',
 	 'Phant-Private-Key': private_hash
   }
-  data = urllib.urlencode(data)
-  post_request = urllib2.Request(post_url,data,headers)
+  data = urllib.parse.urlencode(data)
+  post_request = urllib.request.Request(post_url,data,headers)
 
   try: 
-    post_response = urllib2.urlopen(post_request)
-    print post_response.read()
+    post_response = urllib.request.urlopen(post_request)
+    print(post_response.read())
 
   except URLError as e:
-    print "Error: ", e.reason
+    print("Error: ", e.reason)
   
   time.sleep(300)
 

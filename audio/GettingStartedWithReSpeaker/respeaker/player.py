@@ -15,7 +15,7 @@
  limitations under the License.
 """
 
-import Queue
+import queue
 import audioop
 import threading
 import platform
@@ -26,9 +26,9 @@ import wave
 
 import pyaudio
 
-from pixel_ring import pixel_ring
-from spectrum_analyzer import SpectrumAnalyzer
-from spi import spi
+from .pixel_ring import pixel_ring
+from .spectrum_analyzer import SpectrumAnalyzer
+from .spi import spi
 
 CHUNK_SIZE = 1024
 BAND_NUMBER = 16
@@ -58,7 +58,7 @@ class Player:
 
                 data = queue.get()
 
-        self.queue = Queue.Queue()
+        self.queue = queue.Queue()
         self.thread = threading.Thread(target=ignite, args=(self.queue,))
         self.thread.daemon = True
         self.thread.start()
@@ -176,7 +176,7 @@ def main():
     import sys
 
     if len(sys.argv) < 2:
-        print('Usage: python {} music.wav'.format(sys.argv[0]))
+        print(('Usage: python {} music.wav'.format(sys.argv[0])))
         sys.exit(1)
 
     player = Player()

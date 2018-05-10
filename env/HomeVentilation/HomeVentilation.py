@@ -124,37 +124,37 @@ def readHumidity (hs):
         t = -999
     finally:
         if not (type (h) is float) or not (type (t) is float): # catch error messages (often seen)
-            print "type error: ", type(t),t,  type (h),h       # type None returned
+            print("type error: ", type(t),t,  type (h),h)       # type None returned
             h = -999
             t= -999     
         elif  h > 100:    #humidity values of over 3000% have been seen
             h = -999
             t= -999           
-        print "Temp = {0:0.1f}'C  Humidity = {1:0.1f}%".format(t, h)
+        print("Temp = {0:0.1f}'C  Humidity = {1:0.1f}%".format(t, h))
         return h,t
     
 def ControlFan(fan, fs):
-    print fan,  
+    print(fan, end=' ')  
     if fs :
-        print "on"
+        print("on")
         fan.on ()
     else :
-        print  "off"
+        print("off")
         fan.off ()
 
 def calculateFanSetting ():
     if isRoomHot():
-        print "Room Temperature is Hot"
+        print("Room Temperature is Hot")
         return (trf + 1) < trm      # roof more that 1C hooter
     elif isRoomCold():
-        print "Room Temperature is Cold"
+        print("Room Temperature is Cold")
         return trf > (trm + 1)      # roof more than 1c cooler
     else :
-        print "Room Temperature is Comfy"
+        print("Room Temperature is Comfy")
         return calculateFanSettingByHumidity ()   
     
 def calculateFanSettingByHumidity ():
-    print ">>Check Humidity"
+    print(">>Check Humidity")
     if hrf == -999 or hrm == -999:   
         # Humidity Sensor error
         return False  
@@ -172,13 +172,13 @@ def checkAlarm ():
         # high temperature
         S = "WARNING HIGH TEMPERATURE"
         LCD_Display_Alarm (S)
-        print S
+        print(S)
         soundAlarm1 () 
     elif (trm == -999 or trf == -999):
         get_temperature# SENSOR FAULT
         S = "WARNING SENSOR FAULT"
         LCD_Display_Alarm (S)
-        print S
+        print(S)
         soundAlarm2 () 
 
 def soundAlarm1 ():         # siren sound
@@ -293,17 +293,17 @@ def onExit ():
     gpio.cleanup()
     RoofFan01.off ()
     #turn fans off
-    print "\n\nExiting Ventilation System"
+    print("\n\nExiting Ventilation System")
 
 
 
 ####### START SETUP #######
 #print "\n##  Starting Ventilation System ##"
-print "## ",PROG_NAME, " ##"
-print "##  VERSION:",VERSION, "                  ##"
-print strftime("##  %D  %H:%M:%S              ##\n")
+print("## ",PROG_NAME, " ##")
+print("##  VERSION:",VERSION, "                  ##")
+print(strftime("##  %D  %H:%M:%S              ##\n"))
 
-print "\nLCD setup"
+print("\nLCD setup")
 disp, image, draw, font1 = LCD_Display_Setup()
 LCD_Display_Initial (datetime.today())
 
@@ -312,26 +312,26 @@ LCD_Display_Initial (datetime.today())
 TRoom = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20,TRoomID)   # a new DS18B20 sensor
 TRoof = W1ThermSensor(16,TRoofID)                                   # an old DS1820 sensor
 # check temperature sensors
-print "Find Temp Sensors"
+print("Find Temp Sensors")
 for s in W1ThermSensor.get_available_sensors():
-    print ">Found:",s.id, s.get_temperature(),"'C"
+    print(">Found:",s.id, s.get_temperature(),"'C")
 
 # setup WeMo switch
-print "\nFind Wemo Switches"
+print("\nFind Wemo Switches")
 wemo = Environment()
-print ">start"
+print(">start")
 wemo.start()
-print ">discover"
+print(">discover")
 wemo.discover(5)
-print ">Found: ", wemo.list_switches()
-print ">get RoofFan"
+print(">Found: ", wemo.list_switches())
+print(">get RoofFan")
 RoofFan01 = wemo.get_switch(RoofFanID)
 
 # humidty sensor
-print "Check Humidity Sensors"
-print "Roof ",
+print("Check Humidity Sensors")
+print("Roof ", end=' ')
 hrf,trf2 = readHumidity(HS1_Pin)
-print "Room ",
+print("Room ", end=' ')
 hrm,trm2 = readHumidity(HS2_Pin)
 
 # setup GPIO for buzzer and LED
@@ -341,26 +341,26 @@ gpio.setup(LED_Pin,gpio.OUT) #LED
 
 
 ####### MAIN LOOP #######
-print "\nStart Ventilation Control\n" 
+print("\nStart Ventilation Control\n") 
 while True:
     d = datetime.today()
-    print d.strftime("Time: %H:%M:%S")
+    print(d.strftime("Time: %H:%M:%S"))
                  
     LedLight(True) #LED on
             
     # humidity sensors
-    print "Roof ",
+    print("Roof ", end=' ')
     hrf,trf2 = readHumidity(HS1_Pin)
-    print "Room ",
+    print("Room ", end=' ')
     hrm,trm2 = readHumidity(HS2_Pin)
 
     # temperature sensors
     trf = readDSTemperature(TRoof)
     trm = readDSTemperature(TRoom)
-    print "Roof Temerature: {0:0.1f}'C".format(trf), 
-    print "Room Temperature: {0:0.1f}'C".format(trm)
+    print("Roof Temerature: {0:0.1f}'C".format(trf), end=' ') 
+    print("Room Temperature: {0:0.1f}'C".format(trm))
 
-    print "Room Humidity is", "High" if isRoomHumidityHigh () else ( "Low" if isRoomHumidityLow () else "Comfy")
+    print("Room Humidity is", "High" if isRoomHumidityHigh () else ( "Low" if isRoomHumidityLow () else "Comfy"))
     #print 
 
     LedLight(False) #LED off 
@@ -376,7 +376,7 @@ while True:
     
     writeLogFile()
     
-    print "**wait",DELAY, "seconds**\n"
+    print("**wait",DELAY, "seconds**\n")
     sleep(DELAY)
 
 

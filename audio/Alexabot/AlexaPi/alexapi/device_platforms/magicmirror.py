@@ -1,11 +1,11 @@
-from __future__ import print_function
-import time
-import BaseHTTPServer
-import threading
-import urllib2
-import urlparse
 
-from baseplatform import BasePlatform
+import time
+import http.server
+import threading
+import urllib.request, urllib.error, urllib.parse
+import urllib.parse
+
+from .baseplatform import BasePlatform
 
 # Magic Mirror platform
 # -----------------------------------------------------------------------------------------------------------------
@@ -98,8 +98,8 @@ class MagicmirrorPlatform(BasePlatform):
 			print("Calling URL: " + address)
 
 		try:
-			response = urllib2.urlopen(address).read()
-		except urllib2.URLError, err:
+			response = urllib.request.urlopen(address).read()
+		except urllib.error.URLError as err:
 			print("URLError: ", err.reason)
 			return
 
@@ -118,8 +118,8 @@ class MagicmirrorPlatform(BasePlatform):
 			print("Sending MM Heatbeat")
 
 		try:
-			response = urllib2.urlopen(address).read()
-		except urllib2.URLError, err:
+			response = urllib.request.urlopen(address).read()
+		except urllib.error.URLError as err:
 			print("URLError: ", err.reason)
 			return
 
@@ -142,12 +142,12 @@ class MagicmirrorPlatform(BasePlatform):
 
 
 # Subclass HTTPServer with additional callback
-class CallbackHTTPServer(BaseHTTPServer.HTTPServer):
+class CallbackHTTPServer(http.server.HTTPServer):
 	def set_callback(self, callback):
 		self.RequestHandlerClass.set_callback(callback)
 
 # Subclass Request Handler to use callback
-class MMHTTPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
+class MMHTTPHandler(http.server.BaseHTTPRequestHandler):
 	@classmethod
 	def set_callback(cls, callback):
 		cls.callback = callback
@@ -161,10 +161,10 @@ class MMHTTPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 		self.send_response(200)
 		self.end_headers()
 
-		query = urlparse.urlsplit(self.path).query
-		query_dict = urlparse.parse_qs(query)
+		query = urllib.parse.urlsplit(self.path).query
+		query_dict = urllib.parse.parse_qs(query)
 
-		if 'action' in query_dict.keys():
+		if 'action' in list(query_dict.keys()):
 			if (self.callback(query_dict)):
 				self.wfile.write('{"status":"success"}')
 			else:

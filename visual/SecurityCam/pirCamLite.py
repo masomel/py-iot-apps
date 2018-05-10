@@ -4,7 +4,7 @@ import RPi.GPIO as GPIO
 import time
 import picamera
 import sys, os
-import json,httplib
+import json,http.client
 import base64
 
 sensor = 4
@@ -15,7 +15,7 @@ GPIO.setup(sensor, GPIO.IN, GPIO.PUD_DOWN)
 previous_state = False
 current_state = False
 
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = http.client.HTTPSConnection('api.parse.com', 443)
 connection.connect()
 
 pubnub = Pubnub(publish_key = 'pub-c-f83b8b34-5dbc-4502-ac34-5073f2382d96',
@@ -49,9 +49,9 @@ def _callback(msg, n):
     })
     try:
         result = json.loads(connection.getresponse().read())
-        print result
+        print(result)
     except:
-        print "Error Uploading."
+        print("Error Uploading.")
     pubnub.publish(channel,curTime)
     os.remove(curTime)
 

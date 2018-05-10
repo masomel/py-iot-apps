@@ -48,7 +48,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
 
     binary_sensors = []
     ports = config.get('ports')
-    for port_num, port_name in ports.items():
+    for port_num, port_name in list(ports.items()):
         binary_sensors.append(RPiGPIOBinarySensor(
             port_name, port_num, pull_mode, bouncetime, invert_logic))
     add_devices(binary_sensors)

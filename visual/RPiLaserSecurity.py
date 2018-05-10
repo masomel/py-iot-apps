@@ -39,7 +39,7 @@ def laser_a_rising_event(channel):
   hr  = time.strftime("%H",time.localtime()) #get the hour
   min = time.strftime("%M",time.localtime()) #get the minutes
   sec = time.strftime("%S",time.localtime()) #get the seconds
-  print("Tripped @ ",hr,":",min,":",sec)
+  print(("Tripped @ ",hr,":",min,":",sec))
   send_mail()
  else:
   print("False positive")
