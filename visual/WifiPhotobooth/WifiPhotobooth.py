@@ -117,7 +117,7 @@ class Photobooth:
         self.takePicture()
 
     def qroverlay(self):
-	img = Image.open("QR.png")
+        img = Image.open("QR.png")
         # // is integer division
         pad = Image.new('RGB', (
              ((img.size[0] + 31) // 32) * 32,
@@ -193,8 +193,8 @@ def UpdateAllPicturesList():
 
 def safeshutdown(arg):
         #print "Taster gedrueckt" + str(arg)
-	# shutdown our Raspberry Pi
-	os.system("sudo shutdown -h now")
+        # shutdown our Raspberry Pi
+    os.system("sudo shutdown -h now")
 
 # Main
 PB = Photobooth()
@@ -213,8 +213,8 @@ while True:
 
     # If there was a touch-Event: Go and take some pictures
     if event.type == pygame.MOUSEBUTTONDOWN:
-        # print time.strftime("%Y-%m-%d-%H-%M-%S") + "button pressed"
-        #pos = (pygame.mouse.get_pos() [0], pygame.mouse.get_pos() [1])
+    # print time.strftime("%Y-%m-%d-%H-%M-%S") + "button pressed"
+    #pos = (pygame.mouse.get_pos() [0], pygame.mouse.get_pos() [1])
         pos = (int((pygame.mouse.get_pos()[0] + MouseOffset[0]) * MouseFactor[0]),
                int((pygame.mouse.get_pos()[1] + MouseOffset[1]) * MouseFactor[1]) )
         # print pos  # for checking
@@ -230,9 +230,9 @@ while True:
 
         # Update all pictures list
         UpdateAllPicturesList()
-	
-	# Overlay the last QR-Code to preview
-	PB.qroverlay()
+
+        # Overlay the last QR-Code to preview
+        PB.qroverlay()
 
         # Reset the DiaShow-Counter
         DiashowTimerCounter = 0

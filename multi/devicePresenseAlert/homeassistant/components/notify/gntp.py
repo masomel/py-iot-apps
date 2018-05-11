@@ -60,8 +60,8 @@ class GNTPNotificationService(BaseNotificationService):
 
     def __init__(self, app_name, app_icon, hostname, password, port):
         """Initialize the service."""
-        from . import gntp.notifier
-        from . import gntp.errors
+        import gntp.notifier
+        import gntp.errors
         self.gntp = gntp.notifier.GrowlNotifier(
             applicationName=app_name,
             notifications=["Notification"],

@@ -6,7 +6,7 @@ https://home-assistant.io/components/scene.litejet/
 """
 import logging
 
-from . import homeassistant.components.litejet as litejet
+import homeassistant.components.litejet as litejet
 from .homeassistant.components.scene import Scene
 
 DEPENDENCIES = ['litejet']

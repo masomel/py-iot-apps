@@ -71,7 +71,7 @@ CONFIG_SCHEMA = vol.Schema({
 
 def setup(hass, config):
     """Setup the MySensors component."""
-    from . import mysensors.mysensors as mysensors
+    import mysensors.mysensors as mysensors
 
     version = config[DOMAIN].get(CONF_VERSION)
     persistence = config[DOMAIN].get(CONF_PERSISTENCE)

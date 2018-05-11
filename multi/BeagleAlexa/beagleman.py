@@ -85,83 +85,83 @@ requests.packages.urllib3.disable_warnings(InsecurePlatformWarning)
 
 # Verify that the user is connected to the internet
 def internet_on():
-	print("Checking Internet Connection")
-	try:
-		r =requests.get('https://api.amazon.com/auth/o2/token')
-	        print("Connection OK")
-		return True
-	except:
-		print("Connection Failed")
-		return False
+    print("Checking Internet Connection")
+    try:
+        r =requests.get('https://api.amazon.com/auth/o2/token')
+        print("Connection OK")
+        return True
+    except:
+        print("Connection Failed")
+        return False
 
 #Get Alexa Token
 def gettoken():
-	global token
-	refresh = refresh_token
-	if token:
-		return token
-	elif refresh:
-		payload = {"client_id" : Client_ID, "client_secret" : Client_Secret, "refresh_token" : refresh, "grant_type" : "refresh_token", }
-		url = "https://api.amazon.com/auth/o2/token"
-		r = requests.post(url, data = payload)
-		resp = json.loads(r.text)
-		token = resp['access_token']
-		return token
-	else:
-		return False
-		
+    global token
+    refresh = refresh_token
+    if token:
+        return token
+    elif refresh:
+        payload = {"client_id" : Client_ID, "client_secret" : Client_Secret, "refresh_token" : refresh, "grant_type" : "refresh_token", }
+        url = "https://api.amazon.com/auth/o2/token"
+        r = requests.post(url, data = payload)
+        resp = json.loads(r.text)
+        token = resp['access_token']
+        return token
+    else:
+        return False
+
 def alexa():
-	url = 'https://access-alexa-na.amazon.com/v1/avs/speechrecognizer/recognize'
-	headers = {'Authorization' : 'Bearer %s' % gettoken()}
-        # Set parameters to Alexa request for our audio recording
-	d = {
-   		"messageHeader": {
-       		"deviceContext": [
-           		{
-               		"name": "playbackState",
-               		"namespace": "AudioPlayer",
-               		"payload": {
-                   		"streamId": "",
-        			   	"offsetInMilliseconds": "0",
-                   		"playerActivity": "IDLE"
-               		}
-           		}
-       		]
-		},
-   		"messageBody": {
-       		"profile": "alexa-close-talk",
-       		"locale": "en-us",
-       		"format": "audio/L16; rate=44100; channels=1"
-   		}
-	}
+    url = 'https://access-alexa-na.amazon.com/v1/avs/speechrecognizer/recognize'
+    headers = {'Authorization' : 'Bearer %s' % gettoken()}
+    # Set parameters to Alexa request for our audio recording
+    d = {
+            "messageHeader": {
+            "deviceContext": [
+                    {
+                    "name": "playbackState",
+                    "namespace": "AudioPlayer",
+                    "payload": {
+                            "streamId": "",
+                                    "offsetInMilliseconds": "0",
+                            "playerActivity": "IDLE"
+                    }
+                    }
+            ]
+            },
+            "messageBody": {
+            "profile": "alexa-close-talk",
+            "locale": "en-us",
+            "format": "audio/L16; rate=44100; channels=1"
+            }
+    }
 
-        # Send our recording audio to Alexa
-	with open(filename_raw) as inf:
-		files = [
-				('file', ('request', json.dumps(d), 'application/json; charset=UTF-8')),
-				('file', ('audio', inf, 'audio/L16; rate=44100; channels=1'))
-				]	
-		r = requests.post(url, headers=headers, files=files)
+    # Send our recording audio to Alexa
+    with open(filename_raw) as inf:
+        files = [
+                        ('file', ('request', json.dumps(d), 'application/json; charset=UTF-8')),
+                        ('file', ('audio', inf, 'audio/L16; rate=44100; channels=1'))
+                        ]
+        r = requests.post(url, headers=headers, files=files)
 
-	if r.status_code == 200:
-		print("Debug: Alexa provided a response")
+    if r.status_code == 200:
+        print("Debug: Alexa provided a response")
 
-		for v in r.headers['content-type'].split(";"):
-			if re.match('.*boundary.*', v):
-				boundary =  v.split("=")[1]
-		data = r.content.split(boundary)
-		for d in data:
-			if (len(d) >= 1024):
-				audio = d.split('\r\n\r\n')[1].rstrip('--')
+        for v in r.headers['content-type'].split(";"):
+            if re.match('.*boundary.*', v):
+                boundary =  v.split("=")[1]
+        data = r.content.split(boundary)
+        for d in data:
+            if (len(d) >= 1024):
+                audio = d.split('\r\n\r\n')[1].rstrip('--')
 
-                # Write response audio to response.mp3 may or may not be played later
-		with open(path+"response.mp3", 'wb') as f:
-			f.write(audio)
-	else:
-		print("Debug: Alexa threw an error with code: ",r.status_code)
+        # Write response audio to response.mp3 may or may not be played later
+        with open(path+"response.mp3", 'wb') as f:
+            f.write(audio)
+    else:
+        print("Debug: Alexa threw an error with code: ",r.status_code)
 
 def offline_speak(string):
-	os.system('espeak -ven-uk -p50 -s140 "'+string+'" > /dev/null 2>&1')
+    os.system('espeak -ven-uk -p50 -s140 "'+string+'" > /dev/null 2>&1')
 
 
 # Code based on examples from Facebook's wit.ai
@@ -187,148 +187,148 @@ def handle_intent(response):
     return False
 
 def wit_ai():
-	global wit_ai_received
+    global wit_ai_received
 
-        #Make an HTTP request via python curl using our saved audio recording
-        #Api document https://wit.ai/docs/http/20141022
-	output = StringIO()
-	c = pycurl.Curl()
+    #Make an HTTP request via python curl using our saved audio recording
+    #Api document https://wit.ai/docs/http/20141022
+    output = StringIO()
+    c = pycurl.Curl()
 
-	c.setopt(c.URL, 'https://api.wit.ai/speech?v=20141022')
+    c.setopt(c.URL, 'https://api.wit.ai/speech?v=20141022')
 
-        # Send authorization string along with indicate that we are sending audio
-	c.setopt(c.HTTPHEADER, [wit_ai_authorization,
-						'Content-Type: audio/wav'])
-	c.setopt(c.FOLLOWLOCATION, True)
+    # Send authorization string along with indicate that we are sending audio
+    c.setopt(c.HTTPHEADER, [wit_ai_authorization,
+                                            'Content-Type: audio/wav'])
+    c.setopt(c.FOLLOWLOCATION, True)
 
-        # Specify that we are doing a POST request
-	c.setopt(pycurl.POST, 1)
+    # Specify that we are doing a POST request
+    c.setopt(pycurl.POST, 1)
 
-        # Get size of our audio file
-	filesize = os.path.getsize(filename)
-	c.setopt(c.POSTFIELDSIZE, filesize)
+    # Get size of our audio file
+    filesize = os.path.getsize(filename)
+    c.setopt(c.POSTFIELDSIZE, filesize)
 
-        # Pass a function that will read the audio file
-	fin = open(filename, 'rb')
-	c.setopt(c.READFUNCTION, fin.read)
+    # Pass a function that will read the audio file
+    fin = open(filename, 'rb')
+    c.setopt(c.READFUNCTION, fin.read)
 
-	c.setopt(c.WRITEFUNCTION, output.write)
+    c.setopt(c.WRITEFUNCTION, output.write)
 
-        # Ignore SSL verification
-	c.setopt(pycurl.SSL_VERIFYPEER, 0)   
-	c.setopt(pycurl.SSL_VERIFYHOST, 0)
+    # Ignore SSL verification
+    c.setopt(pycurl.SSL_VERIFYPEER, 0)
+    c.setopt(pycurl.SSL_VERIFYHOST, 0)
 
-        # Send our Web Service request
-	c.perform()
+    # Send our Web Service request
+    c.perform()
 
-	c.close()
+    c.close()
 
-        # Get our response
-	response =  json.loads(output.getvalue())
+    # Get our response
+    response =  json.loads(output.getvalue())
 
-	wit_ai_received = False
-   
-        # Check if we got an error
-	if 'error' not in list(response.keys()):
-                print("Debug: Wit.ai believe the audio said: ", response["_text"])
+    wit_ai_received = False
 
-                # See if our code handles the specified intent
-		if response["outcomes"][0]["intent"] == "UNKNOWN" or not handle_intent(response["outcomes"]):
-                    print("Debug: Unrecognized Wit.ai intent. Let Alexa handle it")
-                else:
-			wit_ai_received = True
-                        print("Debug: Wit.ai handled response ignore response from Alexa")
+    # Check if we got an error
+    if 'error' not in list(response.keys()):
+        print("Debug: Wit.ai believe the audio said: ", response["_text"])
+
+        # See if our code handles the specified intent
+        if response["outcomes"][0]["intent"] == "UNKNOWN" or not handle_intent(response["outcomes"]):
+            print("Debug: Unrecognized Wit.ai intent. Let Alexa handle it")
         else:
-            print("Debug: Wit.ai returned an error")
+            wit_ai_received = True
+            print("Debug: Wit.ai handled response ignore response from Alexa")
+    else:
+        print("Debug: Wit.ai returned an error")
 
 def web_service():
-	global wit_ai_received
+    global wit_ai_received
 
-	# Call the two speech recognitions services in parallel
-	alexa_thread = Thread( target=alexa, args=() )
-	wit_ai_thread = Thread( target=wit_ai, args=( ) )
+    # Call the two speech recognitions services in parallel
+    alexa_thread = Thread( target=alexa, args=() )
+    wit_ai_thread = Thread( target=wit_ai, args=( ) )
 
-	alexa_thread.start()
-	wit_ai_thread.start()
+    alexa_thread.start()
+    wit_ai_thread.start()
 
-        # Prioritize a response from Wit.ai
-	wit_ai_thread.join()
+    # Prioritize a response from Wit.ai
+    wit_ai_thread.join()
 
-        # See if Wit.ai code handled response
-	if wit_ai_received != True:
-                # Wait until Alexa code handles response
-		alexa_thread.join()
+    # See if Wit.ai code handled response
+    if wit_ai_received != True:
+        # Wait until Alexa code handles response
+        alexa_thread.join()
 
-                # Play Alexa response
-		os.system('play  -c 1 -r 24000 -q {}response.mp3  > /dev/null 2>&1'.format(path))
-		time.sleep(.5)
-		
+        # Play Alexa response
+        os.system('play  -c 1 -r 24000 -q {}response.mp3  > /dev/null 2>&1'.format(path))
+        time.sleep(.5)
+
 
 while internet_on() == False:
-	print(".")
+    print(".")
 
 offline_speak("Hello "+username+", Ask me any question")
 
 print("Debug: Ready to receive request")
 while True:
-	try:
-		# Read from microphone
-		l,buf = inp.read()
-	except:
-                # Hopefully we read fast enough to avoid overflow errors
-		print("Debug: Overflow")
-		continue
+    try:
+        # Read from microphone
+        l,buf = inp.read()
+    except:
+        # Hopefully we read fast enough to avoid overflow errors
+        print("Debug: Overflow")
+        continue
 
-        #Process microphone audio via PocketSphinx only when trigger word
-        # hasn't been detected
-	if buf and record_audio == False:
-		decoder.process_raw(buf, False, False)
+    #Process microphone audio via PocketSphinx only when trigger word
+    # hasn't been detected
+    if buf and record_audio == False:
+        decoder.process_raw(buf, False, False)
 
-	# Detect if keyword/trigger word was said
-	if record_audio == False and decoder.hyp() != None:
-                # Trigger phrase has been detected
-		record_audio = True
-		start = time.time()
+    # Detect if keyword/trigger word was said
+    if record_audio == False and decoder.hyp() != None:
+        # Trigger phrase has been detected
+        record_audio = True
+        start = time.time()
 
-                # To avoid overflows close the microphone connection
-		inp.close()
+        # To avoid overflows close the microphone connection
+        inp.close()
 
-                # Open file that will be used to save raw micrphone recording
-		recording_file = open(filename_raw, 'w')
-		recording_file.truncate()
+        # Open file that will be used to save raw micrphone recording
+        recording_file = open(filename_raw, 'w')
+        recording_file.truncate()
 
-                # Indicate that the system is listening to request
-                offline_speak("Yes")
+        # Indicate that the system is listening to request
+        offline_speak("Yes")
 
-                # Reenable reading microphone raw data
-		inp = alsaaudio.PCM(alsaaudio.PCM_CAPTURE)
-		inp.setchannels(1)
-		inp.setrate(16000)
-		inp.setformat(alsaaudio.PCM_FORMAT_S16_LE)
-		inp.setperiodsize(1024)
+        # Reenable reading microphone raw data
+        inp = alsaaudio.PCM(alsaaudio.PCM_CAPTURE)
+        inp.setchannels(1)
+        inp.setrate(16000)
+        inp.setformat(alsaaudio.PCM_FORMAT_S16_LE)
+        inp.setperiodsize(1024)
 
-		print ("Debug: Start recording")
+        print ("Debug: Start recording")
 
 
-	# Only write if we are recording
-	if record_audio == True:
-		recording_file.write(buf)
+    # Only write if we are recording
+    if record_audio == True:
+        recording_file.write(buf)
 
-	# Stop recording after 5 seconds
-	if record_audio == True and time.time() - start > 5:
-		print ("Debug: End recording")
-		record_audio = False
+    # Stop recording after 5 seconds
+    if record_audio == True and time.time() - start > 5:
+        print ("Debug: End recording")
+        record_audio = False
 
-		# Close file we are saving microphone data to
-		recording_file.close()
+        # Close file we are saving microphone data to
+        recording_file.close()
 
-		# Convert raw PCM to wav file (includes audio headers)
-		os.system("sox -t raw -r 16000 -e signed -b 16 -c 1 "+filename_raw+" "+filename+" && sync");
+        # Convert raw PCM to wav file (includes audio headers)
+        os.system("sox -t raw -r 16000 -e signed -b 16 -c 1 "+filename_raw+" "+filename+" && sync");
 
-		print("Debug: Sending audio to services to be processed")
-		# Send recording to our speech recognition web services
-		web_service()
+        print("Debug: Sending audio to services to be processed")
+        # Send recording to our speech recognition web services
+        web_service()
 
-		# Now that request is handled restart audio decoding
-		decoder.end_utt()
-		decoder.start_utt()
+        # Now that request is handled restart audio decoding
+        decoder.end_utt()
+        decoder.start_utt()

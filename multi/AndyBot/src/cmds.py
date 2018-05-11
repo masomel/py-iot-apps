@@ -96,7 +96,7 @@ class What(object):
         if self.cmd[0].lower() == 'day':
             time = str(self.raw_time[0])
             month = self.get_month(time[5], time[6])
-            
+
             say('Today is ' + month + ' ' + time[-2] + time[-1] + ', ' + time[0] + time[1] + time[2] + time[3])
 
     def me(self):
@@ -145,7 +145,7 @@ class Walk():
         say('I cannot turn right because my motors are burnt out')
 
     def stop(self):
-        say('Stopping')    
+        say('Stopping')
 
 #Move onto arm functions
 class Arm():
@@ -193,7 +193,7 @@ class Take(): #Commands with camera use
                 self.video()
 
     def pic(self):
-        #Speak and open pic.txt file 
+        #Speak and open pic.txt file
         say('Taking Picture')
         self.pic_file = open('/home/pi/ANDY/src/temp/pic.txt', 'r')
         self.num = self.pic_file.readline().rstrip()
@@ -223,13 +223,13 @@ class Take(): #Commands with camera use
                       '/home/pi/ANDY/pictures/' + str(self.num) + '.jpg ' + str(self.num) + '.jpg')
         except:
             say('Failed to upload to drop box')
-        
+
     def video(self):
         #Open file and get video number
         self.vid_file = open('/home/pi/ANDY/src/temp/vid.txt', 'r')
         self.vid_num = self.vid_file.readline().rstrip()
         self.vid_file.close()
-        
+
         say('Recording Video in 3')
         time.sleep(1)
         say('two')
@@ -301,13 +301,13 @@ class Who():
     def __init__(self, cmd, DEBUG=False):
         self.cmd = cmd
         self.database = Database()
-	if len(self.cmd) > 2:
-		self.cmd.pop(0)
-		self.cmd.pop(0)
-		self.get_info(self.cmd[0])
-	else:
-	    say("I am sorry. I do not know who you are talking about.")
-		
+        if len(self.cmd) > 2:
+            self.cmd.pop(0)
+            self.cmd.pop(0)
+            self.get_info(self.cmd[0])
+        else:
+            say("I am sorry. I do not know who you are talking about.")
+
     def get_info(self, name):
         name = name.lower()
         name = name.capitalize()
@@ -336,7 +336,7 @@ class Who():
                 self.food_string = 'I do not know ' + name + 's favorite food.'
             else:
                 self.food_string = name + 's favorite food is ' + self.food
-        
+
             say(self.age_string)
             say(self.color_string)
             say(self.cream_string)
