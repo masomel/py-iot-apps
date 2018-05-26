@@ -14,12 +14,6 @@ file_name = os.path.join(
             os.path.dirname(__file__),
             'resources',
             'good-morning-google-mono.flac')
-print(file_name)
-print(type(file_name))
-print(enums)
-print(type(enums))
-print(enums.RecognitionConfig.AudioEncoding)
-print(type(enums.RecognitionConfig.AudioEncoding))
 
 # Loads the audio into memory
 with io.open(file_name, 'rb') as audio_file:
