@@ -10,3 +10,19 @@ I get many requests from people who are still looking for cheap, easy, and fun p
 
 More information can be found here:
 http://www.daveconroy.com/turn-raspberry-pi-translator-speech-recognition-playback-60-languages/
+
+
+## Additional instruction for Pyronia testing
+### Credential for Google Cloud Platform Speech-to-Text Service
+Use the credential by setting the `GOOGLE_APPLICATION_CREDENTIALS` env variable
+
+`export GOOGLE_APPLICATION_CREDENTIALS="./gstt-028843c105d1.json"`
+
+### Single Channel FLAC Files
+GCP Speech-to-Text still only accepts single channel audio files... If any FLAC files have multiple channels,
+convert them to single channel by
+
+`ffmpeg -i stereo.flac -ac 1 mono.flac`
+
+
+
