@@ -5,6 +5,7 @@ import os
 from google.cloud import speech
 from google.cloud.speech import enums
 from google.cloud.speech import types
+from gstt_lib import audio_content
 
 # Instantiates a client
 client = speech.SpeechClient()
@@ -18,7 +19,10 @@ file_name = os.path.join(
 # Loads the audio into memory
 with io.open(file_name, 'rb') as audio_file:
     content = audio_file.read()
-    audio = types.RecognitionAudio(content=content)
+#    audio = types.RecognitionAudio(content=content)
+    audio = audio_content(content)
+    print(type(audio))
+
 
     config = types.RecognitionConfig(
          encoding=enums.RecognitionConfig.AudioEncoding.FLAC,
