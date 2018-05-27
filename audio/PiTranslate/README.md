@@ -13,6 +13,8 @@ http://www.daveconroy.com/turn-raspberry-pi-translator-speech-recognition-playba
 
 
 ## Additional instruction for Pyronia testing
+tested with Anaconda3 Python 3.6.4
+
 ### Credential for Google Cloud Platform Speech-to-Text Service
 Use the credential by setting the `GOOGLE_APPLICATION_CREDENTIALS` env variable
 
