@@ -5,6 +5,7 @@ from subprocess import call
 from datetime import datetime
 from skimage.io import imread
 import image_lib
+import msgformat
 
 #These are the phrases variables that will be sent with the tweet
 tweet = ['A tweet from my pi  ', 'Hello!  ']
@@ -16,8 +17,8 @@ while True:
 
         #time and date for filename
         i = datetime.now()               
-        now = i.strftime('%Y%m%d-%H%M%S')
-        photo_name = now + '.jpg'
+        photo_name = msgformat.nice_name()
+        print(photo_name)
 
         image_lib.edgify(base_image, photo_name)
 
